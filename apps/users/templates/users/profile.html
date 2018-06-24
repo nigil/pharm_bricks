@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div>
+    {{ user.email }} <br/>
+    {{ user.first_name }} <br/>
+    {{ user.last_name }} <br/>
+    {{ user.organization }} <br/>
+    {{ user.region }}
+    </div>
+    <div>
+    <a href="{% url 'password_change' %}">Change password</a>
+    </div>
+{% endblock %}

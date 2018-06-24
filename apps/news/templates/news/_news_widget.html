@@ -1,0 +1,15 @@
+{% load wagtailcore_tags %}
+{% load wagtailimages_tags %}
+
+{% block content %}
+    <div>{{ page.body|richtext }}</div>
+
+    <ul>
+        {% for post in page.get_children.specific %}
+        <li>
+            {% image post.image width-200 %}
+            <a href="{% pageurl post %}">{{ post.title }}</a>
+        </li>
+        {% endfor %}
+    </ul>
+{% endblock %}

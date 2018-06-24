@@ -1,0 +1,61 @@
+version: "3"
+services:
+  nginx:
+    image: nginx
+    container_name: pb_nginx
+    ports:
+      - "81:81"
+    restart: always
+    volumes:
+      - ./static:/app/static
+      - ./media:/app/media
+      - ./docker/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./data/logs:/app/data/logs
+      - ./pharm_bricks:/app/pharm_bricks
+#    links:
+#      - web
+#    depends_on:
+#      - web
+
+  postgres:
+    image: postgres
+    container_name: pb_postgres
+    restart: always
+    environment:
+      - PGDATA=/app/data/pg_data
+      - POSTGRES_DB=DB_NAME
+      - POSTGRES_USER=DB_USER
+      - POSTGRES_PASSWORD=DB_PASSWORD
+    ports:
+      - "5433:5432"
+    volumes:
+     - ./data:/app/data
+
+  web:
+    build: .
+    container_name: pb_web
+    command: python manage.py runserver 0.0.0.0:8001 #uwsgi --ini /app/pharm_bricks.ini
+    volumes:
+     - .:/app
+     - ./static:/app/static
+    ports:
+      - 8001:8001
+    environment:
+      - DB_HOST
+      - DB_NAME
+      - DB_USER
+      - DB_PASSWORD
+      - DB_PORT
+      - EMAIL_SENDER_EMAIL
+      - EMAIL_HOST
+      - EMAIL_HOST_USER
+      - EMAIL_HOST_PASSWORD
+      - EMAIL_PORT
+      - ADMIN_EMAIL
+
+
+  elasticsearch:
+    image: elasticsearch:5
+    container_name: pb_elasticsearch
+    ports:
+      - 9200:9200

@@ -1,0 +1,49 @@
+{% extends 'pages/static_page.html' %}
+
+{% block extra_hr %}<hr/>{% endblock %}
+
+{% block base_content %}
+    <div class="col-12">
+        <h2 class="title">{{ page.title }}</h2>
+
+        <br/>
+        {% include "partials/streamfield.html" with content=page.body %}
+    </div>
+{% endblock %}
+
+{% block extra_content %}
+
+{% if messages %}
+    {% for message in messages %}
+        <p style="text-align: center;">{{ message }}</p>
+    {% endfor %}
+{% endif %}
+
+<form action="" method="post">
+    {% csrf_token %}
+    <div class="container">
+        <div class="row mg-bot">
+            <div class="col-12 text-center form_cabinet">
+                <p class="color_p p_big contants_header">
+                    Any questions? Contact us
+                </p>
+                <div>
+                    {{ form.name }}
+                </div>
+                {{ form.name.errors }}
+                <div>
+                    {{ form.email }}
+                </div>
+                {{ form.email.errors }}
+                <div>
+                    {{ form.question }}
+                </div>
+                {{ form.question.errors }}
+                <div class="touch">
+                    <button class="blue_butt button_compound_libr">Get in touch</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+{% endblock %}

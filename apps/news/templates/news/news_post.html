@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% load wagtailcore_tags %}
+{% load wagtailimages_tags %}
+
+{% block content %}
+    <a href="{% pageurl page.get_parent %}">To news list</a>
+    <h1>{{ page.title }}</h1>
+    {% image page.image width-500 %}
+    {{ page.image }}
+    <div>{{ page.body|richtext }}</div>
+{% endblock %}

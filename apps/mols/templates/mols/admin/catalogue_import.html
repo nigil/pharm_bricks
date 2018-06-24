@@ -1,0 +1,46 @@
+{% extends "wagtailadmin/base.html" %}
+
+{% block titletag %}
+    Catalogue import
+{% endblock %}
+
+{% block content %}
+
+<header class="nice-padding hasform">
+    <div class="row">
+        <div class="left">
+            <div class="col">
+                <h1 class="icon">Catalogue import<span></span></h1>
+            </div>
+        </div>
+    </div>
+</header>
+
+<form action="{% url 'catalogue_import' %}" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="nice-padding">
+        {{ form }}
+    </div>
+
+    {% if import_log %}
+    <div class="nice-padding" style="margin-top: 30px;">
+        <ul class="listing">
+            {% for line in import_log %}
+                <li>{{ line|safe }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+
+    <footer>
+        <ul>
+            <li class="actions">
+                <div class="dropdown dropup match-width">
+                    <input type="submit" value="Submit" class="button">
+                </div>
+            </li>
+        </ul>
+    </footer>
+</form>
+
+{% endblock %}

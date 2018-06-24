@@ -1,0 +1,11 @@
+venv
+.idea
+static/*
+*.sdf
+sandbox.py
+media
+data/*
+*.log
+*.pyc
+*.env
+documents

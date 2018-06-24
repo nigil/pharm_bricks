@@ -1,0 +1,39 @@
+{% extends 'pages/static_page.html' %}
+{% load wagtailcore_tags %}
+{% load wagtailimages_tags %}
+
+{% block base_content %}
+<div id="top_news" class="col-12 butt_bott">
+    <h2 class="title">{{ page.title }}</h2>
+
+    <div class="active_news more mg-top-20">
+        {% include "partials/streamfield.html" with content=page.body %}
+
+        <div id="active_news"></div>
+    </div>
+
+    <div class="all-news-block">
+    {% for post in news %}
+        <h3 class="active1 bg_gray">{{ post.title }} {{ post.first_published_at|date:'o, F' }}.</h3>
+        <div class="content_news">
+            {% image post.image original as post_image %}
+            <img src="{{ post_image.url }}" alt="{{ post_image.alt }}" class="img_width img-fluid"/>
+
+            <p class="small">
+                By <span class="a_green text_bold">PharmBricks</span> {{ post.first_published_at|date:'F, o' }}
+            </p>
+
+            {{ post.body|richtext }}
+        </div>
+    {% endfor %}
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+$(function(){
+    $('.all-news-block').find('h3:first').click();
+})
+</script>
+{% endblock %}
