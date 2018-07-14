@@ -1,6 +1,93 @@
-{% block content %}
-    <form action="" method="post">{% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" value="Sign up" />
+{% extends 'inner_shadowed.html' %}
+{% load staticfiles %}
+{% load wagtailcore_tags %}
+
+{% block base_content %}
+{% if messages %}
+<div class="container">
+    <div class="row">
+        <div class="col-12 text-center butt_bott">
+        {% for message in messages %}
+            <p>{{ message|safe }}</p>
+        {% endfor %}
+        </div>
+    </div>
+</div>
+{% else %}
+<form action="" method="POST">
+    {% csrf_token %}
+    <div class="container">
+        <div class="row mg-bot">
+            <div class="col-12 text-center form_cabinet form_cabinet_signup">
+                <div>{{ form.first_name }}</div>
+                <div>{{ form.first_name.errors }}</div>
+
+                <div>{{ form.last_name }}</div>
+                <div>{{ form.last_name.errors }}</div>
+
+                <div>{{ form.phone }}</div>
+                <div>{{ form.phone.errors }}</div>
+
+                <div>{{ form.organization }}</div>
+                <div>{{ form.organization.error }}</div>
+
+                <div>{{ form.country }}</div>
+                <div>{{ form.country.errors }}</div>
+
+                <div>{{ form.delivery_address }}</div>
+                <div>{{ form.delivery_address.errors }}</div>
+
+                <div>{{ form.city }}</div>
+                <div>{{ form.city.errors }}</div>
+
+                <div>{{ form.postcode }}</div>
+                <div>{{ form.postcode.errors }}</div>
+
+                <div>{{ form.email }}</div>
+                <div>{{ form.email.errors }}</div>
+
+                <div>{{ form.password }}</div>
+                <div>{{ form.password.errors }}</div>
+
+                <div>{{ form.password1 }}</div>
+                <div>{{ form.password1.errors }}</div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row signup_checkboxes">
+            <div class="col-4">
+
+            </div>
+            <div class="col-6 check_singup">
+                <div>
+{#                    <input type="checkbox" name="" id="subsribe_sugn" class="checkbox"/>#}
+                    {{ form.subscribed_on_news }}
+                    <label for="{{ form.subscribed_on_news.id_for_label }}" class="subsribe_sugn">Subscribe me News</label>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-12 text-center butt_bott">
+                <div>
+                    <button class="blue_butt blue_butt_sing_up">sing up</button>
+                    <p class="singup">
+                        By continuing, you agree to our
+                    </p>
+                    <a href="{% slugurl 'terms' %}" class="a_green text_bold" target="_blank">
+                        Terms and Conditions
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
 </form>
+{% endif %}
 {% endblock %}
+
+{%  block  extra_js %}
+<script src="{% static 'js/utils.js' %}"></script>
+{% endblock %}
+

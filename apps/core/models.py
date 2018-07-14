@@ -1,3 +1,5 @@
+from django.db import models
+from wagtail.wagtailadmin.edit_handlers import FieldPanel
 
 
 class EnumBase(object):
@@ -8,3 +10,16 @@ class EnumBase(object):
     @classmethod
     def get_choices(cls):
         return ((key, val) for key, val in cls.values.items())
+
+
+class RelatedLink(models.Model):
+    title = models.CharField(max_length=255, blank=True)
+    link = models.URLField("Link", max_length=510)
+
+    panels = [
+        FieldPanel('title'),
+        FieldPanel('link'),
+    ]
+
+    class Meta:
+        abstract = True

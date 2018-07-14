@@ -3,7 +3,7 @@ from django.contrib.auth.base_user import BaseUserManager
 from django.db import models
 from django.contrib.auth.password_validation import validate_password
 from django.utils.translation import ugettext_lazy as _
-from django.contrib.postgres.fields import ArrayField
+from cities_light.models import Country, City
 
 
 class UserManager(BaseUserManager):
@@ -46,16 +46,17 @@ class UserManager(BaseUserManager):
 
 class User(AbstractUser):
     username = None
-    email = models.EmailField(_('email'), blank=False, unique=True)
-    first_name = models.CharField(_('first name'), max_length=30)
-    last_name = models.CharField(_('last name'), max_length=30, null=True)
-    organization = models.CharField(_('organization'), max_length=128)
-    phone = models.CharField(_('Telephone number'), max_length=20)
-    country = models.CharField(_('country'), max_length=60, null=True, blank=True)
-    region = models.CharField(_('region'), max_length=60, null=True, blank=True)
-    city = models.CharField(_('city'), max_length=60, null=True, blank=True)
-    delivery_address = models.CharField(max_length=300)
+    email = models.EmailField(unique=True)
+    first_name = models.CharField(max_length=30)
+    last_name = models.CharField(max_length=30, null=True)
+    organization = models.CharField(max_length=128)
+    phone = models.CharField(max_length=20)
+    country = models.ForeignKey(Country, null=True)
+    city = models.ForeignKey(City, null=True)
+    delivery_address = models.CharField(max_length=500)
     postcode = models.CharField(max_length=20, null=True, blank=True)
+
+    subscribed_on_news = models.BooleanField(default=False)
 
     objects = UserManager()
 

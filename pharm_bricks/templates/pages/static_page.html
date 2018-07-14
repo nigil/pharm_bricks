@@ -4,7 +4,14 @@
 <div class="container-fluid">
     <div class="container">
         <div class="row mg-bot">
-            {% block base_content %}{% endblock %}
+            {% block base_content %}
+                <div class="col-12">
+                    <h2 class="title">{{ page.title }}</h2>
+
+                    <br/>
+                    {% include "partials/streamfield.html" with content=page.body %}
+                </div>
+            {% endblock %}
         </div>
         {% block extra_hr %}{% endblock %}
     </div>

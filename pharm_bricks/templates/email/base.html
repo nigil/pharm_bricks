@@ -1,3 +1,6 @@
+{% load wagtailcore_tags %}
+{% load staticfiles %}
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en" style="background:#f3f3f3!important">
@@ -140,9 +143,11 @@
                                        style="border-collapse:collapse;border-spacing:0;display:table;padding:0;position:relative;text-align:left;vertical-align:top;width:100%">
                                     <tbody>
                                     <tr style="padding:0;text-align:left;vertical-align:top">
-                                        <coumns large="12"><h1 class="gray"
-                                                               style="background-color:#A0A0A0;color:#f0f8f8;font-family:Arial;font-size:24px;font-weight:400;line-height:1.3;margin:0;marg0n-bottom:10px;padding:17px;text-align:center;word-wrap:normal">
-                                            Welcome</h1></coumns>
+                                        <coumns large="12">
+                                            <h1 class="gray" style="background-color:#A0A0A0;color:#f0f8f8;font-family:Arial;font-size:24px;font-weight:400;line-height:1.3;margin:0;marg0n-bottom:10px;padding:17px;text-align:center;word-wrap:normal">
+                                                {% block title %}{% endblock %}
+                                            </h1>
+                                        </coumns>
                                     </tr>
                                     </tbody>
                                 </table>
@@ -155,7 +160,7 @@
                         <tbody>
                         <tr style="padding:0;text-align:left;vertical-align:top">
                             <td style="-moz-hyphens:auto;-webkit-hyphens:auto;border-collapse:collapse!important;color:#0a0a0a;font-family:Arial,sans-serif;font-size:16px;font-weight:400;hyphens:auto;line-height:1.3;margin:0;padding:0;text-align:left;vertical-align:top;word-wrap:break-word">
-                                {% block email_contetnt %}{% endblock %}
+                                {% block email_content %}{% endblock %}
                                 <br><br>
                             </td>
                         </tr>
@@ -186,8 +191,11 @@
                                                     <th style="color:#0a0a0a;font-family:Arial,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;padding:0;text-align:left">
                                                         <p class="shed-gr"
                                                            style="color:#464646;font-family:Arial;font-size:13px;font-weight:400;line-height:1.3;margin:0;margin-bottom:0;padding:0;text-align:left">
-                                                            Best Regards<br><a href="{{ request.get_host }}" class="p_green"
-                                                                               style="border-bottom:1px solid #fff;color:#009846;font-family:Arial;font-weight:400;line-height:1.3;margin:0;padding:0;text-align:left;text-decoration:none"><b>PharmBricks</b></a>
+                                                            Best Regards<br>
+                                                            <a href="{{ protocol }}://{{ domain }}" class="p_green"
+                                                                               style="border-bottom:1px solid #fff;color:#009846;font-family:Arial;font-weight:400;line-height:1.3;margin:0;padding:0;text-align:left;text-decoration:none">
+                                                                <b>PharmBricks</b>
+                                                            </a>
                                                         </p></th>
                                                 </tr>
                                             </table>
@@ -224,7 +232,7 @@
                                                     <th style="color:#0a0a0a;font-family:Arial,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;padding:0;text-align:left">
                                                         <a href="#"
                                                            style="color:#fff;font-family:Arial;font-weight:400;line-height:1.3;margin:0;padding:0;text-align:left;text-decoration:none"><img
-                                                                src="img/logo.png"
+                                                                src="{{ protocol }}://{{ domain }}{% static 'email/logo.png' %}"
                                                                 alt="" class="logo"
                                                                 style="-ms-interpolation-mode:bicubic;border:none;clear:both;display:block;margin-left:auto;margin-right:auto;max-width:100%;outline:0;text-align:center;text-decoration:none;width:auto"></a>
                                                     </th>
@@ -264,14 +272,15 @@
                                                             85255</p>
                                                         <p class="center shed-fff"
                                                            style="color:#fff;font-family:Arial;font-size:13px;font-weight:400;line-height:1.3;margin:0;margin-bottom:0;padding:0;text-align:center;height:38px">
-                                                            tel. 00 567-244-5678 | <a href="mailto:info@pharmbricks.com"
-                                                                                      style="border-bottom:1px solid #fff;color:#fff;font-family:Arial;font-weight:400;line-height:1.3;margin:0;padding:0;text-align:left;text-decoration:none">info@pharmbricks.com</a>
+                                                            tel. 00 567-244-5678 |
+                                                            <a href="mailto:info@pharmbricks.com"
+                                                               style="border-bottom:1px solid #fff;color:#fff;font-family:Arial;font-weight:400;line-height:1.3;margin:0;padding:0;text-align:left;text-decoration:none">info@pharmbricks.com</a>
                                                         </p>
                                                         <p class="center shed-fff"
                                                            style="color:#fff;font-family:Arial;font-size:13px;font-weight:400;line-height:1.3;margin:0;margin-bottom:0;padding:0;text-align:center">
-                                                            <a href="#" style="border-bottom:none;color:#fff;font-family:Arial;font-weight:600;line-height:1.3;margin:0;padding:0;text-align:left;text-decoration:none">Our terms & Conditions</a></p><br></th>
-                                                    <th class="expander"
-                                                        style="color:#0a0a0a;font-family:Arial,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;padding:0!important;text-align:left;visibility:hidden;width:0"></th>
+                                                            <a href="{{ protocol }}://{{ domain }}{% slugurl 'terms' %}" style="border-bottom:none;color:#fff;font-family:Arial;font-weight:600;line-height:1.3;margin:0;padding:0;text-align:left;text-decoration:none">Our terms & Conditions</a>
+                                                        </p><br></th>
+                                                    <th class="expander" style="color:#0a0a0a;font-family:Arial,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;padding:0!important;text-align:left;visibility:hidden;width:0"></th>
                                                 </tr>
                                             </table>
                                         </th>
@@ -299,7 +308,7 @@
                                                     <th style="color:#0a0a0a;font-family:Arial,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;padding:0;text-align:right">
                                                         <a href="#"
                                                            style="color:#fff;font-family:Arial;font-weight:400;line-height:1.3;margin:0;padding:0;text-align:left;text-decoration:none"><img
-                                                                src="img/linked.png" alt=""
+                                                                src="{{ protocol }}://{{ domain }}{% static 'email/linked.png' %}" alt=""
                                                                 style="-ms-interpolation-mode:bicubic;border:none;clear:both;display:inline-block;max-width:100%;outline:0;text-decoration:none;width:auto"></a>
                                                     </th>
                                                 </tr>
@@ -312,7 +321,7 @@
                                                     <th style="color:#0a0a0a;font-family:Arial,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;padding:0;text-align:left">
                                                         <a href="#"
                                                            style="color:#fff;font-family:Arial;font-weight:400;line-height:1.3;margin:0;padding:0;text-align:left;text-decoration:none"><img
-                                                                src="img/twitter.png"
+                                                                src="{{ protocol }}://{{ domain }}{% static 'email/twitter.png' %}"
                                                                 alt=""
                                                                 style="-ms-interpolation-mode:bicubic;border:none;clear:both;display:inline-block;max-width:100%;outline:0;text-decoration:none;width:auto;margin-top:-2px"></a>
                                                     </th>

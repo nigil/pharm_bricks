@@ -4,16 +4,17 @@ from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.shortcuts import render
 
 from wagtail.wagtailcore.models import Page
+from mols.models import Molecule
 from wagtail.wagtailsearch.models import Query
 
 
 def search(request):
-    search_query = request.GET.get('query', None)
+    search_query = request.GET.get('q', None)
     page = request.GET.get('page', 1)
 
     # Search
     if search_query:
-        search_results = Page.objects.live().search(search_query)
+        search_results = Molecule.objects.live().search(search_query)
         query = Query.get(search_query)
 
         # Record hit

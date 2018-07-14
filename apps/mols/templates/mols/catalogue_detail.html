@@ -1,0 +1,110 @@
+{% extends 'inner.html' %}
+{% load staticfiles %}
+{% load thumbnail %}
+{% load pb_filters %}
+
+{% block content %}
+{% include 'mols/_catalogue_header.html' %}
+
+<div class="container-fluid">
+    <div class="container">
+        <div class="row">
+            <div class="col-5 pic_inner_name">
+                <div class="pic">
+                    <img src="{{ object.image.url }}" alt="{{ object.title }}"
+                         class="mol_photo img-fluid"/>
+                </div>
+                <div class="pic pic2">
+                    {% if object.screening_compounds.all %}
+                    <p class="mg">Screening compounds:</p>
+
+                    {% for screening_compound in object.screening_compounds.all %}
+                    <a href="{{ screening_compound.document.file.url }}" class="a_green mg"
+                       target=_blank>{{ screening_compound.document.title }}</a><br/>
+                    {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-7">
+                <form>
+                    <p class="prod">
+                        ﻿{{ object.title|upper }}
+                    </p>
+                    <br>
+                    <p class="text_g">
+                        Catalogue number: {{ object.catalogue_number|upper }}
+                    </p>
+                    <p class="p_in">
+                        {% if not object.in_stock %}not {% endif %}in stock
+                    </p>
+                    <div class="block">
+                        <p class="twit">
+                            Price & Size
+                        </p> <br/>
+                        {% for price in object.prices.all %}
+                        <input type="radio" name="pricensize"
+                               id="price_{{ forloop.counter }}" class="checkbox"/>
+                        <label for="price_{{ forloop.counter }}" class="one_long">
+                            {{ price.ref }} (${{ price.pric }})
+                        </label> <br/>
+                        {% endfor %}
+                    </div>
+                    <div class="plus_min pm_top">
+                        <a href="#" class="a_min" id="minus_el"></a>
+                        <input type="text" value="1" class="text_plus_min" id="el_count"/>
+                        <a href="#" class="a_plus" id="plus_el"></a>
+                    </div>
+                    <div class="plus_min">
+                        <button class="button_inner_name
+                            {% if not object.in_stock %}disabled{% endif %} no-mg-bott">
+                            add to basket
+                            <img src="{% static 'images/basket_fff.png' %}" alt=""/>
+                        </button>
+                        <button class="button_inner_name
+                            {% if not object.in_stock %}disabled{% endif %}">
+                            add to library <img src="{% static 'images/libr.png' %}" alt=""/>
+                        </button>
+                    </div>
+                </form>
+                <p class="text-center bold">Product details</p>
+                <div class="block">
+                    <p class="details">
+                        {% if object.cas %}
+                            CAS: {{ object.cas }} <br/>
+                        {% endif %}
+                        {% if object.formula %}
+                            Formula: {{ object.formula|chem_formula }}<br/>
+                        {% endif %}
+                        {% if object.mw %}
+                            Mass: {{ object.mw }}<br/>
+                        {% endif %}
+                        {% if object.purity %}
+                            Chemical Purity: > {{ object.purity }}%<br/>
+                        {% endif %}
+                        {% if object.log_p %}
+                            Log P, calc: {{ object.log_p }}<br/>
+                        {% endif %}
+                        {% if object.log_s %}
+                            Log S, calc: {{ object.log_s }}<br/>
+                        {% endif %}
+                        {% if object.references.all %}
+                        References, DOL:<br/>
+
+                            {% for reference in object.references.all %}
+                            <a href="{{ reference.link }}" target=_blank class="p_blue"
+                            >{{ reference.title|default:reference.link }}</a><br/>
+                            {% endfor %}
+                        {% endif %}
+
+                        {% if object.msds %}
+                        MSDS: <a href="{{ object.msds.file.url }}" target=_blank
+                                 class="a_green a_hov">{{ object.msds.title }}</a>
+                        {% endif %}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container-fluid mg-top"></div>
+{% endblock %}

@@ -9,11 +9,13 @@ from wagtail.wagtailcore import urls as wagtail_urls
 from wagtail.wagtaildocs import urls as wagtaildocs_urls
 
 from search import views as search_views
-from users.views import PbLogin, PbRegister, confirm_email, register_success, Profile, PbLogout, \
-    PbPasswordReset, PbPasswordResetConfirm, PbPasswordResetDone, PbPasswordResetComplete, \
+from users.views import PbLogin, PbRegister, confirm_email, Profile, PbLogout, \
+    PbPasswordReset, PbPasswordResetConfirm, PbPasswordResetComplete, \
     PbPasswordChange, PbPasswordChangeDone
 from static_page.views import HomePage, ContactsPage
 from news.views import NewsPageView
+
+from core.views import load_cities_ajax
 
 urlpatterns = [
     url(r'^$', HomePage.as_view(), name='home'),
@@ -30,18 +32,19 @@ urlpatterns = [
     url(r'^login/$', PbLogin.as_view(), name='login'),
     url(r'^logout/$', PbLogout.as_view(), name='logout'),
     url(r'^register/$', PbRegister.as_view(), name='register'),
-    url(r'^register-success/$', register_success, name='register_success'),
     url(r'^confirm-email/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$',
         confirm_email, name='confirm_email'),
     url(r'password-reset/$', PbPasswordReset.as_view(), name='password_reset'),
     url(r'password-reset-confirm/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$',
         PbPasswordResetConfirm.as_view(), name='password_reset_confirm'),
-    url(r'password-reset-done/$', PbPasswordResetDone.as_view(), name='password_reset_done'),
     url(r'password-reset-complete/$', PbPasswordResetComplete.as_view(), name='password_reset_complete'),
     url(r'password-change/$', PbPasswordChange.as_view(), name='password_change'),
     url(r'password-change-done/$', PbPasswordChangeDone.as_view(), name='password_change_done'),
 
-    url(r'^profile/$', Profile.as_view(), name='user_profile'),
+    url(r'^profile/', include('users.urls')),
+    url(r'^catalogue/', include('mols.urls')),
+
+    url(r'load-cities/', load_cities_ajax, name='load_cities_ajax'),
 
     # For anything not caught by a more specific rule above, hand over to
     # Wagtail's page serving mechanism. This should be the last pattern in

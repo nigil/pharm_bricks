@@ -580,6 +580,12 @@ input[type="submit"] {
     left: 26%;
 }
 
+.mol_photo {
+    padding: 3px;
+    max-width: 100%;
+    max-height: 100%;
+}
+
 .p_in {
     font-size: 16px;
     font-family: Arial, Roboto;
@@ -917,8 +923,13 @@ button img {
     /*border-bottom: 1px solid #dfdfdf;*/
 }
 
-.topmenu_left .submenu_left li:hover {
+.topmenu_left .submenu_left li:hover,
+.topmenu_left .submenu_left li.active{
     background-color: #fafafa;
+}
+
+.topmenu_left .submenu_left li.active a {
+    color: #009846;
 }
 
 .img-right,
@@ -2085,7 +2096,9 @@ h2.title {
 
 }
 
-.breadcrambs {
+.breadcrumbs a,
+.breadcrumbs a:hover {
+    color: #a7a7a7;
 }
 
 .with_underline {
@@ -2207,4 +2220,19 @@ h2.title {
 
 .pic2 .mg {
     margin-left: 32% !important;
+}
+
+.white_shadow {
+    position: fixed;
+    width: 100%;
+    top: 0;
+    bottom: 0;
+    z-index: 100;
+    opacity: 0.9;
+    background-color: #fff;
+}
+
+.above_shadow {
+    z-index: 101;
+    position: relative;
 }

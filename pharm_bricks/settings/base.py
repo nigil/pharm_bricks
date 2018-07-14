@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'modelcluster',
     'taggit',
     'easy_thumbnails',
+    'cities_light',
 
     # project apps
     'core.apps.CoreConfig',
@@ -186,7 +187,7 @@ WAGTAIL_SITE_NAME = "pharm_bricks"
 
 WAGTAIL_USER_EDIT_FORM = 'users.forms.CustomUserEditForm'
 WAGTAIL_USER_CREATION_FORM = 'users.forms.CustomUserCreationForm'
-WAGTAIL_USER_CUSTOM_FIELDS = ['organization', 'region', 'phone', 'country', 'region',
+WAGTAIL_USER_CUSTOM_FIELDS = ['organization', 'phone', 'country',
                               'city', 'delivery_address', 'postcode']
 WAGTAILIMAGES_MAX_UPLOAD_SIZE = 5 * 1024 * 1024
 
@@ -204,7 +205,7 @@ WAGTAILSEARCH_BACKENDS = {
 # User settings
 WAGTAIL_FRONTEND_LOGIN_TEMPLATE = 'users/login.html'
 WAGTAIL_FRONTEND_LOGIN_URL = 'login'
-LOGIN_REDIRECT_URL = 'user_profile'
+LOGIN_REDIRECT_URL = 'profile'
 AUTH_USER_MODEL = 'users.User'
 LOGIN_URL = 'login'
 
@@ -228,12 +229,17 @@ PRODUCT_VARIANT_MODEL = 'mols.MoleculePrices'
 THUMBNAIL_ALIASES = {
     'mols.Molecule.image': {
         'small': {
-            'size': (32, 32), 'autocrop': True, 'crop': 'scale'
+            'size': (32, 32), 'crop': 'scale'
         },
         'middle': {
-            'size': (238, 210), 'autocrop': True, 'crop': ',', 'quality': 95
+            'size': (209, 170), 'crop': ',', 'quality': 95
         }
     }
 }
 
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'web']
+HOSTNAME = os.getenv('HOSTNAME')
+
+CITIES_LIGHT_TRANSLATION_LANGUAGES = ['en']
+
+THUMBNAIL_DEBUG = True

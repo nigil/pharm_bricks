@@ -14,22 +14,22 @@ services:
       - ./pharm_bricks:/app/pharm_bricks
 #    links:
 #      - web
-#    depends_on:
-#      - web
+    depends_on:
+      - web
 
   postgres:
     image: postgres
     container_name: pb_postgres
     restart: always
-    environment:
-      - PGDATA=/app/data/pg_data
-      - POSTGRES_DB=DB_NAME
-      - POSTGRES_USER=DB_USER
-      - POSTGRES_PASSWORD=DB_PASSWORD
     ports:
       - "5433:5432"
     volumes:
-     - ./data:/app/data
+      - dbdata:/app/data
+    environment:
+      - PGDATA=/app/data
+      - POSTGRES_DB=${DB_NAME}
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
 
   web:
     build: .
@@ -52,10 +52,19 @@ services:
       - EMAIL_HOST_PASSWORD
       - EMAIL_PORT
       - ADMIN_EMAIL
+      - HOSTNAME
 
 
   elasticsearch:
     image: elasticsearch:5
     container_name: pb_elasticsearch
+#    mem_limit: 1g
+    volumes:
+      - esdata:/usr/share/elasticsearch/data
     ports:
       - 9200:9200
+
+volumes:
+  dbdata:
+  esdata:
+    driver: local

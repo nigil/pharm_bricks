@@ -1,10 +1,10 @@
-from wagtail.wagtailcore.models import Page
+import re
+from StringIO import StringIO
+from operator import itemgetter
 from mols.models import MoleculesGroup, Molecule, MoleculePrices
 from static_page.models import StaticPage
 from rdkit.Chem import ForwardSDMolSupplier, rdMolDescriptors, Descriptors, Draw
 from django.core.files.base import ContentFile
-from StringIO import StringIO
-import re
 
 
 class CustomDrawningOptions(Draw.DrawingOptions):
@@ -52,13 +52,13 @@ class CustomDrawningOptions(Draw.DrawingOptions):
 class RDKitClient():
     @staticmethod
     def attach_prices_to_mol(mol_page, prices):
-        for quantity in prices:
+        for quantity, price in prices:
             try:
                 mol_price = MoleculePrices.objects.get(product=mol_page, ref=quantity)
             except MoleculePrices.DoesNotExist:
                 mol_price = MoleculePrices(product=mol_page, ref=quantity)
 
-            mol_price.price = prices[quantity]
+            mol_price.price = price
             mol_price.save()
             mol_page.refresh_from_db()
 
@@ -145,7 +145,7 @@ class RDKitClient():
                 parent_item.add_child(instance=mol_page)
             mol_page.save()
 
-            mol_image = Draw.MolToImage(mol, (404, 383), options=CustomDrawningOptions())
+            mol_image = Draw.MolToImage(mol, (399, 379), options=CustomDrawningOptions())
             image_io = StringIO()
             mol_image.save(image_io, format='PNG')
             mol_page.image.save('{catalogue_number}.png'.format(catalogue_number=mol_page.slug),
@@ -169,13 +169,14 @@ class RDKitClient():
                                     cas=mol_page.cas,
                                     purity=mol_page.purity))
 
-            prices = {}
+            prices = []
             for prop_key in mol_props:
                 if prop_key.startswith('Quantity_'):
                     quantity_num = prop_key.split('_')[1]
                     try:
                         price = mol_props['Price_' + quantity_num]
-                        prices[mol_props[prop_key]] = price
+                        prices.append((mol_props[prop_key], price))
+                        prices.sort(key=itemgetter(1))
                     except KeyError:
                         import_log.append('Molecule {} has no price num {}'.format(catalogue_number, quantity_num))
                         continue

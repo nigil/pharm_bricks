@@ -1,10 +1,15 @@
 from django.db import models
-from wagtail.wagtailcore.models import Page
+from wagtail.wagtailcore.models import Page, Orderable
 from longclaw.longclawproducts.models import ProductVariantBase
 from wagtail.wagtailsearch import index
-from wagtail.wagtailadmin.edit_handlers import FieldPanel, InlinePanel, MultiFieldPanel
-from modelcluster.fields import ParentalKey
+from wagtail.wagtailadmin.edit_handlers import (
+    FieldPanel, InlinePanel, MultiFieldPanel
+)
+from wagtail.wagtaildocs.edit_handlers import DocumentChooserPanel
+from wagtail.wagtaildocs.models import Document
+from modelcluster.fields import ParentalKey, ParentalManyToManyField
 from core.widgets import AdminImageFieldWidget
+from core.models import RelatedLink
 from mols.storage import OverwriteStorage
 import os
 
@@ -18,12 +23,12 @@ def mol_image_path(instance, filename):
     return os.path.join('mols', instance.get_parent().slug, filename)
 
 
-class MoleculesGroup(Page):
+class MoleculesGroup(Page, Orderable):
     subpage_types = ('mols.Molecule', 'mols.MoleculesGroup')
 
 
 class Molecule(Page):
-    parent_page_types = ['mols.MoleculesGroup',]
+    parent_page_types = ['mols.MoleculesGroup']
 
     catalogue_number = models.CharField(verbose_name='Catalogue number', max_length=20, unique=True)
     chemical_name = models.CharField(max_length=1000)
@@ -39,10 +44,18 @@ class Molecule(Page):
 
     in_stock = models.BooleanField(default=True)
 
+    msds = models.ForeignKey(
+        'wagtaildocs.Document',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+'
+    )
+
     search_fields = [
         index.SearchField('title', partial_match=True, boost=2),
         index.FilterField('cas'),
-        index.FilterField('catalogue_number'),
+        index.SearchField('catalogue_number'),
     ]
 
     content_panels = [
@@ -65,6 +78,11 @@ class Molecule(Page):
         ),
         FieldPanel('in_stock'),
         InlinePanel('prices', label='Prices'),
+
+        InlinePanel('references', label="References"),
+
+        DocumentChooserPanel('msds'),
+        InlinePanel('screening_compounds', label='Screening compounds')
     ]
 
     show_in_menus_default = True
@@ -73,7 +91,7 @@ class Molecule(Page):
 
 
 class MoleculePrices(models.Model):
-    product = ParentalKey(Molecule, related_name='prices')
+    product = ParentalKey(Molecule, on_delete=models.CASCADE, related_name='prices')
     ref = models.CharField(max_length=32, verbose_name='Quantity')
     price = models.DecimalField(max_digits=12, decimal_places=2)
     stock = None
@@ -83,3 +101,22 @@ class MoleculePrices(models.Model):
 
     def get_product_title(self):
         return self.product.title
+
+
+class MoleculeReference(Orderable, RelatedLink):
+    page = ParentalKey(Molecule, on_delete=models.CASCADE, related_name='references')
+
+
+class MoleculeScreeningCompound(Orderable):
+    page = ParentalKey(Molecule, on_delete=models.CASCADE, related_name='screening_compounds')
+    document = models.ForeignKey(
+        'wagtaildocs.Document',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+'
+    )
+
+    panels = [
+        DocumentChooserPanel('document')
+    ]

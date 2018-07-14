@@ -1,14 +1,94 @@
-{% extends 'base.html' %}
+{% extends 'inner_shadowed.html' %}
 
-{% block content %}
-    <div>
-    {{ user.email }} <br/>
-    {{ user.first_name }} <br/>
-    {{ user.last_name }} <br/>
-    {{ user.organization }} <br/>
-    {{ user.region }}
+{% block base_content %}
+<div class="container">
+    <div class="row mg-bot">
+        <div class="col-3">
+            <h2 class="title">
+                Cabinet
+            </h2>
+        </div>
+        <div class="col-9 text-right">
+            <ul class="cabinet">
+                <li>
+                    <a href="cabinet.html" class="a_green">Account Information </a>
+                </li>
+                <li>
+                    <span class="slesh">|</span>
+                </li>
+                <li>
+                    <a href="ordershistory.html">Orders History</a>
+                </li>
+                <li>
+                    <span class="slesh">|</span>
+                </li>
+                <li>
+                    <a href="mylibraries.html">My Libraries</a>
+                </li>
+                <li>
+                    <span class="slesh">|</span>
+                </li>
+                <li>
+                    <a href="subscribe.html">News Subscribe</a>
+                </li>
+            </ul>
+        </div>
     </div>
-    <div>
-    <a href="{% url 'password_change' %}">Change password</a>
+
+{% if messages %}
+    <div class="row">
+        <div class="col-12 text-center">
+        {% for message in messages %}
+            <p>{{ message|safe }}</p>
+        {% endfor %}
+        </div>
     </div>
+{% endif %}
+</div>
+
+<form action="" method="POST">
+    {% csrf_token %}
+    <div class="container">
+        <div class="row mg-bot">
+            <div class="col-12 text-center form_cabinet">
+                <div>{{ form.first_name }}</div>
+                <div>{{ form.first_name.errors }}</div>
+
+                <div>{{ form.last_name }}</div>
+                <div>{{ form.last_name.errors }}</div>
+
+                <div>{{ form.phone }}</div>
+                <div>{{ form.phone.errors }}</div>
+
+                <div>{{ form.organization }}</div>
+                <div>{{ form.organization.error }}</div>
+
+                <div>{{ form.country }}</div>
+                <div>{{ form.country.errors }}</div>
+
+                <div>{{ form.delivery_address }}</div>
+                <div>{{ form.delivery_address.errors }}</div>
+
+                <div>{{ form.city }}</div>
+                <div>{{ form.city.errors }}</div>
+
+                <div>{{ form.postcode }}</div>
+                <div>{{ form.postcode.errors }}</div>
+
+                <div>{{ form.email }}</div>
+                <div>{{ form.email.errors }}</div>
+
+                <div>{{ form.password }}</div>
+                <div>{{ form.password.errors }}</div>
+
+                <div>{{ form.password1 }}</div>
+                <div>{{ form.password1.errors }}</div>
+
+                <div>
+                    <button class="blue_butt cabinet_button">save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
 {% endblock %}

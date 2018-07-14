@@ -5,8 +5,9 @@
     <p class="p_search">
         Search by
     </p>
-    <form>
-        <input type="search" value="" placeholder="CAS, Catalogue number, Name, Structure"/>
+    <form method="GET" action="{% url 'search' %}">
+        <input type="search" name="q" value=""
+               placeholder="CAS, Catalogue number, Name, Structure"/>
         <input type="submit" value=""/>
     </form>
 </div>

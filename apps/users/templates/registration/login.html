@@ -1,11 +1,31 @@
-{% extends 'base.html' %}
+{% extends 'inner_shadowed.html' %}
 
-{% block content %}
-    <form action="" method="post">{% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" value="Login" />
-    <a href="{% url 'register' %}">Sign up</a>
-    <br/>
-    <a href="{% url 'password_reset' %}">Reset password</a>
+{% block base_content %}
+<form action="" method="post">
+    {% csrf_token %}
+    <div class="container fix">
+        <div class="row mg-bot">
+            <div class="col-12 text-center form_cabinet form_cabinet_login">
+{#                {% for error in form.errors %}#}
+{#                    {{ error }}<br>#}
+{#                {% endfor %}#}
+                {{ form.non_field_errors }}
+
+                <div>{{ form.username }}<br/>
+                    {{ form.username.errors }}
+                </div>
+                <div>{{ form.password }}<br/>
+                    {{ form.password.errors }}
+                </div>
+                <div>
+                    <button class="blue_butt blue_butt_log_in">Log in</button>
+                    <p>
+                        Forgot your password? <a href="{% url 'password_reset' %}"
+                                                 class="a_green"><b>Reset it</b></a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
 </form>
-{% endblock %} %}
+{% endblock %}

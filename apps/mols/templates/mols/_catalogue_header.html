@@ -1,0 +1,33 @@
+{% load staticfiles %}
+{% load wagtailcore_tags %}
+{% load pb_tags %}
+
+<div class="container-fluid">
+    <div class="container">
+        <div class="row mg-bot">
+            <div class="col-7">
+                <h2 class="title">{{ catalogue_page.title }}</h2>
+                <p class="p_gray breadcrumbs">
+                    {% mols_breadcrumbs breadcrumbs %}
+                </p>
+            </div>
+
+            {% if not object %}
+            <div class="col-5 mg-no text-right bott pd-no">
+                <span id="toggle_editor">
+                    <a href="#" class="mg-lf act_tool none">Use MarvinSketch</a>
+                    <a href="#" class="mg-lf show_tool"><img src="{% static 'images/tool.png' %}" alt=""/></a>
+                </span>
+                <a class="mg-lf none show_link">Show</a>
+                <select id="catalogue_page_size" class="select_cat_red text-left">
+                    <option value="9">9</option>
+                    <option value="30">30</option>
+                    <option value="60">60</option>
+                    <option value="90">90</option>
+                    <option value="120">120</option>
+                </select>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>

@@ -146,7 +146,7 @@
             $('#active_news').html($(this).next('.content_news').html());
             $('#active_news').slideDown(400)
         })
-        // $('#active_news').html($(this).next('.content_news').html());
+        $('#active_news').html($(this).next('.content_news').html());
         $('.all-news-block .active1').removeClass('show_news');
         $(this).addClass('show_news');
         $('html, body').stop().animate({

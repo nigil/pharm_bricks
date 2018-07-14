@@ -6,6 +6,8 @@ from static_page.fields import BodyStreamBlock
 
 
 class StaticPage(Page):
+    template = 'pages/static_page.html'
+
     body = StreamField(BodyStreamBlock(), null=True)
 
     search_fields = Page.search_fields + [

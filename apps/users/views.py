@@ -1,85 +1,127 @@
-from django.contrib.auth.views import LoginView, LogoutView, \
-    PasswordResetView, PasswordResetConfirmView, PasswordResetDoneView, PasswordResetCompleteView, \
-    PasswordChangeView, PasswordChangeDoneView
+from django.contrib.auth.views import (
+    LoginView, LogoutView, PasswordResetView, PasswordResetConfirmView,
+    PasswordResetCompleteView, PasswordChangeView, PasswordChangeDoneView
+)
 from django.views.generic import DetailView
-from django.views.generic.edit import FormView
-from users.forms import RegisterForm
+from django.views.generic.edit import FormView, UpdateView
+from users.forms import (
+    RegisterForm, LoginForm, CustomPasswordResetForm, CustomSetPasswordForm, ProfileForm
+)
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.shortcuts import render, redirect
-from django.contrib.sites.shortcuts import get_current_site
 from core.mailer import HTMLTemplateMailer
 from django.utils.encoding import force_bytes, force_text
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from users.tokens import account_activation_token
 from django.contrib.auth import get_user_model
-from django.http import HttpResponse
-from django.utils.translation import ugettext_lazy as _
+from django.contrib import messages
+from django.conf import settings
 
-User = get_user_model()
+user_model = get_user_model()
 
 
 class PbLogin(LoginView):
     template_name = 'registration/login.html'
+    form_class = LoginForm
+    redirect_authenticated_user = True
 
 
 class PbLogout(LogoutView):
-    pass
+    next_page = reverse_lazy('home')
 
 
 class PbRegister(FormView):
     template_name = 'registration/register.html'
     form_class = RegisterForm
-    success_url = reverse_lazy('register_success')
+    success_url = reverse_lazy('register')
 
     def get(self, request, *args, **kwargs):
-        if request.user.is_authenticated:
+        if request.user.is_authenticated():
             return redirect('home')
         return super(PbRegister, self).get(request, *args, **kwargs)
 
     def form_valid(self, form):
         user = form.save()
 
-        current_site = get_current_site(self.request)
-        mail_subject = 'Registering on {}'.format(current_site.domain)
+        mail_subject = 'Registering on {}'.format(settings.HOSTNAME)
+        # request_meta = self.request.META
+        # site_host = request_meta.get('HTTP_ORIGIN') if request_meta.get('HTTP_ORIGIN') \
+        #     else request_meta.get('HTTP_HOST')
         confirm_link = self.request.build_absolute_uri(reverse('confirm_email', args=(
-                                                               urlsafe_base64_encode(force_bytes(user.id)),
-                                                               account_activation_token.make_token(user))))
+            urlsafe_base64_encode(force_bytes(user.id)),
+            account_activation_token.make_token(user)))
+        )
+        login_link = self.request.build_absolute_uri(reverse('login'))
+        reset_password_link = self.request.build_absolute_uri(reverse('password_reset'))
         HTMLTemplateMailer(user.email, mail_subject, 'email/confirm_email.html',
-                           {'confirm_link': confirm_link}).send()
+                           {
+                               'confirm_link': confirm_link,
+                               'login_link': login_link,
+                               'reset_password_link': reset_password_link,
+                               'admin_email': settings.ADMIN_EMAIL,
+                               'user_data': form.cleaned_data
+                           }).send()
+
+        messages.add_message(self.request, messages.INFO,
+                             'You have already registered on our site. '
+                             'Please check your email for next instructions')
 
         return super(PbRegister, self).form_valid(form)
-
-
-def register_success(request):
-    if request.user.is_authenticated():
-        return redirect(reverse('home'))
-    return render(request, 'registration/register_success.html')
 
 
 def confirm_email(request, uidb64, token):
     try:
         uid = force_text(urlsafe_base64_decode(uidb64))
-        user = User.objects.get(pk=uid)
-    except(TypeError, ValueError, OverflowError, User.DoesNotExist):
+        user = user_model.objects.get(pk=uid)
+    except(TypeError, ValueError, OverflowError, user_model.DoesNotExist):
         user = None
+
     if user is not None and account_activation_token.check_token(user, token):
         user.is_active = True
         user.save()
-        return HttpResponse('Thank you for your email confirmation. Now you can login your account.')
+        messages.add_message(request, messages.INFO, 'Thank you for your email confirmation. '
+                                                     'Now you can <a href="'
+                                                     + reverse('login')
+                                                     + '">login</a> your account.')
     else:
-        return HttpResponse('Activation link is invalid!')
+        messages.add_message(request, messages.INFO, 'Activation link is invalid!')
+
+    return render(request, 'registration/register.html')
 
 
 class PbPasswordReset(PasswordResetView):
     token_generator = account_activation_token
+    template_name = 'registration/password_reset.html'
+    form_class = CustomPasswordResetForm
+    success_url = reverse_lazy('password_reset')
+    html_email_template_name = 'registration/password_reset_html_email.html'
+    email_template_name = 'registration/password_reset_html_email.html'
+    extra_email_context = {'site_host': settings.HOSTNAME}
+
+    def form_valid(self, form):
+        messages.add_message(self.request,
+                             messages.INFO,
+                             '<p>We\'ve emailed you instructions for setting your password, '
+                             'if an account exists with the email you entered. '
+                             'You should receive them shortly.</p>'
+                             '<p>If you don\'t receive an email, please make sure '
+                             'you\'ve entered the address you registered with, '
+                             'and check your spam folder.</p>')
+
+        return super(PbPasswordReset, self).form_valid(form)
 
 
 class PbPasswordResetConfirm(PasswordResetConfirmView):
     token_generator = account_activation_token
+    success_url = reverse_lazy('password_reset')
+    template_name = 'registration/password_reset_set_new.html'
+    form_class = CustomSetPasswordForm
 
+    def form_valid(self, form):
+        messages.add_message(self.request, messages.INFO,
+                             '<p>Password was successfully changed.</p>')
 
-class PbPasswordResetDone(PasswordResetDoneView):
-    pass
+        return super(PbPasswordResetConfirm, self).form_valid(form)
 
 
 class PbPasswordResetComplete(PasswordResetCompleteView):
@@ -94,9 +136,24 @@ class PbPasswordChangeDone(PasswordChangeDoneView):
     pass
 
 
-class Profile(DetailView):
-    context_object_name = 'user'
+class Profile(UpdateView):
     template_name = 'users/profile.html'
+    form_class = ProfileForm
+    success_url = reverse_lazy('profile')
 
     def get_object(self, queryset=None):
         return self.request.user
+
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+
+        if self.object.is_authenticated():
+            return super(Profile, self).get(request, *args, **kwargs)
+        else:
+            return redirect('login')
+
+    def form_valid(self, form):
+        messages.add_message(self.request, messages.INFO,
+                             'Profile successfully updated')
+
+        return super(Profile, self).form_valid(form)

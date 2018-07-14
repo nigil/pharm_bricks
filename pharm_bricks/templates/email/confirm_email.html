@@ -1,3 +1,74 @@
-<h2>Hi</h2>
+{% extends 'email/base.html' %}
 
-<p>Please click link {{ confirm_link }} to confirm your email</p>
+{% block title %}Welcome{% endblock %}
+
+{% block email_content %}
+<br/>
+<table class="row" style="border-collapse:collapse;border-spacing:0;display:table;padding:0;position:relative;text-align:left;vertical-align:top;width:100%">
+<tbody>
+<tr style="padding:0;text-align:left;vertical-align:top">
+    <th class="small-12 large-1 columns first"
+        style="color:#0a0a0a;font-family:Arial,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0 auto;padding:0;padding-bottom:0;padding-left:16px;padding-right:8px;text-align:left;width:5%">
+        <table style="border-collapse:collapse;border-spacing:0;padding:0;text-align:left;vertical-align:top;width:100%">
+            <tr style="padding:0;text-align:left;vertical-align:top">
+                <th style="color:#0a0a0a;font-family:Arial,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;padding:0;text-align:left"></th>
+            </tr>
+        </table>
+    </th>
+    <th class="small-12 large-10 columns"
+        style="color:#0a0a0a;font-family:Arial,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0 auto;padding:0;padding-bottom:0;padding-left:8px;padding-right:8px;text-align:left;width:484px">
+        <table style="border-collapse:collapse;border-spacing:0;padding:0;text-align:left;vertical-align:top;width:100%">
+            <tr style="padding:0;text-align:left;vertical-align:top">
+                <th style="color:#0a0a0a;font-family:Arial,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;padding:0;text-align:left">
+                    <h2 style="color:inherit;font-family:Arial,sans-serif;font-size:21px;font-weight:400;line-height:1.3;margin:0;margin-bottom:16px;padding:0;text-align:left;word-wrap:normal">
+                        Dear {{ user_data.first_name }},</h2>
+                    <p class="shed-gr" style="color:#464646;font-family:Arial;font-size:13px;font-weight:400;line-height:1.3;margin:0;margin-bottom:0;padding:0;text-align:left">
+                        Thank you for creating your account at PharmBricks and
+                        welcome aboard!</p><br>
+
+                    <p class="shed-gr" style="color:#464646;font-family:Arial;font-size:13px;font-weight:400;line-height:1.3;margin:0;margin-bottom:13px;padding:0;text-align:left">
+                        <b>Your Account details</b></p>
+
+                    <p class="big" style="color:#acacac;font-family:Arial;font-size:20px;font-weight:400;line-height:1.3;margin:0;margin-bottom:0;padding:0;text-align:left">
+                        Login: {{ user_data.email }}</p>
+
+                    <p class="big" style="color:#acacac;font-family:Arial;font-size:20px;font-weight:400;line-height:1.3;margin:0;margin-bottom:0;padding:0;text-align:left">
+                        Password: {{ user_data.password }}</p><br>
+
+                    <p class="shed-gr" style="color:#464646;font-family:Arial;font-size:13px;font-weight:400;line-height:1.3;margin:0;margin-bottom:0;padding:0;text-align:left">
+                        To
+                        <a href="{{ login_link }}" class="p_green" style="border-bottom:1px solid #fff;color:#009846;font-family:Arial;font-weight:400;line-height:1.3;margin:0;padding:0;text-align:left;text-decoration:none">
+                            <b>sing in</b>
+                        </a>
+                        to your account, please click here.</p><br>
+                    <p class="shed-gr" style="color:#464646;font-family:Arial;font-size:13px;font-weight:400;line-height:1.3;margin:0;margin-bottom:0;padding:0;text-align:left">
+                        If you forget you password, you may
+                        <a href="{{ reset_password_link }}" class="p_green" style="border-bottom:1px solid #fff;color:#009846;font-family:Arial;font-weight:400;line-height:1.3;margin:0;padding:0;text-align:left;text-decoration:none">
+                            <b>reset it</b>
+                        </a>
+                        here.</p><br>
+                    <p class="shed-gr"
+                       style="color:#464646;font-family:Arial;font-size:13px;font-weight:400;line-height:1.3;margin:0;margin-bottom:0;padding:0;text-align:left">
+                        If you have any questions about our molecules, libraries or
+                        delivery, please
+                        <a href="mailto:{{ admin_email }}" class="p_green" style="border-bottom:1px solid #fff;color:#009846;font-family:Arial;font-weight:400;line-height:1.3;margin:0;padding:0;text-align:left;text-decoration:none">
+                            <b>send us an email.</b>
+                        </a>
+                    </p>
+                </th>
+            </tr>
+        </table>
+    </th>
+    <th class="small-12 large-1 columns last"
+        style="color:#0a0a0a;font-family:Arial,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0 auto;padding:0;padding-bottom:0;padding-left:8px;padding-right:16px;text-align:left;width:5%">
+        <table style="border-collapse:collapse;border-spacing:0;padding:0;text-align:left;vertical-align:top;width:100%">
+            <tr style="padding:0;text-align:left;vertical-align:top">
+                <th style="color:#0a0a0a;font-family:Arial,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;padding:0;text-align:left"></th>
+            </tr>
+        </table>
+    </th>
+</tr>
+</tbody>
+</table>
+<br><br>
+{% endblock %}

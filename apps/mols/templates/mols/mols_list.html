@@ -1,0 +1,22 @@
+{% load staticfiles %}
+{% load thumbnail %}
+{% load wagtailcore_tags %}
+
+{% for mol in object_list %}
+<div class="card block_img text-center">
+    <div class="pd_img">
+        <img src="{{ mol.image|thumbnail_url:'middle' }}" alt="" class="wh-hg_img img-fluid"/>
+    </div>
+    <div class="wh-hg">
+        <a href="{% pageurl mol %}" class="a_green wh-hg_p">
+            ﻿{{ mol.title }}
+        </a>
+    </div>
+    <div class="el_ctrl">
+        <button class="button_small" value="" name="">add to basket <img
+                src="{% static 'images/basket_fff.png' %}" alt=""/></button>
+        <button class="button_small">add to library <img
+                src="{% static 'images/libr.png' %}" alt=""/></button>
+    </div>
+</div>
+{% endfor %}

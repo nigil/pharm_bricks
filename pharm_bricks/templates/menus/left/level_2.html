@@ -1,0 +1,9 @@
+{% load menu_tags %}
+
+<ul class="submenu_left">
+{% for item in menu_items %}
+    <li class="{% if item.active_class %}active{% endif %}">
+        <a href="{{ item.href }}">{{ item.text }}</a>
+    </li>
+{% endfor %}
+</ul>
