@@ -16,3 +16,5 @@ def mols_breadcrumbs(items_list):
                                 else last_item.title)
 
         return mark_safe(' / '.join(breadcrumbs_list))
+    else:
+        return ''

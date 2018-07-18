@@ -989,6 +989,10 @@ button img {
     position: relative;
 }
 
+.four_mols_per_row .block_img {
+    width: 22.5%;
+}
+
 .two_button {
     display: table-footer-group;
 }
@@ -2214,8 +2218,8 @@ h2.title {
 
 .pic2 {
     border: none !important;
-    margin-bottom: none;
-    tet-align: center;
+    margin-bottom: 0;
+    text-align: center;
 }
 
 .pic2 .mg {
@@ -2235,4 +2239,9 @@ h2.title {
 .above_shadow {
     z-index: 101;
     position: relative;
+}
+
+.no_data_result {
+    text-align: center;
+    display: none;
 }

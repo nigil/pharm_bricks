@@ -1,38 +1,75 @@
-{% extends "base.html" %}
+{% extends "inner.html" %}
 {% load static wagtailcore_tags %}
 
 {% block body_class %}template-searchresults{% endblock %}
 
 {% block title %}Search{% endblock %}
 
+{% block search_text %}{{ search_query }}{% endblock %}
+
 {% block content %}
-    <h1>Search</h1>
-
-    <form action="{% url 'search' %}" method="get">
-        <input type="text" name="query"{% if search_query %} value="{{ search_query }}"{% endif %}>
-        <input type="submit" value="Search" class="button">
-    </form>
-
-    {% if search_results %}
-        <ul>
-            {% for result in search_results %}
-                <li>
-                    <h4><a href="{% pageurl result %}">{{ result }}</a></h4>
-                    {% if result.search_description %}
-                        {{ result.search_description }}
+<div class="container-fluid">
+    <div class="container">
+        <div class="row mg-bot">
+            <div class="col-7">
+                <h2 class="title">
+                    {% if search_query %}
+                        Search results for '{{ search_query }}'
+                    {% else %}
+                        Search query is empty
                     {% endif %}
-                </li>
-            {% endfor %}
-        </ul>
+                </h2>
+            </div>
 
-        {% if search_results.has_previous %}
-            <a href="{% url 'search' %}?query={{ search_query|urlencode }}&amp;page={{ search_results.previous_page_number }}">Previous</a>
-        {% endif %}
+            {% if not object %}
+            <div class="col-5 mg-no text-right bott pd-no">
+                <a class="mg-lf none show_link">Show</a>
+                <select id="catalogue_page_size" class="select_cat_red text-left">
+                    <option value="12">12</option>
+                    <option value="40">40</option>
+                    <option value="80">80</option>
+                    <option value="120">120</option>
+                    <option value="160">160</option>
+                </select>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
 
-        {% if search_results.has_next %}
-            <a href="{% url 'search' %}?query={{ search_query|urlencode }}&amp;page={{ search_results.next_page_number }}">Next</a>
-        {% endif %}
-    {% elif search_query %}
-        No results found
-    {% endif %}
+<div class="container-fluid">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 text-center pd-no">
+                <div class="container catalog-main">
+                    <div id="mols_list_container" class="row four_mols_per_row"
+                         data-mols_list_url="{% url 'search_list' %}"
+                         data-search_query="{{ search_query }}"
+                    ></div>
+                    <div id="no_data_result" class="no_data_result">There is no any result</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid butt_bott">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 text-center">
+                <button id="show_more_button" data-page_num=1 class="blue_butt show_more"
+                        style="display: none;">show more</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/mols_list.js' %}"></script>
+<script type="text/javascript">
+$(function(){
+    load_molecules();
+})
+</script>
 {% endblock %}

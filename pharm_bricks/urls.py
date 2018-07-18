@@ -8,7 +8,6 @@ from wagtail.wagtailadmin import urls as wagtailadmin_urls
 from wagtail.wagtailcore import urls as wagtail_urls
 from wagtail.wagtaildocs import urls as wagtaildocs_urls
 
-from search import views as search_views
 from users.views import PbLogin, PbRegister, confirm_email, Profile, PbLogout, \
     PbPasswordReset, PbPasswordResetConfirm, PbPasswordResetComplete, \
     PbPasswordChange, PbPasswordChangeDone
@@ -27,8 +26,6 @@ urlpatterns = [
     url(r'^admin/', include(wagtailadmin_urls)),
     url(r'^documents/', include(wagtaildocs_urls)),
 
-    url(r'^search/$', search_views.search, name='search'),
-
     url(r'^login/$', PbLogin.as_view(), name='login'),
     url(r'^logout/$', PbLogout.as_view(), name='logout'),
     url(r'^register/$', PbRegister.as_view(), name='register'),
@@ -43,6 +40,7 @@ urlpatterns = [
 
     url(r'^profile/', include('users.urls')),
     url(r'^catalogue/', include('mols.urls')),
+    url(r'^search/', include('search.urls')),
 
     url(r'load-cities/', load_cities_ajax, name='load_cities_ajax'),
 

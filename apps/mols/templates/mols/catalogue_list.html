@@ -1,5 +1,6 @@
 {% extends 'inner.html' %}
 {% load menu_tags %}
+{% load staticfiles %}
 
 {% block content %}
 {% include 'mols/_catalogue_header.html' %}
@@ -18,6 +19,7 @@
                          {% if sub_section %}data-sub_section="{{ sub_section.slug }}"{% endif %}
                     ></div>
                 </div>
+                <div id="no_data_result" class="no_data_result">List is empty</div>
             </div>
         </div>
     </div>
@@ -37,64 +39,9 @@
 {% endblock %}
 
 {% block extra_js %}
+<script src="{% static 'js/mols_list.js' %}"></script>
 <script type="text/javascript">
 $(function(){
-    function load_molecules(page_num, reset) {
-        if (page_num === null) {
-            page_num = 1
-        }
-        if (reset === null) {
-            reset = false
-        }
-
-        var mols_container = $('#mols_list_container');
-        var page_size = $('#catalogue_page_size').val();
-        var section_slug = mols_container.attr('data-section');
-        var sub_section_slug = mols_container.attr('data-sub_section');
-        var show_more_button = $('#show_more_button');
-
-        $.ajax({
-            url: mols_container.attr('data-mols_list_url'),
-            data: {
-                size: page_size,
-                page: page_num,
-                section: section_slug,
-                sub_section: sub_section_slug
-            },
-            success: function(data) {
-                if (data.mols) {
-                    if (reset) {
-                        mols_container.html(data.mols);
-                    }
-                    else {
-                        mols_container.append(data.mols);
-                    }
-
-                    if (data.page_num < data.pages_cnt) {
-                        show_more_button.show();
-                        cur_page_num = show_more_button.attr('data-page_num');
-                        show_more_button.attr('data-page_num', ++cur_page_num);
-                    }
-                    else {
-                        show_more_button.hide();
-                    }
-                }
-            },
-            error: function() {
-                mols_container.text('There was Error when getting data. Please try later.')
-            }
-        })
-    }
-
-    $('#show_more_button').click(function(){
-        load_molecules($('#show_more_button').attr('data-page_num'));
-    });
-
-    $('#catalogue_page_size').change(function(){
-        $('#show_more_button').attr('data-page_num', 1);
-        load_molecules(1, true);
-    });
-
     load_molecules();
 })
 </script>

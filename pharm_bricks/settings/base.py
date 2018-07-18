@@ -193,7 +193,8 @@ WAGTAILIMAGES_MAX_UPLOAD_SIZE = 5 * 1024 * 1024
 
 WAGTAILSEARCH_BACKENDS = {
     'default': {
-        'BACKEND': 'wagtail.wagtailsearch.backends.elasticsearch5',
+        'BACKEND': 'wagtail.contrib.postgres_search.backend',
+        'AUTO_UPDATE': True,
         'URLS': ['http://elasticsearch:9200'],
         'INDEX': 'wagtail',
         'TIMEOUT': 5,

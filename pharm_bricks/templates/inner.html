@@ -6,7 +6,7 @@
         Search by
     </p>
     <form method="GET" action="{% url 'search' %}">
-        <input type="search" name="q" value=""
+        <input type="search" name="q" value="{% block search_text %}{% endblock %}"
                placeholder="CAS, Catalogue number, Name, Structure"/>
         <input type="submit" value=""/>
     </form>
