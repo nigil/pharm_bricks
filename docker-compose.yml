@@ -49,6 +49,7 @@ services:
       - ADMIN_EMAIL
       - HOSTNAME
       - SECRET_KEY
+      - ALLOWED_HOST
 
 volumes:
   dbdata:
