@@ -84,7 +84,7 @@ class CustomUserEditForm(UserEditForm):
                     'name')
             except (ValueError, TypeError):
                 pass  # invalid input from the client; ignore and fallback to empty City queryset
-        elif self.instance.pk:
+        elif self.instance.pk and self.instance.country:
             self.fields['city'].queryset = self.instance.country.city_set.order_by('name')
 
 
@@ -159,7 +159,7 @@ class RegisterForm(forms.ModelForm):
                     'name')
             except (ValueError, TypeError):
                 pass  # invalid input from the client; ignore and fallback to empty City queryset
-        elif self.instance.pk:
+        elif self.instance.pk and self.instance.country:
             self.fields['city'].queryset = self.instance.country.city_set.order_by('name')
 
 

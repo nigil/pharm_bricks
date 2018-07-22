@@ -1,17 +1,16 @@
-from mols.models import Molecule, MoleculesGroup
+import os
+import glob
 from django.db.models.signals import post_delete
 from django.dispatch import receiver
-import os
-from shutil import rmtree
-from django.conf import settings
+from mols.models import Molecule, MoleculesGroup
 
 
 @receiver(post_delete, sender=Molecule)
 def delete_molecule_image(sender, **kwargs):
     instance = kwargs.get('instance')
     try:
-        if os.path.isfile(instance.image.path):
-            os.remove(instance.image.path)
+        for mol_image_path in glob.glob(instance.image.path + '*'):
+            os.remove(mol_image_path)
     except Exception:
         pass
 
@@ -21,11 +20,8 @@ def delete_molecule_group_images(sender, **kwargs):
     instance = kwargs.get('instance')
     for mol in instance.get_descendants():
         try:
-            if os.path.isfile(mol.image.path):
-                os.remove(mol.image.path)
+            for mol_image_path in glob.glob(mol.image.path + '*'):
+                os.remove(mol_image_path)
         except Exception:
             pass
-
-    # group_code = instance.slug
-    # rmtree(os.path.join(settings.MEDIA_ROOT, group_code))
 
