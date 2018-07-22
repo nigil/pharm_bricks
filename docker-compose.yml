@@ -1,20 +1,15 @@
 version: "3"
 services:
   nginx:
-    image: nginx
+    build: ./nginx
     container_name: pb_nginx
     ports:
-      - "81:81"
-    restart: always
+      - 80:80
+      - 443:443
     volumes:
       - ./static:/app/static
       - ./media:/app/media
-      - ./docker/nginx.conf:/etc/nginx/nginx.conf:ro
-      - ./data/logs:/app/data/logs
-      - ./pharm_bricks:/app/pharm_bricks
-#    links:
-#      - web
-    depends_on:
+    links:
       - web
 
   postgres:
@@ -34,7 +29,7 @@ services:
   web:
     build: .
     container_name: pb_web
-    command: python manage.py runserver 0.0.0.0:8001 #uwsgi --ini /app/pharm_bricks.ini
+    command: uwsgi --ini /app/pharm_bricks.ini
     volumes:
      - .:/app
      - ./static:/app/static
@@ -53,18 +48,7 @@ services:
       - EMAIL_PORT
       - ADMIN_EMAIL
       - HOSTNAME
-
-
-  elasticsearch:
-    image: elasticsearch:5
-    container_name: pb_elasticsearch
-#    mem_limit: 1g
-    volumes:
-      - esdata:/usr/share/elasticsearch/data
-    ports:
-      - 9200:9200
+      - SECRET_KEY
 
 volumes:
   dbdata:
-  esdata:
-    driver: local

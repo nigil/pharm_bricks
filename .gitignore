@@ -9,3 +9,7 @@ data/*
 *.pyc
 *.env
 documents
+pb.conf
+pb.crt
+pb.csr
+pb.key

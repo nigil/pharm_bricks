@@ -23,8 +23,3 @@ DEBUG_TOOLBAR_CONFIG = {
 }
 
 AUTH_PASSWORD_VALIDATORS = []
-
-try:
-    from .local import *
-except ImportError:
-    pass
