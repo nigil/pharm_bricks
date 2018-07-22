@@ -240,7 +240,7 @@ THUMBNAIL_ALIASES = {
     }
 }
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'web']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', os.getenv('ALLOWED_HOST')]
 HOSTNAME = os.getenv('HOSTNAME')
 
 CITIES_LIGHT_TRANSLATION_LANGUAGES = ['en']
