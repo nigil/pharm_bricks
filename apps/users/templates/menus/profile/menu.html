@@ -1,0 +1,15 @@
+{% load menu_tags %}
+{% load staticfiles %}
+
+<ul class="cabinet">
+    {% for item in menu_items %}
+    <li>
+        <a href="{{ item.href }}" {% if item.active_class %}class="a_green"{% endif %}>
+            {{ item.text }}
+        </a>
+    </li>
+    {% if not forloop.last %}
+        <li><span class="slesh">|</span></li>
+    {% endif %}
+    {% endfor %}
+</ul>

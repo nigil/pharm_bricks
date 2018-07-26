@@ -1,40 +1,10 @@
 {% extends 'inner_shadowed.html' %}
 {% load staticfiles %}
+{% load menu_tags %}
 
 {% block base_content %}
 <div class="container">
-    <div class="row mg-bot">
-        <div class="col-3">
-            <h2 class="title">
-                Cabinet
-            </h2>
-        </div>
-        <div class="col-9 text-right">
-            <ul class="cabinet">
-                <li>
-                    <a href="cabinet.html" class="a_green">Account Information </a>
-                </li>
-                <li>
-                    <span class="slesh">|</span>
-                </li>
-                <li>
-                    <a href="ordershistory.html">Orders History</a>
-                </li>
-                <li>
-                    <span class="slesh">|</span>
-                </li>
-                <li>
-                    <a href="mylibraries.html">My Libraries</a>
-                </li>
-                <li>
-                    <span class="slesh">|</span>
-                </li>
-                <li>
-                    <a href="subscribe.html">News Subscribe</a>
-                </li>
-            </ul>
-        </div>
-    </div>
+    {% include 'users/_user_profile_header.html' %}
 
 {% if messages %}
     <div class="row">

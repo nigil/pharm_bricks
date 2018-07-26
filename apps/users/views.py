@@ -2,7 +2,7 @@ from django.contrib.auth.views import (
     LoginView, LogoutView, PasswordResetView, PasswordResetConfirmView,
     PasswordResetCompleteView, PasswordChangeView, PasswordChangeDoneView
 )
-from django.views.generic import DetailView
+from django.views.generic import TemplateView
 from django.views.generic.edit import FormView, UpdateView
 from users.forms import (
     RegisterForm, LoginForm, CustomPasswordResetForm, CustomSetPasswordForm, ProfileForm
@@ -16,6 +16,7 @@ from users.tokens import account_activation_token
 from django.contrib.auth import get_user_model
 from django.contrib import messages
 from django.conf import settings
+from django.http import HttpResponseForbidden, JsonResponse
 
 user_model = get_user_model()
 
@@ -157,3 +158,38 @@ class Profile(UpdateView):
                              'Profile successfully updated')
 
         return super(Profile, self).form_valid(form)
+
+
+class Orders(TemplateView):
+    template_name = 'users/orders.html'
+
+
+class Libraries(TemplateView):
+    template_name = 'users/libraries.html'
+
+
+class Subscribe(TemplateView):
+    template_name = 'users/subscribe.html'
+
+
+def change_news_subscribe(request):
+    if not request.is_ajax() or not request.user.is_authenticated:
+        return HttpResponseForbidden()
+
+    changed = False
+
+    subscribe_value = request.GET.get('subscribe')
+    if subscribe_value == 'true':
+        subscribe_value = True
+    elif subscribe_value == 'false':
+        subscribe_value = False
+    else:
+        subscribe_value = None
+
+    if isinstance(subscribe_value, bool):
+        if subscribe_value != request.user.subscribed_on_news:
+            request.user.subscribed_on_news = subscribe_value
+            request.user.save()
+            changed = True
+
+    return JsonResponse({'changed': changed})

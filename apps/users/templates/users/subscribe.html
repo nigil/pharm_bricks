@@ -1,0 +1,66 @@
+{% extends 'inner_shadowed.html' %}
+
+{% block base_content %}
+<div class="container">
+    {% include 'users/_user_profile_header.html' %}
+</div>
+
+<div class="container subscribe">
+    <div class="row mg-bot">
+        <div class="col-12 text-center">
+            <p class="p_subscribe">
+                <span id="subscribe_me_text" style="display: none"></span>&nbsp
+            </p>
+
+            <button {% if not user.subscribed_on_news %}style="display: none;"{% endif %}
+                    class="button_green button_subscribe"
+                    id="unsubscribe_me">unsubscribe me</button>
+            <button {% if user.subscribed_on_news %}style="display: none;"{% endif %}
+                    class="button_green button_subscribe"
+                    id="subscribe_me">subscribe me</button>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script type="text/javascript">
+
+$(function(){
+    function change_subscribe(subscribe) {
+        $.ajax({
+            url: '{% url 'change_subscribe' %}',
+            data: {
+                subscribe: subscribe
+            },
+            success: function(data) {
+                if (data.changed === true) {
+                    if (subscribe) {
+                        $('#subscribe_me').hide();
+                        $('#unsubscribe_me').show();
+                        $('#subscribe_me_text').text('You are subscribed').show();
+                    }
+                    else {
+                        $('#unsubscribe_me').hide();
+                        $('#subscribe_me').show();
+                        $('#subscribe_me_text').text('You are unsubscribed').show();
+                    }
+                    setTimeout(function() {
+                        $('#subscribe_me_text').fadeOut()
+                    }, 3000)
+                }
+            }
+        })
+    }
+
+    $('#subscribe_me').on('click', function(e) {
+        e.preventDefault();
+        change_subscribe(true);
+    });
+    $('#unsubscribe_me').on('click', function(e) {
+        e.preventDefault();
+        change_subscribe(false);
+    });
+});
+</script>
+{% endblock %}

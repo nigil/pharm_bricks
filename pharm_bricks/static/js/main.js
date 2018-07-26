@@ -200,29 +200,6 @@ $(document).ready(function () {
         $(this).toggleClass("active1");
         $(this).siblings("h3").removeClass("active1");
     });
-
-    $('#subscribe_me').on('click', function(e) {
-        e.preventDefault()
-        $(this).hide()
-        $('#unsubscribe_me').show()
-        $('#subscribe_me_text').text('You are subscribed').show()
-        setTimeout(function() {
-            $('#subscribe_me_text').fadeOut()
-        }, 3000)
-        // make a call to server to subscribe user
-    })
-    $('#unsubscribe_me').on('click', function(e) {
-        e.preventDefault()
-        $(this).hide()
-        $('#subscribe_me').show()
-        $('#subscribe_me_text').text('You are unsubscribed').show()
-        setTimeout(function() {
-            $('#subscribe_me_text').fadeOut()
-        }, 3000)
-
-        // make a call to server to UNsubscribe user
-    })
-
     $('#minus_el').click(function (e) {
         e.preventDefault()
         var v = parseInt($('#el_count').val()) - 1;

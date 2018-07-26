@@ -1,0 +1,12 @@
+{% load menu_tags %}
+
+<div class="row mg-bot">
+    <div class="col-3">
+        <h2 class="title">
+            Cabinet
+        </h2>
+    </div>
+    <div class="col-9 text-right">
+        {% flat_menu 'profile' template='menus/profile/menu.html' apply_active_classes=True max_levels=1 %}
+    </div>
+</div>

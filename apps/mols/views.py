@@ -80,7 +80,6 @@ class MolsList(ListView):
             return HttpResponseForbidden()
 
         self.object_list = self.get_queryset()
-        allow_empty = self.get_allow_empty()
         extra_context = get_catalogue_sections(request)
 
         if request.GET.get('size'):

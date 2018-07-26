@@ -29,7 +29,7 @@ services:
   web:
     build: .
     container_name: pb_web
-    command: uwsgi --ini /app/pharm_bricks.ini
+    command: bash -c "python manage.py collectstatic --noinput && uwsgi --ini /app/pharm_bricks.ini"
     volumes:
      - .:/app
      - ./static:/app/static
