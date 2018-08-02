@@ -2,6 +2,8 @@
 {% load staticfiles %}
 {% load thumbnail %}
 {% load pb_filters %}
+{% load longclawbasket_tags %}
+{% load longclawcore_tags %}
 
 {% block content %}
 {% include 'mols/_catalogue_header.html' %}
@@ -40,12 +42,13 @@
                     <div class="block">
                         <p class="twit">
                             Price & Size
-                        </p> <br/>
+                        </p>
+                        <br/>
                         {% for price in object.prices.all %}
-                        <input type="radio" name="pricensize"
-                               id="price_{{ forloop.counter }}" class="checkbox"/>
-                        <label for="price_{{ forloop.counter }}" class="one_long">
-                            {{ price.ref }} (${{ price.pric }})
+                        <input type="radio" name="pricensize" value="{{ price.id }}"
+                               id="{{ price.id }}" class="checkbox"/>
+                        <label for="{{ price.id }}" class="one_long">
+                            {{ price.ref }} (${{ price.price|add:"0" }})
                         </label> <br/>
                         {% endfor %}
                     </div>
@@ -55,7 +58,7 @@
                         <a href="#" class="a_plus" id="plus_el"></a>
                     </div>
                     <div class="plus_min">
-                        <button class="button_inner_name
+                        <button id="add_to_basket" class="button_inner_name
                             {% if not object.in_stock %}disabled{% endif %} no-mg-bott">
                             add to basket
                             <img src="{% static 'images/basket_fff.png' %}" alt=""/>
@@ -107,4 +110,24 @@
     </div>
 </div>
 <div class="container-fluid mg-top"></div>
+{% endblock %}
+
+{% block extra_js %}
+{% csrf_token %}
+<script src="{% static 'js/mols_list.js' %}"></script>
+<script type="text/javascript">
+$(function(){
+    var csrf_token = $("[name=csrfmiddlewaretoken]").val();
+
+    $(document).on('click', '#add_to_basket', function(){
+        var variant_id = $("input[name='pricensize']:checked").val();
+        var quantity = $('#el_count').val();
+        if (variant_id && quantity) {
+            put_to_basket(variant_id, quantity, csrf_token);
+        }
+
+        return false;
+    });
+});
+</script>
 {% endblock %}

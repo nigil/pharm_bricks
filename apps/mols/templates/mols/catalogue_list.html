@@ -40,9 +40,21 @@
 
 {% block extra_js %}
 <script src="{% static 'js/mols_list.js' %}"></script>
+{% csrf_token %}
 <script type="text/javascript">
 $(function(){
     load_molecules();
+
+    var csrf_token = $("[name=csrfmiddlewaretoken]").val();
+
+    $(document).on('click', '.add_to_basket', function(){
+        var variant_id = $(this).val();
+        if (variant_id) {
+            put_to_basket(variant_id, 1, csrf_token);
+        }
+
+        return false;
+    });
 })
 </script>
 {% endblock %}

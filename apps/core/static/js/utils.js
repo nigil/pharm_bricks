@@ -15,3 +15,17 @@ $(function(){
         });
     });
 });
+
+function get_basket_size() {
+    $.get(
+        '/api/basket/count/',
+        {},
+        function(data) {
+            if (data.quantity > 0) {
+                var basket_count = $('#basket_count');
+                basket_count.text(data.quantity);
+                basket_count.css('display', 'inline');
+            }
+        }
+    )
+}

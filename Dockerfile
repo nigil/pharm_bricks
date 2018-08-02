@@ -64,7 +64,8 @@ ADD . /app
 
 RUN pip install -r requirements.txt
 
-
+RUN pip install https://github.com/JamesRamm/longclaw/zipball/master && \
+    pip freeze --local
 
 
 #FROM python:3.5

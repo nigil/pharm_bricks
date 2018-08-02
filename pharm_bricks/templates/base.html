@@ -1,4 +1,6 @@
 {% load menu_tags %}
+{% load longclawbasket_tags %}
+{% load staticfiles %}
 
 <!DOCTYPE html>
 <html>
@@ -38,7 +40,10 @@
 
                                 <li class="menu-separator"></li>
                                 <li class="above_shadow">
-                                    <a href="#" class="a_menu"><img src="/static/images/shopping_basket.png" class="shop-bas"/></a>
+                                    <a href="/basket/" class="a_menu">
+                                        <img src={% static "images/shopping_basket.png" %} class="shop-bas"/>
+                                        <sup id="basket_count">0</sup>
+                                    </a>
                                 </li>
                                 <li class="a_log-li above_shadow">
                                 {% if user.is_authenticated %}
@@ -101,6 +106,12 @@
 <script src="/static/owl-carousel/owl.carousel.min.js"></script>
 <script src="/static/js/jquery.ns-autogrow.min.js"></script>
 <script src="/static/js/main.js"></script>
+<script src="{% static 'js/utils.js' %}"></script>
+<script type="text/javascript">
+$(function(){
+    get_basket_size();
+})
+</script>
 {% block extra_js %}{% endblock %}
 </body>
 </html>

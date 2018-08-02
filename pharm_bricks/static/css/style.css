@@ -1221,7 +1221,8 @@ select:hover {
     background-image: url('../images/check_hover.png');
 }
 
-.input input[type="text"] {
+.input input[type="text"],
+.input input[type="number"] {
     border: 1px solid #dfdfdf;
     -webkit-border-radius: 3px;
     -moz-border-radius: 3px;
@@ -2017,6 +2018,7 @@ textarea, textarea:default, textarea:focus, textarea:active, textarea:hover {
 
 .del_catalog_bch, .del_catalog_bch .x {
     position: relative;
+    cursor: pointer;
 }
 
 .button_subscribe {
@@ -2243,5 +2245,14 @@ h2.title {
 
 .no_data_result {
     text-align: center;
+    display: none;
+}
+
+#basket_count {
+    color: #fff;
+    background: #f00;
+    border-radius: 7px;
+    padding: 1px 4px;
+    font-size: 10px;
     display: none;
 }

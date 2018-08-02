@@ -214,16 +214,6 @@ $(document).ready(function () {
         return false;
     });
 
-    $('.del_catalog_bch .x').on('click', function(e) {
-        e.preventDefault()
-        var o = $(this).closest('.container')
-        $(o).remove();
-        // make a call to server to remove
-        // and update total price
-        // $('total_basket_price').val()
-        return false
-    })
-
     $('.checkbox_disabled').on('click', function(e) {
         e.preventDefault()
         return false
@@ -291,13 +281,6 @@ $(document).ready(function () {
     })
 
     $('textarea').autogrow({vertical: true, horizontal: false});
-
-    $('.show_check_bask, .input_catalog_bch input').on('change keyup', function() {
-        var row = $(this).closest('.row')
-        var price = parseInt($(row).find('.show_check_bask option:selected').data('price'))
-        var quantity = parseInt($(row).find('.input_catalog_bch input').val())
-        $(row).find('output').text('$ ' + (price * quantity))
-    })
 });
 
 

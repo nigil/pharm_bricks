@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'news.apps.NewsConfig',
     'static_page.apps.StaticPageConfig',
     'mols.apps.MolsConfig',
+    'shop.apps.ShopConfig',
 
     # wagtail_apps
     'wagtail.wagtailforms',
@@ -68,14 +69,14 @@ INSTALLED_APPS = [
     'wagtail.contrib.postgres_search',
     
     # longclaw_apps
-    # 'longclaw.longclawcore',
-    # 'longclaw.longclawsettings',
-    # 'longclaw.longclawshipping',
-    # 'longclaw.longclawproducts',
-    # 'longclaw.longclaworders',
-    # 'longclaw.longclawcheckout',
-    # 'longclaw.longclawbasket',
-    # 'longclaw.longclawstats',
+    'longclaw.longclawcore',
+    'longclaw.longclawsettings',
+    'longclaw.longclawshipping',
+    'longclaw.longclawproducts',
+    'longclaw.longclaworders',
+    'longclaw.longclawcheckout',
+    'longclaw.longclawbasket',
+    'longclaw.longclawstats',
 ]
 
 MIDDLEWARE = [
@@ -107,7 +108,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'wagtailmenus.context_processors.wagtailmenus',
-                # 'longclaw.longclawsettings.context_processors.currency'
+                'longclaw.longclawsettings.context_processors.currency'
             ],
         },
     },

@@ -11,6 +11,8 @@ from mols.services.import_catalogue import RDKitClient
 from mols.models import MoleculesGroup, Molecule
 from static_page.models import StaticPage
 
+from longclaw.longclawbasket.utils import get_basket_items
+
 
 def get_catalogue_sections(request, **kwargs):
     extra_context = {}

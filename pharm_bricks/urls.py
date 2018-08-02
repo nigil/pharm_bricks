@@ -13,8 +13,23 @@ from users.views import PbLogin, PbRegister, confirm_email, Profile, PbLogout, \
     PbPasswordChange, PbPasswordChangeDone
 from static_page.views import HomePage, ContactsPage
 from news.views import NewsPageView
+from shop.views import Basket
+
+from longclaw import urls as longclaw_urls
+# from longclaw.contrib.productrequests import urls as request_urls
 
 from core.views import load_cities_ajax
+
+
+from django.conf.urls import url
+from longclaw.longclawbasket import api
+
+basket_list = api.BasketViewSet.as_view({
+    'get': 'list',
+    'post': 'create',
+    'put': 'bulk_update'
+})
+
 
 urlpatterns = [
     url(r'^$', HomePage.as_view(), name='home'),
@@ -43,11 +58,14 @@ urlpatterns = [
     url(r'^search/', include('search.urls')),
 
     url(r'load-cities/', load_cities_ajax, name='load_cities_ajax'),
+    url(r'^basket/$', Basket.as_view(), name='basket'),
 
     # For anything not caught by a more specific rule above, hand over to
     # Wagtail's page serving mechanism. This should be the last pattern in
     # the list:
-    url(r'', include(wagtail_urls))
+    url(r'^', include(longclaw_urls)),
+    # url(r'', include(request_urls)),
+    url(r'', include(wagtail_urls)),
 
     # Alternatively, if you want Wagtail pages to be served from a subpath
     # of your site, rather than the site root:
