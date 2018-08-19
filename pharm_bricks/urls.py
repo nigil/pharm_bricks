@@ -8,20 +8,16 @@ from wagtail.wagtailadmin import urls as wagtailadmin_urls
 from wagtail.wagtailcore import urls as wagtail_urls
 from wagtail.wagtaildocs import urls as wagtaildocs_urls
 
-from users.views import PbLogin, PbRegister, confirm_email, Profile, PbLogout, \
+from users.views import PbLogin, PbRegister, confirm_email, PbLogout, \
     PbPasswordReset, PbPasswordResetConfirm, PbPasswordResetComplete, \
     PbPasswordChange, PbPasswordChangeDone
 from static_page.views import HomePage, ContactsPage
 from news.views import NewsPageView
 from shop.views import Basket
 
-from longclaw import urls as longclaw_urls
-# from longclaw.contrib.productrequests import urls as request_urls
-
 from core.views import load_cities_ajax
 
-
-from django.conf.urls import url
+from longclaw.longclawbasket import urls as basket_urls
 from longclaw.longclawbasket import api
 
 basket_list = api.BasketViewSet.as_view({
@@ -41,7 +37,7 @@ urlpatterns = [
     url(r'^admin/', include(wagtailadmin_urls)),
     url(r'^documents/', include(wagtaildocs_urls)),
 
-    url(r'^login/$', PbLogin.as_view(), name='login'),
+    url(r'^login', PbLogin.as_view(), name='login'),
     url(r'^logout/$', PbLogout.as_view(), name='logout'),
     url(r'^register/$', PbRegister.as_view(), name='register'),
     url(r'^confirm-email/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$',
@@ -56,6 +52,7 @@ urlpatterns = [
     url(r'^profile/', include('users.urls')),
     url(r'^catalogue/', include('mols.urls')),
     url(r'^search/', include('search.urls')),
+    url(r'^shop/', include('shop.urls')),
 
     url(r'load-cities/', load_cities_ajax, name='load_cities_ajax'),
     url(r'^basket/$', Basket.as_view(), name='basket'),
@@ -63,7 +60,7 @@ urlpatterns = [
     # For anything not caught by a more specific rule above, hand over to
     # Wagtail's page serving mechanism. This should be the last pattern in
     # the list:
-    url(r'^', include(longclaw_urls)),
+    url(r'^', include(basket_urls)),
     # url(r'', include(request_urls)),
     url(r'', include(wagtail_urls)),
 

@@ -62,7 +62,7 @@ function put_to_basket(product_id, quantity, csrf_token) {
         function(data, status) {
             if (status == 'success') {
                 var basket_count = $('#basket_count');
-                basket_count.text(parseInt(basket_count.text())+1).css('display', 'inline');
+                basket_count.text(parseInt(basket_count.text())+quantity).css('display', 'inline');
 
                 alert('You have already add product to basket. ' +
                     'You can check to basket or continue to shopping')

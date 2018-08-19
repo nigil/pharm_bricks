@@ -92,21 +92,26 @@ class CustomUserCreationForm(CustomUserEditForm):
     pass
 
 
-class RegisterForm(forms.ModelForm):
+class UserForm(forms.ModelForm):
     first_name = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'First Name*'}))
     last_name = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Last Name*'}))
     phone = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Telephone number*'}))
     organization = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Company*'}))
     email = forms.EmailField(widget=forms.EmailInput(attrs={'placeholder': 'Email*'}))
     password = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'Password*'}))
-    password1 = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'Password confirmation*'}))
+    password1 = forms.CharField(
+        widget=forms.PasswordInput(attrs={'placeholder': 'Password confirmation*'}))
     country = forms.ModelChoiceField(Country.objects.all().order_by('name'), empty_label='Country*',
-                                     widget=forms.Select(attrs={'class': 'show_check_bask text-left sity',
-                                                                'data-load_cities_url': reverse_lazy('load_cities_ajax')}))
-    delivery_address = forms.CharField(widget=forms.Textarea(attrs={'placeholder': 'Delivery address*',
-                                                                    'class': 'adres', 'cols': 27, 'rows': 3}))
+                                     widget=forms.Select(
+                                         attrs={'class': 'show_check_bask text-left sity',
+                                                'data-load_cities_url': reverse_lazy(
+                                                    'load_cities_ajax')}))
+    delivery_address = forms.CharField(
+        widget=forms.Textarea(attrs={'placeholder': 'Delivery address*',
+                                     'class': 'adres', 'cols': 27, 'rows': 3}))
     city = forms.ModelChoiceField(City.objects.none(), empty_label='City*',
-                                  widget=forms.Select(attrs={'class': 'show_check_bask text-left sity'}))
+                                  widget=forms.Select(
+                                      attrs={'class': 'show_check_bask text-left sity'}))
     postcode = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Postcode*'}))
     subscribed_on_news = forms.BooleanField(required=False,
                                             widget=forms.CheckboxInput(attrs={'class': 'checkbox'}))
@@ -137,20 +142,13 @@ class RegisterForm(forms.ModelForm):
             raise forms.ValidationError(_('Retype Password must be repeated exactly.'))
         return password1
 
-    def save(self, commit=True):
-        user = super(RegisterForm, self).save(commit=False)
-        user.set_password(self.cleaned_data['password'])
-        user.is_active = True
-        if commit:
-            user.save()
-        return user
-
     class Meta:
         model = get_user_model()
-        fields = USER_FORM_FIELDS | {'password'}
+        fields = USER_FORM_FIELDS
+        abstract = True
 
     def __init__(self, *args, **kwargs):
-        super(RegisterForm, self).__init__(*args, **kwargs)
+        super(UserForm, self).__init__(*args, **kwargs)
 
         if self.data.get('country'):
             try:
@@ -163,7 +161,21 @@ class RegisterForm(forms.ModelForm):
             self.fields['city'].queryset = self.instance.country.city_set.order_by('name')
 
 
-class ProfileForm(RegisterForm):
+class RegisterForm(UserForm):
+    def save(self, commit=True):
+        user = super(RegisterForm, self).save(commit=False)
+        user.set_password(self.cleaned_data['password'])
+        user.is_active = True
+        if commit:
+            user.save()
+        return user
+
+    class Meta:
+        model = get_user_model()
+        fields = USER_FORM_FIELDS | {'password'}
+
+
+class ProfileForm(UserForm):
     password = forms.CharField(required=False,
                                help_text='Leave blank if not changing',
                                widget=forms.PasswordInput(
@@ -177,8 +189,7 @@ class ProfileForm(RegisterForm):
         return self.cleaned_data.get('email')
 
     def save(self, commit=True):
-        print(self.cleaned_data)
-        user = super(RegisterForm, self).save(commit=False)
+        user = super(ProfileForm, self).save(commit=False)
         if self.cleaned_data.get('password'):
             user.set_password(self.cleaned_data['password'])
 

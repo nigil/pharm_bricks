@@ -5,7 +5,6 @@ from django.http import HttpResponseBadRequest, HttpResponse
 
 
 def homepage(request):
-    print(request.user)
     return render(request, 'base.html')
 
 

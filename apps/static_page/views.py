@@ -36,8 +36,13 @@ class ContactsPage(FormView):
 
     def form_valid(self, form):
         mail_subject = 'Your have asked a question from Pharm Bricks'
-        mailer = HTMLTemplateMailer(settings.ADMIN_EMAIL, mail_subject, 'email/contacts_question.html',
-                                    {'form_data': form.cleaned_data})
+        mailer = HTMLTemplateMailer(settings.ADMIN_EMAIL,
+                                    mail_subject,
+                                    'email/contacts_question.html',
+                                    {
+                                        'form_data': form.cleaned_data,
+                                        'site_host': settings.HOSTNAME
+                                    })
         mailer.send()
 
         messages.add_message(self.request, messages.INFO,

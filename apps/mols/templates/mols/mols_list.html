@@ -12,7 +12,7 @@
     </div>
     <div class="el_ctrl">
         <button class="add_to_basket button_small{% if not mol.in_stock %} disabled{% endif %}"
-                value="{{ mol.prices.all.1.id }}" name="pricensize">add to basket <img
+                value="{{ mol.prices.first.id }}" name="pricensize">add to basket <img
                 src="{% static 'images/basket_fff.png' %}" alt=""/></button>
         <button class="button_small{% if not mol.in_stock %} disabled{% endif %}">add to library <img
                 src="{% static 'images/libr.png' %}" alt=""/></button>

@@ -1,6 +1,5 @@
 $(function(){
     $("select#id_country").change(function () {
-        console.log('select is changed!');
         var country_id = $(this).val();
         var load_cities_url = $(this).attr('data-load_cities_url');
 

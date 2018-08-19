@@ -102,6 +102,9 @@ class MoleculePrices(models.Model):
     def get_product_title(self):
         return self.product.title
 
+    class Meta:
+        ordering = ('price',)
+
 
 class MoleculeReference(Orderable, RelatedLink):
     page = ParentalKey(Molecule, on_delete=models.CASCADE, related_name='references')

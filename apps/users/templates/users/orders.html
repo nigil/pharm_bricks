@@ -1,7 +1,79 @@
 {% extends 'inner_shadowed.html' %}
 
+{% load staticfiles %}
+
 {% block base_content %}
 <div class="container">
     {% include 'users/_user_profile_header.html' %}
 </div>
+
+<div class="container-fluid mg-bot fix" id="order_history_repeat">
+    {% if object_list %}
+    <form method="post" action="">
+        {% for order in object_list %}
+        <div class="container">
+            <div class="row check_bot">
+                <div class="col-5 no-pd-left">
+                    <a href="" class="a_green p_big ordershistory">Order #
+                        {{ order.created_date|date:"m/d/Y" }} - {{ order.number }}</a>
+                </div>
+                <div class="col-2 no-pd-left text-left">
+                    <output class="p_big ordershistory">
+                        &dollar; {{ order.total|add:0 }}
+                    </output>
+                </div>
+                <div class="col-3 no-pd-left text-right">
+                    <p class="repeat">REPEAT&nbsp;the&nbsp;ORDER</p>
+                </div>
+                <div class="col-2 no-pd-left text-left">
+                    <div class="tabl-order tabl">
+                        <input type="checkbox" class="posit checkbox repeat_order"
+                               id="repeat_{{ order.number }}" data-order_id="{{ order.id }}"/>
+                        <label id="label_repeat_{{ order.number }}" for="repeat_{{ order.number }}"
+                               class="text_cabinet_gray tab_oreder">
+                            <p class="mt">Ready! Look basket!</p>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </form>
+    {% else %}
+        <p>You don't have any order yet</p>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block extra_js %}
+{% csrf_token %}
+<script type="text/javascript" src="{% static 'js/utils.js' %}"></script>
+<script type="text/javascript">
+$(function(){
+    var csrf_token = $("[name=csrfmiddlewaretoken]").val();
+
+    $(document).on('change', 'input.repeat_order', function() {
+        order_checkbox = $(this);
+        if ($(this).prop('checked') === true) {
+            $.ajax({
+                url: '{% url "repeat_order" %}',
+                type: 'POST',
+                data: {
+                    order_id: $(this).attr('data-order_id')
+                },
+                success: function(data) {
+                    $("#label_" + order_checkbox.attr('id')).find('p').css('opacity', '1');
+                    get_basket_size();
+                },
+                headers: {
+                    'X-CSRFToken': csrf_token
+                }
+            });
+        }
+        else {
+            $("#label_" + order_checkbox.attr('id')).find('p').css('opacity', '0');
+        }
+    })
+});
+</script>
 {% endblock %}

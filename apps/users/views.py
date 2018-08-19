@@ -3,6 +3,7 @@ from django.contrib.auth.views import (
     PasswordResetCompleteView, PasswordChangeView, PasswordChangeDoneView
 )
 from django.views.generic import TemplateView
+from django.views.generic.list import ListView
 from django.views.generic.edit import FormView, UpdateView
 from users.forms import (
     RegisterForm, LoginForm, CustomPasswordResetForm, CustomSetPasswordForm, ProfileForm
@@ -14,9 +15,11 @@ from django.utils.encoding import force_bytes, force_text
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from users.tokens import account_activation_token
 from django.contrib.auth import get_user_model
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
 from django.conf import settings
 from django.http import HttpResponseForbidden, JsonResponse
+from shop.models import Order
 
 user_model = get_user_model()
 
@@ -25,6 +28,7 @@ class PbLogin(LoginView):
     template_name = 'registration/login.html'
     form_class = LoginForm
     redirect_authenticated_user = True
+    redirect_field_name = 'next'
 
 
 class PbLogout(LogoutView):
@@ -60,7 +64,9 @@ class PbRegister(FormView):
                                'login_link': login_link,
                                'reset_password_link': reset_password_link,
                                'admin_email': settings.ADMIN_EMAIL,
-                               'user_data': form.cleaned_data
+                               'user_data': form.cleaned_data,
+                               'site_host': settings.HOSTNAME
+
                            }).send()
 
         messages.add_message(self.request, messages.INFO,
@@ -137,21 +143,13 @@ class PbPasswordChangeDone(PasswordChangeDoneView):
     pass
 
 
-class Profile(UpdateView):
+class Profile(LoginRequiredMixin, UpdateView):
     template_name = 'users/profile.html'
     form_class = ProfileForm
     success_url = reverse_lazy('profile')
 
     def get_object(self, queryset=None):
         return self.request.user
-
-    def get(self, request, *args, **kwargs):
-        self.object = self.get_object()
-
-        if self.object.is_authenticated():
-            return super(Profile, self).get(request, *args, **kwargs)
-        else:
-            return redirect('login')
 
     def form_valid(self, form):
         messages.add_message(self.request, messages.INFO,
@@ -160,15 +158,18 @@ class Profile(UpdateView):
         return super(Profile, self).form_valid(form)
 
 
-class Orders(TemplateView):
+class Orders(LoginRequiredMixin, ListView):
     template_name = 'users/orders.html'
 
+    def get_queryset(self):
+        return Order.objects.filter(user=self.request.user).order_by('-created_date')
 
-class Libraries(TemplateView):
+
+class Libraries(LoginRequiredMixin, TemplateView):
     template_name = 'users/libraries.html'
 
 
-class Subscribe(TemplateView):
+class Subscribe(LoginRequiredMixin, TemplateView):
     template_name = 'users/subscribe.html'
 
 

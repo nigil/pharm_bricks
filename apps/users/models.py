@@ -2,7 +2,6 @@ from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.base_user import BaseUserManager
 from django.db import models
 from django.contrib.auth.password_validation import validate_password
-from django.utils.translation import ugettext_lazy as _
 from cities_light.models import Country, City
 
 
@@ -16,9 +15,6 @@ class UserManager(BaseUserManager):
         if not email:
             raise ValueError('The given email must be set')
         email = self.normalize_email(email)
-
-        print('Creating user')
-        print(password)
 
         validate_password(password)
         user = self.model(email=email, **extra_fields)
@@ -51,10 +47,11 @@ class User(AbstractUser):
     last_name = models.CharField(max_length=30, null=True)
     organization = models.CharField(max_length=128)
     phone = models.CharField(max_length=20)
-    country = models.ForeignKey(Country, null=True)
-    city = models.ForeignKey(City, null=True)
+
+    country = models.ForeignKey(Country)
+    city = models.ForeignKey(City)
     delivery_address = models.CharField(max_length=500)
-    postcode = models.CharField(max_length=20, null=True, blank=True)
+    postcode = models.CharField(max_length=20)
 
     subscribed_on_news = models.BooleanField(default=False)
 

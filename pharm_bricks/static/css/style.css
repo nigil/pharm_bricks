@@ -2159,14 +2159,14 @@ h2.title {
     transform: translateZ(0);
 }
 
-.tabl-order input[type="checkbox"]:checked + label p, .tabl_mylibraries input[type="checkbox"]:checked + label p {
-    opacity: 1;
-    animation-name: labelAppears;
-    animation-duration: .5s;
-    -webkit-backface-visibility: hidden;
-    -webkit-transform: translateZ(0) scale(1.0, 1.0);
-    transform: translateZ(0);
-}
+/*.tabl-order input[type="checkbox"]:checked + label p, .tabl_mylibraries input[type="checkbox"]:checked + label p {*/
+    /*opacity: 1;*/
+    /*animation-name: labelAppears;*/
+    /*animation-duration: .5s;*/
+    /*-webkit-backface-visibility: hidden;*/
+    /*-webkit-transform: translateZ(0) scale(1.0, 1.0);*/
+    /*transform: translateZ(0);*/
+/*}*/
 
 @keyframes labelAppears {
     0% {

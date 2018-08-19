@@ -4,160 +4,196 @@
 {% load thumbnail %}
 
 {% block base_content %}
-<div class="container">
-    <div class="row mg-bot">
-        <div class="col-6">
-            <h2 class="title">
-                Basket
-            </h2>
-        </div>
-        <div class="col-1 padding-left-0">
-            <p class="p_gray p_catalig_bask_chek">
-                Size
-            </p>
-        </div>
-        <div class="col-1">
-            <p class="p_gray p_catalig_bask_chek">
-                Quantity
-            </p>
-        </div>
-        <div class="col-4">
-
-        </div>
-    </div>
-</div>
-{% for item in basket %}
-{% with product=item.variant.product %}
-<div class="container basket_items basket_product">
-    <div class="row mg-bot">
-        <div class="col-6 content_catalog_bch">
-            <a href="{{ product.image.url }}" target="_blank" data-lightbox="image-1">
-                <img src="{{ product.image|thumbnail_url:'small' }}" alt="" class="img_litl"/>
-            </a>
-            <div>
-                <p class="no-mg p_catalog_bch">
-                    {{ product.catalogue_number }}
-                    <span class="p_gray_sp">(Catalogue number)</span>
-                </p>
-                <a href="{% pageurl product %}" target="_blank" class="no-mg a_green p_catalog_bch">
-                    {{ product.chemical_name }}
-                </a>
+{% if messages %}
+    <div class="container">
+        <div class="row">
+            <div class="col-12 text-center butt_bott">
+            {% for message in messages %}
+                <p>{{ message|safe }}</p>
+            {% endfor %}
             </div>
         </div>
-        <div class="col-1 no_pd input_catalog_size">
-            <select data-prev="{{ item.variant.id }}" class="show_check_bask text-left product_type">
-                {% for price in product.prices.all %}
-                <option value="{{ price.id }}" data-price="{{ price.price }}"
-                    {% if price.price == item.variant.price %}selected{% endif %}
-                >{{ price.ref }}</option>
-                {% endfor %}
-            </select>
-        </div>
-        <div class="col-1 input input_catalog_bch">
-            <input class="item_quantity" type="number" min="1"
-                   data-prev="{{ item.quantity }}" value="{{ item.quantity }}"/>
-        </div>
-        <div class="col-1 del_catalog_bch">
-            <span title="Delete item" class="x">
-                <img src="{% static 'images/if_remove.png' %}" alt="" class="if_remove"/>
-                <img src="{% static 'images/if_rem_green.png' %}" alt="" class="if_remove_green"/>
-            </span>
-        </div>
-        <div class="col-3 out_catalog_bch">
-            <output class="a_green_total ">
-                &dollar; <span class="product_price">{{ item.total|add:'0' }}</span>
-            </output>
-        </div>
     </div>
-</div>
-{% endwith %}
-{% empty %}
-<div class="container basket_items">
-    <div class="row mg-bot">
-        <div class="col-6 content_catalog_bch">
-            There is no items yet
-        </div>
-    </div>
-</div>
-{% endfor %}
-
-<div class="container">
-    <div class="row">
-        <div class="col-12 text-left no_pd no-pd-left total_catalog_bch">
-            <div class="wid300">
-                <p class="p_gray_sp float_left">
-                    Total
+{% else %}
+    <div class="container">
+        <div class="row mg-bot">
+            <div class="col-6">
+                <h2 class="title">
+                    Basket
+                </h2>
+            </div>
+            {% if basket %}
+            <div class="col-1 padding-left-0">
+                <p class="p_gray p_catalig_bask_chek">
+                    Size
                 </p>
-                <output class="total" id="total_basket_price">
-                    <span id="total_price">{{ total_price|add:'0' }}</span>&dollar;
+            </div>
+            <div class="col-1">
+                <p class="p_gray p_catalig_bask_chek">
+                    Quantity
+                </p>
+            </div>
+            <div class="col-4">
+            </div>
+            {% endif %}
+        </div>
+    </div>
+    {% if basket %}
+    {% for item in basket %}
+    {% with product=item.variant.product %}
+    <div class="container basket_items basket_product">
+        <div class="row mg-bot">
+            <div class="col-6 content_catalog_bch">
+                <a href="{{ product.image.url }}" target="_blank" data-lightbox="image-1">
+                    <img src="{{ product.image|thumbnail_url:'small' }}" alt="" class="img_litl"/>
+                </a>
+                <div>
+                    <p class="no-mg p_catalog_bch">
+                        {{ product.catalogue_number }}
+                        <span class="p_gray_sp">(Catalogue number)</span>
+                    </p>
+                    <a href="{% pageurl product %}" target="_blank" class="no-mg a_green p_catalog_bch">
+                        {{ product.chemical_name }}
+                    </a>
+                </div>
+            </div>
+            <div class="col-1 no_pd input_catalog_size">
+                <select data-prev="{{ item.variant.id }}" class="show_check_bask text-left product_type">
+                    {% for price in product.prices.all %}
+                    <option value="{{ price.id }}" data-price="{{ price.price }}"
+                        {% if price.price == item.variant.price %}selected{% endif %}
+                    >{{ price.ref }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-1 input input_catalog_bch">
+                <input class="item_quantity" type="number" min="1"
+                       data-prev="{{ item.quantity }}" value="{{ item.quantity }}"/>
+            </div>
+            <div class="col-1 del_catalog_bch">
+                <span title="Delete item" class="x">
+                    <img src="{% static 'images/if_remove.png' %}" alt="" class="if_remove"/>
+                    <img src="{% static 'images/if_rem_green.png' %}" alt="" class="if_remove_green"/>
+                </span>
+            </div>
+            <div class="col-3 out_catalog_bch">
+                <output class="a_green_total ">
+                    &dollar; <span class="product_price">{{ item.total|add:'0' }}</span>
                 </output>
             </div>
         </div>
     </div>
-</div>
+    {% endwith %}
+    {% endfor %}
 
-<div class="container basket_step_1">
-    <div class="row">
-        <div class="col-12 text-left no_pd no-pd-left total_catalog_bch">
-            <div class="wid300">
-                <button class="blue_butt no-mg-top" id="basket_checkout">Checkout</button>
+    <div class="container">
+        <div class="row">
+            <div class="col-12 text-left no_pd no-pd-left total_catalog_bch">
+                <div class="wid300">
+                    <p class="p_gray_sp float_left">
+                        Total
+                    </p>
+                    <output class="total" id="total_basket_price">
+                        <span id="total_price">{{ total_price|add:'0' }}</span>&dollar;
+                    </output>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-<div class="container basket_step_2">
-    <div class="row">
-        <div class="col-12 no-pd-left no_pd">
-            <div class="wid300 bord_top">
-                <div class="p_small tabl_mg">
-                    <input type="checkbox" name="" checked id="delivery_bch"
-                           class="inp_cat_bch posit checkbox"/>
-                    <label for="delivery_bch" class="no-fix">Use my account details for delivery <br/>
-                        Please, <a href="#" class="a_green a_green_bold a_hov">Log In</a> or <a href="#"
-                                                                                                class="a_green a_green_bold a_hov">Sing
-                            Up</a></label> <br/>
+    <div class="container basket_step_1">
+        <div class="row">
+            <div class="col-12 text-left no_pd no-pd-left total_catalog_bch">
+                <div class="wid300">
+                    <button class="blue_butt no-mg-top" id="basket_checkout">Checkout</button>
                 </div>
-                <div class="p_small">
-                    <p class="a_green_total">
-                        Delivery type
-                    </p>
-                </div>
-                <div class="p_small tabl_mg">
-                    <input type="checkbox" name="" checked id="ups_bch"
-                           class="posit_black posit checkbox checkbox_disabled"/>
-                    <label for="ups_bch" class="lab_top">UPS</label> <br/>
-                </div>
-                <div class="p_small ">
-                    <p class="a_green_total">
-                        Payment type
-                    </p>
-                </div>
-                <div class="p_small tabl_mg">
-                    <input type="checkbox" name="" checked id="invoice_bch"
-                           class="posit_black posit checkbox checkbox_disabled"/>
-                    <label for="invoice_bch" class="lab_top">Invoice</label> <br/>
-                </div>
-                <div class="header_catalo_bch ">
-                        <textarea class="wd_text check_wd_text" name=""
-                                  placeholder="Your order comments"></textarea>
-                </div>
-                <div class="tabl_mg tabl_no_mg">
-                    <input type="checkbox" name="" id="teams_bch" class="posit checkbox"/>
-                    <label for="teams_bch" class="tab top_check">I have read and agree to the <a href="#"
-                                                                                                 class="a_green a_green_bold">Teams
-                        & Conditions</a></label> <br/>
-                </div>
-
-                <button class="blue_butt catalog_basket_chekout">Order</button>
             </div>
         </div>
     </div>
-</div>
+
+    <div class="container basket_step_2">
+        <div class="row">
+            <div class="col-12 no-pd-left no_pd">
+                <div class="wid300 bord_top">
+                    <form method="POST" action=".">
+                        {% csrf_token %}
+                        <div class="p_small tabl_mg">
+                            <input type="checkbox" name="{{ form.use_user_address.name }}"
+                                   id="delivery_bch"
+                                   class="inp_cat_bch posit checkbox
+                                        {% if not user.is_authenticated %}
+                                            checkbox_disabled
+                                        {% endif %}">
+                            <label for="{{ form.use_user_address.id_for_label }}" class="no-fix">Use
+                                my account details for delivery <br/>
+                                {% if not user.is_authenticated %}
+                                Please,
+                                    <a href="{% url 'login' %}?next={% url 'basket' %}"
+                                       class="a_green a_green_bold a_hov">Log In</a>
+                                or <a href="{% url 'register' %}" class="a_green a_green_bold a_hov">Sing Up</a>
+                                {% endif %}
+                            </label>
+                            <br/>
+                        </div>
+                        {{ form.use_user_address.errors }}
+                        <div class="p_small">
+                            <p class="a_green_total">
+                                Delivery type
+                            </p>
+                        </div>
+                        <div class="p_small tabl_mg">
+                            {{ form.delivery_type }}
+                            <label for="{{ form.delivery_type.id_for_label }}" class="lab_top">UPS</label>
+                            <br/>
+                        </div>
+                        {{ form.delivery_type.errors }}
+                        <div class="p_small ">
+                            <p class="a_green_total">
+                                Payment type
+                            </p>
+                        </div>
+                        <div class="p_small tabl_mg">
+                            {{ form.payment_type }}
+                            <label for="{{ form.payment_type.id_for_label }}" class="lab_top">Invoice</label>
+                            <br/>
+                        </div>
+                        {{ form.payment_type.errors }}
+                        <div class="header_catalo_bch ">
+                            {{ form.comments }}
+                            <br/>
+                        </div>
+                        {{ form.comments.errors }}
+                        <div class="tabl_mg tabl_no_mg">
+                            {{ form.agree_terms }}
+                            <label for="teams_bch" class="tab top_check">I have read and agree to the
+                                <a href="{% slugurl 'terms' %}" target="_blank"
+                                   class="a_green a_green_bold">
+                                    Terms & Conditions</a>
+                            </label>
+                            <br/>
+                        </div>
+                        {{ form.agree_terms.errors }}
+
+                        <button {% if not form.agree_terms.value %}disabled{% endif %} id="order_button" class="blue_butt catalog_basket_chekout">Order</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% else %}
+    <div class="container basket_items">
+        <div class="row mg-bot">
+            <div class="col-6 content_catalog_bch">
+                There is no items yet
+            </div>
+        </div>
+    </div>
+    {% endif %}
+{% endif %}
 {% endblock %}
 
 {% block extra_js %}
-{% csrf_token %}
 <script type="text/javascript" src="{% static 'js/shop.js' %}"></script>
 <script type="text/javascript">
     $(function(){
@@ -185,7 +221,6 @@
                 url: '/api/basket/',
                 type: 'POST',
                 data: {
-                    'csrfmiddlewaretoken': csrf_token,
                     variant_id: new_value,
                     quantity: quantity
                 },
@@ -270,7 +305,16 @@
                     calc_basket_total();
                 }
             });
-        })
+        });
+
+        $(document).on('change', '#teams_bch', function(){
+            if ($(this).prop('checked')) {
+                $('#order_button').prop('disabled', false);
+            }
+            else {
+                $('#order_button').prop('disabled', true);
+            }
+        });
     });
 </script>
 {% endblock %}

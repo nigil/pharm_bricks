@@ -270,11 +270,7 @@ $(document).ready(function () {
         e.preventDefault()
         // call to save to libraries
         $(this).addClass('disabled').removeClass('blue_butt').text('saved')
-    })
-
-    $('#order_history_repeat .checkbox').on('change', function() {
-        // TODO: make call to server to repeat order from OrderHistory page
-    })
+    });
 
     $('#my_libraries_repeat .checkbox').on('change', function() {
         // TODO: make call to server to repeat order from MyLibraries page

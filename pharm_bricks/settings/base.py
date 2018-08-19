@@ -71,12 +71,12 @@ INSTALLED_APPS = [
     # longclaw_apps
     'longclaw.longclawcore',
     'longclaw.longclawsettings',
-    'longclaw.longclawshipping',
+    # 'longclaw.longclawshipping',
     'longclaw.longclawproducts',
-    'longclaw.longclaworders',
-    'longclaw.longclawcheckout',
+    # 'longclaw.longclaworders',
+    # 'longclaw.longclawcheckout',
     'longclaw.longclawbasket',
-    'longclaw.longclawstats',
+    # 'longclaw.longclawstats',
 ]
 
 MIDDLEWARE = [
@@ -243,4 +243,8 @@ HOSTNAME = os.getenv('HOSTNAME')
 
 CITIES_LIGHT_TRANSLATION_LANGUAGES = ['en']
 
-THUMBNAIL_DEBUG = True
+COMPANY_PHONE = '00 567-244-5678'
+
+DEBUG = True
+
+# THUMBNAIL_DEBUG = True

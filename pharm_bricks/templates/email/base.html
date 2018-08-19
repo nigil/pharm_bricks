@@ -155,17 +155,7 @@
                         </tr>
                         </tbody>
                     </table>
-                    <table align="center" class="container float-center"
-                           style="background:#fefefe;border-collapse:collapse;border-spacing:0;float:none;margin:0 auto;padding:0;text-align:center;vertical-align:top;width:700px">
-                        <tbody>
-                        <tr style="padding:0;text-align:left;vertical-align:top">
-                            <td style="-moz-hyphens:auto;-webkit-hyphens:auto;border-collapse:collapse!important;color:#0a0a0a;font-family:Arial,sans-serif;font-size:16px;font-weight:400;hyphens:auto;line-height:1.3;margin:0;padding:0;text-align:left;vertical-align:top;word-wrap:break-word">
-                                {% block email_content %}{% endblock %}
-                                <br><br>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
+                    {% block email_content %}{% endblock %}
                     <table align="center" class="container float-center"
                            style="background:#fefefe;border-collapse:collapse;border-spacing:0;float:none;margin:0 auto;padding:0;text-align:center;vertical-align:top;width:700px">
                         <tbody>
@@ -192,8 +182,7 @@
                                                         <p class="shed-gr"
                                                            style="color:#464646;font-family:Arial;font-size:13px;font-weight:400;line-height:1.3;margin:0;margin-bottom:0;padding:0;text-align:left">
                                                             Best Regards<br>
-                                                            <a href="{{ protocol }}://{{ domain }}" class="p_green"
-                                                                               style="border-bottom:1px solid #fff;color:#009846;font-family:Arial;font-weight:400;line-height:1.3;margin:0;padding:0;text-align:left;text-decoration:none">
+                                                            <a href="http://{{ site_host }}" class="p_green" style="border-bottom:1px solid #fff;color:#009846;font-family:Arial;font-weight:400;line-height:1.3;margin:0;padding:0;text-align:left;text-decoration:none">
                                                                 <b>PharmBricks</b>
                                                             </a>
                                                         </p></th>
@@ -232,7 +221,7 @@
                                                     <th style="color:#0a0a0a;font-family:Arial,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;padding:0;text-align:left">
                                                         <a href="#"
                                                            style="color:#fff;font-family:Arial;font-weight:400;line-height:1.3;margin:0;padding:0;text-align:left;text-decoration:none"><img
-                                                                src="{{ protocol }}://{{ domain }}{% static 'email/logo.png' %}"
+                                                                src="http://{{ site_host }}{% static 'email/logo.png' %}"
                                                                 alt="" class="logo"
                                                                 style="-ms-interpolation-mode:bicubic;border:none;clear:both;display:block;margin-left:auto;margin-right:auto;max-width:100%;outline:0;text-align:center;text-decoration:none;width:auto"></a>
                                                     </th>
@@ -276,10 +265,11 @@
                                                             <a href="mailto:info@pharmbricks.com"
                                                                style="border-bottom:1px solid #fff;color:#fff;font-family:Arial;font-weight:400;line-height:1.3;margin:0;padding:0;text-align:left;text-decoration:none">info@pharmbricks.com</a>
                                                         </p>
-                                                        <p class="center shed-fff"
-                                                           style="color:#fff;font-family:Arial;font-size:13px;font-weight:400;line-height:1.3;margin:0;margin-bottom:0;padding:0;text-align:center">
-                                                            <a href="{{ protocol }}://{{ domain }}{% slugurl 'terms' %}" style="border-bottom:none;color:#fff;font-family:Arial;font-weight:600;line-height:1.3;margin:0;padding:0;text-align:left;text-decoration:none">Our terms & Conditions</a>
-                                                        </p><br></th>
+                                                        <p class="center shed-fff" style="color:#fff;font-family:Arial;font-size:13px;font-weight:400;line-height:1.3;margin:0;margin-bottom:0;padding:0;text-align:center">
+                                                            <a href="http://{{ site_host }}{% slugurl 'terms' %}" style="border-bottom:none;color:#fff;font-family:Arial;font-weight:600;line-height:1.3;margin:0;padding:0;text-align:left;text-decoration:none">Our terms & Conditions</a>
+                                                        </p>
+                                                        <br>
+                                                    </th>
                                                     <th class="expander" style="color:#0a0a0a;font-family:Arial,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;padding:0!important;text-align:left;visibility:hidden;width:0"></th>
                                                 </tr>
                                             </table>
@@ -306,10 +296,10 @@
                                             <table style="border-collapse:collapse;border-spacing:0;padding:0;text-align:left;vertical-align:top;width:100%">
                                                 <tr style="padding:0;text-align:left;vertical-align:top">
                                                     <th style="color:#0a0a0a;font-family:Arial,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;padding:0;text-align:right">
-                                                        <a href="#"
-                                                           style="color:#fff;font-family:Arial;font-weight:400;line-height:1.3;margin:0;padding:0;text-align:left;text-decoration:none"><img
-                                                                src="{{ protocol }}://{{ domain }}{% static 'email/linked.png' %}" alt=""
-                                                                style="-ms-interpolation-mode:bicubic;border:none;clear:both;display:inline-block;max-width:100%;outline:0;text-decoration:none;width:auto"></a>
+                                                        <a href="#" style="color:#fff;font-family:Arial;font-weight:400;line-height:1.3;margin:0;padding:0;text-align:left;text-decoration:none">
+                                                            <img src="http://{{ site_host }}{% static 'email/linked.png' %}"
+                                                                 alt="" style="-ms-interpolation-mode:bicubic;border:none;clear:both;display:inline-block;max-width:100%;outline:0;text-decoration:none;width:auto"/>
+                                                        </a>
                                                     </th>
                                                 </tr>
                                             </table>
@@ -321,7 +311,7 @@
                                                     <th style="color:#0a0a0a;font-family:Arial,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;padding:0;text-align:left">
                                                         <a href="#"
                                                            style="color:#fff;font-family:Arial;font-weight:400;line-height:1.3;margin:0;padding:0;text-align:left;text-decoration:none"><img
-                                                                src="{{ protocol }}://{{ domain }}{% static 'email/twitter.png' %}"
+                                                                src="http://{{ site_host }}{% static 'email/twitter.png' %}"
                                                                 alt=""
                                                                 style="-ms-interpolation-mode:bicubic;border:none;clear:both;display:inline-block;max-width:100%;outline:0;text-decoration:none;width:auto;margin-top:-2px"></a>
                                                     </th>
