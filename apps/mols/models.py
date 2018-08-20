@@ -7,7 +7,7 @@ from wagtail.wagtailadmin.edit_handlers import (
 )
 from wagtail.wagtaildocs.edit_handlers import DocumentChooserPanel
 from wagtail.wagtaildocs.models import Document
-from modelcluster.fields import ParentalKey, ParentalManyToManyField
+from modelcluster.fields import ParentalKey
 from core.widgets import AdminImageFieldWidget
 from core.models import RelatedLink
 from mols.storage import OverwriteStorage

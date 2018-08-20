@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'static_page.apps.StaticPageConfig',
     'mols.apps.MolsConfig',
     'shop.apps.ShopConfig',
+    'screening_libraries.apps.ScreeningLibrariesConfig',
 
     # wagtail_apps
     'wagtail.wagtailforms',
