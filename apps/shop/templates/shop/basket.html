@@ -40,7 +40,7 @@
     </div>
     {% if basket %}
     {% for item in basket %}
-    {% with product=item.variant.product %}
+    {% with product=item.variant.product.specific %}
     <div class="container basket_items basket_product">
         <div class="row mg-bot">
             <div class="col-6 content_catalog_bch">
@@ -53,16 +53,18 @@
                         <span class="p_gray_sp">(Catalogue number)</span>
                     </p>
                     <a href="{% pageurl product %}" target="_blank" class="no-mg a_green p_catalog_bch">
-                        {{ product.chemical_name }}
+                        {{ product.title }}
                     </a>
                 </div>
             </div>
             <div class="col-1 no_pd input_catalog_size">
                 <select data-prev="{{ item.variant.id }}" class="show_check_bask text-left product_type">
                     {% for price in product.prices.all %}
+                    {% if price.active %}
                     <option value="{{ price.id }}" data-price="{{ price.price }}"
                         {% if price.price == item.variant.price %}selected{% endif %}
                     >{{ price.ref }}</option>
+                    {% endif %}
                     {% endfor %}
                 </select>
             </div>

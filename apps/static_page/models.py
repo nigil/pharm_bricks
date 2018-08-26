@@ -2,7 +2,7 @@ from wagtail.wagtailsearch import index
 from wagtail.wagtailcore.models import Page
 from wagtail.wagtailcore.fields import StreamField
 from wagtail.wagtailadmin.edit_handlers import StreamFieldPanel
-from static_page.fields import BodyStreamBlock
+from core.fields import BodyStreamBlock
 
 
 class StaticPage(Page):

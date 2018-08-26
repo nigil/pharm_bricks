@@ -48,8 +48,8 @@ class User(AbstractUser):
     organization = models.CharField(max_length=128)
     phone = models.CharField(max_length=20)
 
-    country = models.ForeignKey(Country)
-    city = models.ForeignKey(City)
+    country = models.ForeignKey(Country, null=True)
+    city = models.ForeignKey(City, null=True)
     delivery_address = models.CharField(max_length=500)
     postcode = models.CharField(max_length=20)
 

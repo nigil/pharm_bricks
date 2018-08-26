@@ -51,6 +51,7 @@ urlpatterns = [
 
     url(r'^profile/', include('users.urls')),
     url(r'^catalogue/', include('mols.urls')),
+    url(r'^screening-libraries/', include('screening_libraries.urls')),
     url(r'^search/', include('search.urls')),
     url(r'^shop/', include('shop.urls')),
 

@@ -1,0 +1,163 @@
+{% extends 'inner.html' %}
+{% load wagtailcore_tags %}
+{% load thumbnail %}
+{% load staticfiles %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 tb-centr_libr">
+                <h2 class="title">
+                    Screening Libraries
+                </h2>
+                <p class="p_gray breadcrambs">
+                    {{ object.title }}
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container-fluid mg-top-30 libraries_inner">
+    <div class="container">
+        <div class="row">
+            <div class="col-5 pic_inner_name">
+                <div class="pic">
+                    <img src="{{ object.detail_image|thumbnail_url:'big' }}"
+                         alt="foto" class="mol_photo img-fluid"/>
+                </div>
+                <div class="pic pic2">
+                    {% if object.sdf_file %}
+                    <a href="{{ object.sdf_file.file.url }}" class="a_green">
+                        {{ object.sdf_file.title }}
+                    </a>
+                        <br/>
+                    {% endif %}
+
+                    {% if object.xls_file %}
+                    <a href="{{ object.xls_file.file.url }}" class="a_green">
+                        {{ object.xls_file.title }}
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-7">
+                <form>
+                    <p class="prod_libr">
+                        Antibacterial Library: <span class="a_green_no_hov">
+                            {{ object.molecules_number }} molecules</span>
+                    <p class="text_g text-comp-libr">
+                        Catalogue number: {{ object.catalogue_number }}
+                    </p>
+                    <p class="p_in">
+                        {% if not object.in_stock %}not {% endif %}in stock
+                    </p>
+                    <div class="block">
+                        <p class="twit">
+                            Price & Size
+                        </p>
+
+                        {% for price in object.prices.all %}
+                        {% if price.active %}
+                        <br/>
+                        <input type="checkbox"
+                               name="pricensize"
+                               id="{{ price.id }}"
+                               value="{{ price.id }}"
+                               class="checkbox"/>
+                        <label for="{{ price.id }}" class="one_long">
+                            {{ price.ref|capfirst }} (&dollar;{{ price.price|add:"0" }})
+                        </label>
+                        {% endif %}
+                        {% endfor %}
+                    </div>
+                    <div class="col-12 inline inline_mg">
+                        {% for price in object.prices.all %}
+                        {% if not price.active %}
+                        <div class="col-2 no_pd">
+                            <p>{{ price.ref }}</p>
+                        </div>
+                        {% endif %}
+                        {% endfor %}
+                    </div>
+                    <div class="col-12 inline inlin_gray">
+                        {% for price in object.prices.all %}
+                        {% if not price.active %}
+                        <div class="col-2 col-2 no_pd">
+                            <p class="vert_center">
+                                ${{ price.price }}
+                            </p>
+                        </div>
+                        {% endif %}
+                        {% endfor %}
+                    </div>
+                    <div class="text-center">
+                        <p class="call">
+                            <span class="a_green">*</span> Call {{ phone }} about small price&size
+                        </p>
+                    </div>
+                    <div class="plus_min">
+                        <a href="#" class="a_min" id="minus_el"></a>
+                        <input name="variant_quantity"
+                               type="text"
+                               value="1"
+                               class="text_plus_min"
+                               id="el_count"/>
+                        <a href="#" class="a_plus" id="plus_el"></a>
+                    </div>
+
+
+                    <div class="plus_min_btn">
+                        <button id="add_to_basket" class="button_inner_name no-mg-bott"
+                                {% if not object.in_stock %}disabled{% endif %}>
+                            add to basket <img src="{% static 'images/basket_fff.png' %}" alt=""/>
+                        </button>
+                        <button class="button_inner_name"
+                                {% if not object.in_stock %}disabled{% endif %}>
+                            add to library <img src="{% static 'images/libr.png' %}" alt=""/>
+                        </button>
+                    </div>
+                </form>
+                <div>
+                    {{ object.detail_description }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid mg-top">
+    <div class="container">
+        <div class="row">
+            <div class="col-4">
+
+            </div>
+            <div class="col-8">
+
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
+{% block extra_js %}
+{% csrf_token %}
+<script src="{% static 'js/mols_list.js' %}"></script>
+<script src="{% static 'js/shop.js' %}"></script>
+<script type="text/javascript">
+$(function(){
+    var csrf_token = $("[name=csrfmiddlewaretoken]").val();
+
+    $(document).on('click', '#add_to_basket', function(){
+        var variant_id = $("input[name='pricensize']:checked").val();
+        var quantity = $('#el_count').val();
+        if (variant_id && quantity) {
+            put_to_basket(variant_id, quantity, csrf_token);
+        }
+
+        return false;
+    });
+});
+</script>
+{% endblock %}

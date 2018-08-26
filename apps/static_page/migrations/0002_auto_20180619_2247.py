@@ -3,11 +3,11 @@
 from __future__ import unicode_literals
 
 from django.db import migrations
-import static_page.fields
 import wagtail.wagtailcore.blocks
 import wagtail.wagtailcore.fields
 import wagtail.wagtailembeds.blocks
 import wagtail.wagtailimages.blocks
+import core.fields
 
 
 class Migration(migrations.Migration):
@@ -20,6 +20,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='staticpage',
             name='body',
-            field=wagtail.wagtailcore.fields.StreamField([(b'h2', wagtail.wagtailcore.blocks.CharBlock(icon=b'title')), (b'h3', wagtail.wagtailcore.blocks.CharBlock(icon=b'title')), (b'paragraph', wagtail.wagtailcore.blocks.RichTextBlock(icon=b'pilcrow')), (b'image', wagtail.wagtailcore.blocks.StructBlock([(b'image', wagtail.wagtailimages.blocks.ImageChooserBlock()), (b'alignment', static_page.fields.ImageFormatBlock()), (b'caption', wagtail.wagtailcore.blocks.RichTextBlock(required=False))], icon=b'image', label='Aligned image')), (b'video', wagtail.wagtailcore.blocks.StructBlock([(b'video_link', wagtail.wagtailembeds.blocks.EmbedBlock())], icon=b'media', label='Embedded video')), (b'html', wagtail.wagtailcore.blocks.RawHTMLBlock())]),
+            field=wagtail.wagtailcore.fields.StreamField([(b'h2', wagtail.wagtailcore.blocks.CharBlock(icon=b'title')), (b'h3', wagtail.wagtailcore.blocks.CharBlock(icon=b'title')), (b'paragraph', wagtail.wagtailcore.blocks.RichTextBlock(icon=b'pilcrow')), (b'image', wagtail.wagtailcore.blocks.StructBlock([(b'image', wagtail.wagtailimages.blocks.ImageChooserBlock()), (b'alignment', core.fields.ImageFormatBlock()), (b'caption', wagtail.wagtailcore.blocks.RichTextBlock(required=False))], icon=b'image', label='Aligned image')), (b'video', wagtail.wagtailcore.blocks.StructBlock([(b'video_link', wagtail.wagtailembeds.blocks.EmbedBlock())], icon=b'media', label='Embedded video')), (b'html', wagtail.wagtailcore.blocks.RawHTMLBlock())]),
         ),
     ]

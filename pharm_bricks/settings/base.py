@@ -226,7 +226,7 @@ ADMIN_EMAIL = os.getenv('ADMIN_EMAIL')
 # Longclaw also offers 'BraintreePayment', 'PaypalVZeroPayment' and 'StripePayment'
 PAYMENT_GATEWAY = 'longclaw.longclawcheckout.gateways.BasePayment'
 
-PRODUCT_VARIANT_MODEL = 'mols.MoleculePrices'
+PRODUCT_VARIANT_MODEL = 'shop.ProductVariant'
 
 THUMBNAIL_ALIASES = {
     'mols.Molecule.image': {
@@ -235,6 +235,19 @@ THUMBNAIL_ALIASES = {
         },
         'middle': {
             'size': (209, 170), 'crop': ',', 'quality': 95
+        }
+    },
+    'screening_libraries.ScreeningLibrary.image': {
+        'small': {
+            'size': (32, 32), 'crop': True
+        },
+        'middle': {
+            'size': (288, 303), 'crop': True, 'quality': 95
+        }
+    },
+    'screening_libraries.ScreeningLibrary.detail_image': {
+        'big': {
+            'size': (403, 383), 'crop': True, 'quality': 95
         }
     }
 }
@@ -245,6 +258,7 @@ HOSTNAME = os.getenv('HOSTNAME')
 CITIES_LIGHT_TRANSLATION_LANGUAGES = ['en']
 
 COMPANY_PHONE = '00 567-244-5678'
+COMPANY_PHONE_2 = '0065 96432266'
 
 DEBUG = True
 

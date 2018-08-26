@@ -54,7 +54,7 @@
                     </div>
                     <div class="plus_min pm_top">
                         <a href="#" class="a_min" id="minus_el"></a>
-                        <input type="text" value="1" class="text_plus_min" id="el_count"/>
+                        <input type="text" value=1 class="text_plus_min" id="el_count"/>
                         <a href="#" class="a_plus" id="plus_el"></a>
                     </div>
                     <div class="plus_min">
@@ -115,6 +115,7 @@
 {% block extra_js %}
 {% csrf_token %}
 <script src="{% static 'js/mols_list.js' %}"></script>
+<script src="{% static 'js/shop.js' %}"></script>
 <script type="text/javascript">
 $(function(){
     var csrf_token = $("[name=csrfmiddlewaretoken]").val();

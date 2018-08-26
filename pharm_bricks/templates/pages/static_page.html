@@ -1,14 +1,13 @@
 {% extends 'inner.html' %}
 
 {% block content %}
-<div class="container-fluid">
+<div class="container-fluid {% block container_external_class %}{% endblock %}">
     <div class="container">
         <div class="row mg-bot">
             {% block base_content %}
                 <div class="col-12">
                     <h2 class="title">{{ page.title }}</h2>
 
-                    <br/>
                     {% include "partials/streamfield.html" with content=page.body %}
                 </div>
             {% endblock %}

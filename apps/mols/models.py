@@ -10,7 +10,7 @@ from wagtail.wagtaildocs.models import Document
 from modelcluster.fields import ParentalKey
 from core.widgets import AdminImageFieldWidget
 from core.models import RelatedLink
-from mols.storage import OverwriteStorage
+from core.storage import OverwriteStorage
 import os
 
 
@@ -40,7 +40,10 @@ class Molecule(Page):
     cas = models.CharField(max_length=50, null=True, blank=True)
     purity = models.IntegerField(verbose_name='Chemical purity', null=True, blank=True)
 
-    image = models.ImageField(upload_to=mol_image_path, storage=OverwriteStorage(), null=True, blank=True)
+    image = models.ImageField(upload_to=mol_image_path,
+                              storage=OverwriteStorage(),
+                              null=True,
+                              blank=True)
 
     in_stock = models.BooleanField(default=True)
 
@@ -88,22 +91,6 @@ class Molecule(Page):
     show_in_menus_default = True
 
     #promote_panels = []
-
-
-class MoleculePrices(models.Model):
-    product = ParentalKey(Molecule, on_delete=models.CASCADE, related_name='prices')
-    ref = models.CharField(max_length=32, verbose_name='Quantity')
-    price = models.DecimalField(max_digits=12, decimal_places=2)
-    stock = None
-
-    def __str__(self):
-        return "{} - {}".format(self.product.title, self.ref)
-
-    def get_product_title(self):
-        return self.product.title
-
-    class Meta:
-        ordering = ('price',)
 
 
 class MoleculeReference(Orderable, RelatedLink):

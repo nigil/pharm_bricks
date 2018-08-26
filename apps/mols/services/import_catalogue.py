@@ -1,7 +1,8 @@
 import re
 from StringIO import StringIO
 from operator import itemgetter
-from mols.models import MoleculesGroup, Molecule, MoleculePrices
+from mols.models import MoleculesGroup, Molecule
+from shop.models import ProductVariant
 from static_page.models import StaticPage
 from rdkit.Chem import ForwardSDMolSupplier, rdMolDescriptors, Descriptors, Draw
 from django.core.files.base import ContentFile
@@ -54,9 +55,9 @@ class RDKitClient():
     def attach_prices_to_mol(mol_page, prices):
         for quantity, price in prices:
             try:
-                mol_price = MoleculePrices.objects.get(product=mol_page, ref=quantity)
-            except MoleculePrices.DoesNotExist:
-                mol_price = MoleculePrices(product=mol_page, ref=quantity)
+                mol_price = ProductVariant.objects.get(product=mol_page, ref=quantity)
+            except ProductVariant.DoesNotExist:
+                mol_price = ProductVariant(product=mol_page, ref=quantity)
 
             mol_price.price = price
             mol_price.save()

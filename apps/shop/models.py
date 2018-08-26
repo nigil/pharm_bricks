@@ -124,3 +124,19 @@ class OrderItem(Orderable, models.Model):
         ReadOnlyPanel('product'),
         FieldPanel('quantity')
     ]
+
+
+class ProductVariant(models.Model):
+    product = ParentalKey(Page, on_delete=models.CASCADE, related_name='prices')
+    ref = models.CharField(max_length=32, verbose_name='Quantity')
+    price = models.DecimalField(max_digits=12, decimal_places=2)
+    active = models.BooleanField(default=True)
+
+    def __str__(self):
+        return "{} - {}".format(self.product.title, self.ref)
+
+    def get_product_title(self):
+        return self.product.title
+
+    class Meta:
+        ordering = ('price',)

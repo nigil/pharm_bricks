@@ -4,7 +4,7 @@ from __future__ import unicode_literals
 
 from django.db import migrations, models
 import mols.models
-import mols.storage
+import core
 
 
 class Migration(migrations.Migration):
@@ -17,6 +17,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='molecule',
             name='image',
-            field=models.ImageField(blank=True, null=True, storage=mols.storage.OverwriteStorage(), upload_to=mols.models.mol_image_path),
+            field=models.ImageField(blank=True, null=True, storage=core.storage.OverwriteStorage(), upload_to=mols.models.mol_image_path),
         ),
     ]

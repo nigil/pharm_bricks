@@ -1,0 +1,39 @@
+{% extends 'pages/static_page.html' %}
+{% load wagtailcore_tags %}
+{% load thumbnail %}
+
+{% block container_external_class %}libraries{% endblock %}
+
+{% block extra_content %}
+<div class="container">
+    <div class="row">
+        <div class="col-12 text-center">
+            <button class="blue_butt button_compound_libr">Create library</button>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row mg-bot">
+        {% for library in libraries %}
+        <div class="col-3">
+            <a href="{% pageurl library %}" class="compound">
+                <div class="text-center">
+                    <p class="p_big ">
+                        {{ library.title }}
+                    </p>
+                    <img src="{{ library.image|thumbnail_url:'middle' }}"
+                         alt="" class="img-fluid"/>
+                </div>
+                <div>
+                    <p class="p_compound">
+                        {{ library.preview_description|default:'' }}
+                    </p>
+                </div>
+            </a>
+        </div>
+        {% empty %}
+            There is no screening libraries yet
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
