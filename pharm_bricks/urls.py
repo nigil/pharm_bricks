@@ -3,10 +3,13 @@ from __future__ import absolute_import, unicode_literals
 from django.conf import settings
 from django.conf.urls import include, url
 from django.contrib import admin
+from django.contrib.auth.decorators import login_required
 
 from wagtail.wagtailadmin import urls as wagtailadmin_urls
 from wagtail.wagtailcore import urls as wagtail_urls
 from wagtail.wagtaildocs import urls as wagtaildocs_urls
+from longclaw.longclawbasket import urls as basket_urls
+from longclaw.longclawbasket import api
 
 from users.views import PbLogin, PbRegister, confirm_email, PbLogout, \
     PbPasswordReset, PbPasswordResetConfirm, PbPasswordResetComplete, \
@@ -14,11 +17,8 @@ from users.views import PbLogin, PbRegister, confirm_email, PbLogout, \
 from static_page.views import HomePage, ContactsPage
 from news.views import NewsPageView
 from shop.views import Basket
-
 from core.views import load_cities_ajax
-
-from longclaw.longclawbasket import urls as basket_urls
-from longclaw.longclawbasket import api
+from screening_libraries.views import Generator, make_reaction
 
 basket_list = api.BasketViewSet.as_view({
     'get': 'list',
@@ -52,8 +52,10 @@ urlpatterns = [
     url(r'^profile/', include('users.urls')),
     url(r'^catalogue/', include('mols.urls')),
     url(r'^screening-libraries/', include('screening_libraries.urls')),
+    url(r'^generator/', Generator.as_view(), name='generator'),
     url(r'^search/', include('search.urls')),
     url(r'^shop/', include('shop.urls')),
+    url(r'^make_reaction/', login_required(make_reaction), name='make_reaction'),
 
     url(r'load-cities/', load_cities_ajax, name='load_cities_ajax'),
     url(r'^basket/$', Basket.as_view(), name='basket'),

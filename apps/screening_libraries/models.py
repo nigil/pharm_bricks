@@ -8,6 +8,7 @@ from wagtail.wagtailadmin.edit_handlers import FieldPanel, InlinePanel, StreamFi
 from wagtail.wagtaildocs.edit_handlers import DocumentChooserPanel
 from wagtail.wagtailsearch import index
 from wagtail.wagtailcore.fields import StreamField
+from modelcluster.fields import ParentalKey
 from core.storage import OverwriteStorage
 from core.widgets import AdminImageFieldWidget
 from core.fields import BodyStreamBlock
@@ -77,12 +78,8 @@ class ScreeningLibrary(Page, Orderable):
     ]
 
 
-class BuildingBlockType(Page, Orderable):
-    subpage_types = ('screening_libraries.BuildingBlockType', 'screening_libraries.BuildingBlock')
-
-
 class BuildingBlock(Page):
-    sdf_file = models.OneToOneField(
+    sdf_file = models.ForeignKey(
         'wagtaildocs.Document',
         null=True,
         blank=True,
@@ -91,5 +88,25 @@ class BuildingBlock(Page):
 
     content_panels = [
         FieldPanel('title'),
-        DocumentChooserPanel('sdf_file')
+        DocumentChooserPanel('sdf_file'),
+        InlinePanel('reagents', label='Reagents')
+    ]
+
+
+class BuildingBlockReagent(models.Model):
+    building_block = ParentalKey(
+        BuildingBlock,
+        on_delete=models.CASCADE,
+        related_name='reagents'
+    )
+
+    file = models.ForeignKey(
+        'wagtaildocs.Document',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL
+    )
+
+    panels = [
+        DocumentChooserPanel('file'),
     ]

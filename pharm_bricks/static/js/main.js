@@ -220,17 +220,17 @@ $(document).ready(function () {
     })
 
 
-    $('#toggle_editor').on('click', function(e) {
-        e.preventDefault();
-        $('#editor_container').toggle()
-        $(this).toggleClass('active')
-        render_editor("editor_container")
-    })
-
-    if ($('#redactor_generation').length > 0) {
-        console.log('render editor')
-        render_editor("redactor_generation")
-    }
+    // $('#toggle_editor').on('click', function(e) {
+    //     e.preventDefault();
+    //     $('#editor_container').toggle()
+    //     $(this).toggleClass('active')
+    //     render_editor("editor_container")
+    // })
+    //
+    // if ($('#redactor_generation').length > 0) {
+    //     console.log('render editor')
+    //     render_editor("redactor_generation")
+    // }
 
     $('#generation_step_1_radios input[name="radio_el"]').on('change', function() {
         $('.generation_step_1').hide()
@@ -287,17 +287,22 @@ function toggle_show(id) {
     document.getElementById(id).style.display = document.getElementById(id).style.display == 'none' ? 'block' : 'none';
 }
 
-var jsmeApplet = null
-function render_editor(container_name) {
-    if (jsmeApplet === null && typeof JSApplet != 'undefined') {
-        jsmeApplet = new JSApplet.JSME(container_name);
-        jsmeApplet.deferredRepaint();
-        document.JME = jsmeApplet;
-    } else {
-        setTimeout(function() {
-            render_editor(container_name)
-        }, 300)
-    }
-}
+// function render_editor(container_name) {
+//     // if (jsmeApplet === null && typeof JSApplet != 'undefined') {
+//     //     jsmeApplet = new JSApplet.JSME(container_name);
+//     //     jsmeApplet.deferredRepaint();
+//     //     document.JME = jsmeApplet;
+//     // } else {
+//     //     setTimeout(function() {
+//     //         render_editor(container_name)
+//     //     }, 300)
+//     // }
+//
+//
+// 	function getSmiles() {
+// 		var data = document.JME.smiles();
+// 		console.log(data);
+// 	}
+// }
 
 
