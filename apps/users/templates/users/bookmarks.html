@@ -1,0 +1,108 @@
+{% extends 'inner_shadowed.html' %}
+{% load staticfiles %}
+{% load wagtailcore_tags %}
+
+{% block base_content %}
+<div class="container">
+    {% include 'users/_user_profile_header.html' %}
+</div>
+
+{% if product_bookmarks %}
+<div class="container-fluid mg-bot fix" id="my_libraries_repeat">
+    <h3>My Bookmarks</h3>
+    {% for bookmark in product_bookmarks %}
+    {% with product=bookmark.product.product.specific %}
+    <div class="container bookmark_item">
+        <div class="row library-bott row_margin">
+            <div class="bookmark_title col-5">
+                <a href="{% pageurl product %}" target="_blank" class="a_green">{{ product.title }}</a>
+            </div>
+            <div class="col-2">
+                {{ bookmark.product.ref }}
+            </div>
+            <div class="col-3">
+                <div class="tabl tabl_mylibraries">
+                    <input  id="product_{{ bookmark.product.id }}"
+                            class="move_to_basket activ posit checkbox"
+                            value="{{ bookmark.product.id }}"
+                            type="checkbox"
+                    />
+                    <label for="product_{{ bookmark.product.id }}"
+                           class="text_cabinet_gray tab_lib tabl_cabinet">
+                        <p class="mt put_to_basket_label">Put to basket</p>
+                        <p class="mt look_basket_label" style="display: none;">Ready! Look basket!</p>
+                    </label>
+                </div>
+            </div>
+            <div class="col-1 del_catalog_bch">
+                <span title="Delete bookmark" class="x delete_item">
+                    <img src="{% static 'images/if_remove.png' %}" alt="" class="if_remove"/>
+                    <img src="{% static 'images/if_rem_green.png' %}" alt="" class="if_remove_green"/>
+                </span>
+            </div>
+        </div>
+    </div>
+    {% endwith %}
+    {% endfor %}
+</div>
+{% endif %}
+
+<div class="container-fluid band_bot disabled">
+    <div class="container">
+        <div class="row">
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+{% csrf_token %}
+<script type="text/javascript">
+$(function(){
+    var csrf_token = $("[name=csrfmiddlewaretoken]").val();
+
+    $(document).on('change', '.move_to_basket', function(e){
+        var container = $(this).closest('.tabl_mylibraries');
+
+        if ($(this).prop('checked')) {
+            var variant_id = $(this).val();
+
+            if (variant_id) {
+                $.post(
+                    '/api/basket/',
+                    {
+                        'csrfmiddlewaretoken': csrf_token,
+                        variant_id: variant_id,
+                        quantity: 1
+                    },
+                    function(data, status) {
+                        if (status == 'success') {
+                            var basket_count = $('#basket_count');
+                            basket_count.text(parseInt(basket_count.text()) + 1)
+                                .css('display', 'inline');
+
+                            container.find('.put_to_basket_label').hide();
+                            container.find('.look_basket_label').show();
+                        }
+                        else {
+                            alert('Something is wrong. Please check errors and try again.')
+                        }
+                    }
+                );
+            }
+        }
+        else {
+            container.find('.put_to_basket_label').show();
+            container.find('.look_basket_label').hide();
+        }
+    });
+
+    $(document).on('click', '.bookmark_item .delete_item', function(){
+        if (confirm('Are you really want to remove bookmark?')) {
+            $(this).closest('.bookmark_item').remove();
+        }
+    });
+});
+</script>
+{% endblock %}

@@ -55,6 +55,7 @@ urlpatterns = [
     url(r'^generator/', Generator.as_view(), name='generator'),
     url(r'^search/', include('search.urls')),
     url(r'^shop/', include('shop.urls')),
+    url(r'^bookmarks/', include('bookmarks.urls')),
     url(r'^make_reaction/', login_required(make_reaction), name='make_reaction'),
 
     url(r'load-cities/', load_cities_ajax, name='load_cities_ajax'),

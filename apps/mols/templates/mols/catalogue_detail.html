@@ -63,7 +63,7 @@
                             add to basket
                             <img src="{% static 'images/basket_fff.png' %}" alt=""/>
                         </button>
-                        <button class="button_inner_name
+                        <button id="add_to_library" class="button_inner_name
                             {% if not object.in_stock %}disabled{% endif %}">
                             add to library <img src="{% static 'images/libr.png' %}" alt=""/>
                         </button>
@@ -116,6 +116,7 @@
 {% csrf_token %}
 <script src="{% static 'js/mols_list.js' %}"></script>
 <script src="{% static 'js/shop.js' %}"></script>
+<script src="{% static 'js/bookmarks.js' %}"></script>
 <script type="text/javascript">
 $(function(){
     var csrf_token = $("[name=csrfmiddlewaretoken]").val();
@@ -125,6 +126,15 @@ $(function(){
         var quantity = $('#el_count').val();
         if (variant_id && quantity) {
             put_to_basket(variant_id, quantity, csrf_token);
+        }
+
+        return false;
+    });
+
+    $(document).on('click', '#add_to_library', function(){
+        var variant_id = $("input[name='pricensize']:checked").val();
+        if (variant_id) {
+            add_product_to_bookmarks(variant_id, csrf_token);
         }
 
         return false;

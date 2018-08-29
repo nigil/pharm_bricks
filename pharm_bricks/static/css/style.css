@@ -2151,7 +2151,7 @@ h2.title {
 }
 
 .tabl-order input[type="checkbox"] + label p, .tabl_mylibraries input[type="checkbox"] + label p {
-    opacity: 0;
+    /*opacity: 0;*/
     /*animation-name: labelDisappears;*/
     /*animation-duration: .5s;*/
     -webkit-backface-visibility: hidden;
@@ -2191,7 +2191,7 @@ h2.title {
     margin-top: 32px;
 }
 
-.library-bott .col-6:first-child {
+.library-bott .bookmark_title {
     text-align: right;
 }
 
@@ -2255,4 +2255,8 @@ h2.title {
     padding: 1px 4px;
     font-size: 10px;
     display: none;
+}
+
+.row_margin {
+    margin-bottom: 10px;
 }

@@ -20,6 +20,7 @@ from django.contrib import messages
 from django.conf import settings
 from django.http import HttpResponseForbidden, JsonResponse
 from shop.models import Order
+from bookmarks.models import ProductBookmark
 
 user_model = get_user_model()
 
@@ -165,8 +166,19 @@ class Orders(LoginRequiredMixin, ListView):
         return Order.objects.filter(user=self.request.user).order_by('-created_date')
 
 
-class Libraries(LoginRequiredMixin, TemplateView):
-    template_name = 'users/libraries.html'
+class Bookmarks(LoginRequiredMixin, TemplateView):
+    template_name = 'users/bookmarks.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(Bookmarks, self).get_context_data(**kwargs)
+
+        product_bookmarks = ProductBookmark.objects \
+            .select_related('product') \
+            .filter(user=self.request.user)
+
+        context['product_bookmarks'] = product_bookmarks
+
+        return context
 
 
 class Subscribe(LoginRequiredMixin, TemplateView):

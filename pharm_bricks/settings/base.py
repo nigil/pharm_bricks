@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'mols.apps.MolsConfig',
     'shop.apps.ShopConfig',
     'screening_libraries.apps.ScreeningLibrariesConfig',
+    'bookmarks.apps.BookmarksConfig',
 
     # wagtail_apps
     'wagtail.wagtailforms',

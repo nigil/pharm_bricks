@@ -41,6 +41,7 @@
 {% block extra_js %}
 <script src="{% static 'js/mols_list.js' %}"></script>
 <script src="{% static 'js/shop.js' %}"></script>
+<script src="{% static 'js/bookmarks.js' %}"></script>
 {% csrf_token %}
 <script type="text/javascript">
 $(function(){
@@ -52,6 +53,15 @@ $(function(){
         var variant_id = $(this).val();
         if (variant_id) {
             put_to_basket(variant_id, 1, csrf_token);
+        }
+
+        return false;
+    });
+
+    $(document).on('click', '.add_to_bookmarks', function(){
+        var variant_id = $(this).val();
+        if (variant_id) {
+            add_product_to_bookmarks(variant_id, csrf_token);
         }
 
         return false;
