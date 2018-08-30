@@ -71,7 +71,7 @@ class PbRegister(FormView):
                            }).send()
 
         messages.add_message(self.request, messages.INFO,
-                             'You have already registered on our site. '
+                             'You have just registered on our site. '
                              'Please check your email for next instructions')
 
         return super(PbRegister, self).form_valid(form)

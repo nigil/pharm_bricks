@@ -11,6 +11,7 @@
 
         <div id="active_news"></div>
     </div>
+    <br/>
 
     <div class="all-news-block">
     {% for post in news %}
@@ -23,7 +24,7 @@
                 By <span class="a_green text_bold">PharmBricks</span> {{ post.first_published_at|date:'F, o' }}
             </p>
 
-            {{ post.body|richtext }}
+            {% include "partials/streamfield.html" with content=post.body %}
         </div>
     {% endfor %}
     </div>
