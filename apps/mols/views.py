@@ -10,6 +10,7 @@ from django.shortcuts import render, get_object_or_404
 from mols.services.import_catalogue import RDKitClient
 from mols.models import MoleculesGroup, Molecule
 from static_page.models import StaticPage
+from rdkit import Chem
 
 
 def get_catalogue_sections(request, **kwargs):
@@ -90,6 +91,22 @@ class MolsList(ListView):
                 self.object_list = self.object_list.child_of(extra_context['sub_section'])
             else:
                 self.object_list = self.object_list.descendant_of(extra_context['section'])
+
+        # search by molecule smiles
+        smiles_query = request.GET.get('smiles', None)
+        if smiles_query:
+            print(smiles_query)
+            mol_query = Chem.MolFromSmarts(smiles_query)
+            print(mol_query)
+            search_ids = (mol.id
+                          for mol in self.object_list
+                          if mol.smiles
+                            and Chem.MolFromSmiles(mol.smiles).HasSubstructMatch(mol_query)
+                          )
+
+            print(search_ids)
+
+            self.object_list = self.object_list.filter(id__in=search_ids)
 
         context = self.get_context_data()
         context.update(extra_context)

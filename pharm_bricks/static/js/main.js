@@ -220,15 +220,8 @@ $(document).ready(function () {
     })
 
 
-    // $('#toggle_editor').on('click', function(e) {
-    //     e.preventDefault();
-    //     $('#editor_container').toggle()
-    //     $(this).toggleClass('active')
-    //     render_editor("editor_container")
-    // })
-    //
     // if ($('#redactor_generation').length > 0) {
-    //     console.log('render editor')
+    //     console.log('render editor');
     //     render_editor("redactor_generation")
     // }
 
@@ -288,21 +281,15 @@ function toggle_show(id) {
 }
 
 // function render_editor(container_name) {
-//     // if (jsmeApplet === null && typeof JSApplet != 'undefined') {
-//     //     jsmeApplet = new JSApplet.JSME(container_name);
-//     //     jsmeApplet.deferredRepaint();
-//     //     document.JME = jsmeApplet;
-//     // } else {
-//     //     setTimeout(function() {
-//     //         render_editor(container_name)
-//     //     }, 300)
-//     // }
-//
-//
-// 	function getSmiles() {
-// 		var data = document.JME.smiles();
-// 		console.log(data);
-// 	}
+//     if (jsmeApplet === null && typeof JSApplet != 'undefined') {
+//         jsmeApplet = new JSApplet.JSME(container_name);
+//         jsmeApplet.deferredRepaint();
+//         document.JME = jsmeApplet;
+//     } else {
+//         setTimeout(function() {
+//             render_editor(container_name)
+//         }, 300)
+//     }
 // }
 
 

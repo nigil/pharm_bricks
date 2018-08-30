@@ -12,6 +12,7 @@ function load_molecules(page_num, reset) {
     var sub_section_slug = mols_container.attr('data-sub_section');
     var search_query = mols_container.attr('data-search_query');
     var show_more_button = $('#show_more_button');
+    var smiles_query = $('#editor_container').attr('data-searched_smiles');
 
     $('#no_data_result').hide();
 
@@ -22,7 +23,8 @@ function load_molecules(page_num, reset) {
             page: page_num,
             section: section_slug,
             sub_section: sub_section_slug,
-            q: search_query
+            q: search_query,
+            smiles: smiles_query
         },
         success: function(data) {
             if ($.trim(data.mols)) {
@@ -43,6 +45,8 @@ function load_molecules(page_num, reset) {
                 }
             }
             else {
+                mols_container.empty();
+                show_more_button.hide();
                 $('#no_data_result').show();
             }
         },

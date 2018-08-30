@@ -10,8 +10,7 @@
             {% children_menu catalogue_page template='menus/left/menu.html' sub_menu_template='menus/left/level_2.html' max_levels=2 apply_active_classes=True %}
 
             <div class="col-9 text-center pd-no">
-                <div class="redactor" id="editor_container">
-                </div>
+                <div class="redactor" id="editor_container" data-searched_smiles=""></div>
                 <div class="container catalog-main">
                     <div id="mols_list_container" class="row"
                          data-mols_list_url="{% url 'mols_list' %}"
@@ -44,10 +43,39 @@
 <script src="{% static 'js/bookmarks.js' %}"></script>
 {% csrf_token %}
 <script type="text/javascript">
+
+function search_mols_by_editor(event) {
+    var search_smiles = event.src.smiles();
+
+    $('#editor_container').attr('data-searched_smiles', search_smiles);
+    $('#show_more_button').attr('data-page_num', 1);
+    load_molecules(1, true);
+}
+
+function jsmeOnLoad() {
+    jsmeApplet = new JSApplet.JSME('editor_container', '100%', '100%');
+    document.JME = jsmeApplet;
+    jsmeApplet.setAfterStructureModifiedCallback(search_mols_by_editor);
+}
+
 $(function(){
     load_molecules();
 
     var csrf_token = $("[name=csrfmiddlewaretoken]").val();
+
+    $('#toggle_editor').on('click', function(e) {
+        e.preventDefault();
+        $('#editor_container').toggle();
+        $(this).toggleClass('active');
+
+        if ($(this).hasClass('active')) {
+            document.JME.setSize('100%', '100%');
+        }
+        else {
+            $('#editor_container').attr('data-searched_smiles', '');
+            load_molecules(1, true);
+        }
+    });
 
     $(document).on('click', '.add_to_basket', function(){
         var variant_id = $(this).val();

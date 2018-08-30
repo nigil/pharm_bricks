@@ -4,7 +4,7 @@ from operator import itemgetter
 from mols.models import MoleculesGroup, Molecule
 from shop.models import ProductVariant
 from static_page.models import StaticPage
-from rdkit.Chem import ForwardSDMolSupplier, rdMolDescriptors, Descriptors, Draw
+from rdkit.Chem import ForwardSDMolSupplier, rdMolDescriptors, Descriptors, Draw, MolToSmiles
 from django.core.files.base import ContentFile
 
 
@@ -134,6 +134,7 @@ class RDKitClient():
             mol_page.log_p = mol_props.get('LOGP', None)
             mol_page.log_s = mol_props.get('LOGS', None)
             mol_page.mw = round(Descriptors.MolWt(mol), 2)
+            mol_page.smiles = MolToSmiles(mol)
 
             default_cas_value = '000-00-0'
             cas_value = mol_props.get('CAS_number', default_cas_value)
@@ -160,7 +161,8 @@ class RDKitClient():
                               'log_s: {log_s}\n\t'
                               'mw: {mw}\n\t'
                               'cas: {cas}\n\t'
-                              'purity: {purity}</pre>'.format(
+                              'purity: {purity}\n\t'
+                              'smiles: {smiles}</pre>'.format(
                                     catalogue_number=catalogue_number,
                                     chemical_name=chemical_name,
                                     formula=mol_page.formula,
@@ -168,7 +170,8 @@ class RDKitClient():
                                     log_s=mol_page.log_s,
                                     mw=mol_page.mw,
                                     cas=mol_page.cas,
-                                    purity=mol_page.purity))
+                                    purity=mol_page.purity,
+                                    smiles=mol_page.smiles))
 
             prices = []
             for prop_key in mol_props:

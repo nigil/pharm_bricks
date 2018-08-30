@@ -39,6 +39,7 @@ class Molecule(Page):
     mw = models.FloatField(verbose_name='Mass', null=True, blank=True)
     cas = models.CharField(max_length=50, null=True, blank=True)
     purity = models.IntegerField(verbose_name='Chemical purity', null=True, blank=True)
+    smiles = models.CharField(max_length=500, null=True, blank=True)
 
     image = models.ImageField(upload_to=mol_image_path,
                               storage=OverwriteStorage(),
@@ -76,6 +77,7 @@ class Molecule(Page):
                 FieldPanel('mw'),
                 FieldPanel('cas'),
                 FieldPanel('purity'),
+                FieldPanel('smiles')
             ],
             heading='Molecule properties'
         ),
