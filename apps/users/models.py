@@ -43,15 +43,15 @@ class UserManager(BaseUserManager):
 class User(AbstractUser):
     username = None
     email = models.EmailField(unique=True)
-    first_name = models.CharField(max_length=30)
-    last_name = models.CharField(max_length=30, null=True)
+    first_name = models.CharField(max_length=100)
+    last_name = models.CharField(max_length=100, null=True)
     organization = models.CharField(max_length=128)
-    phone = models.CharField(max_length=20)
+    phone = models.CharField(max_length=100)
 
     country = models.ForeignKey(Country, null=True)
     city = models.ForeignKey(City, null=True)
     delivery_address = models.CharField(max_length=500)
-    postcode = models.CharField(max_length=20)
+    postcode = models.CharField(max_length=100)
 
     subscribed_on_news = models.BooleanField(default=False)
 

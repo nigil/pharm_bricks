@@ -18,7 +18,9 @@
                                 Antibacterial CNS Anticancer<br/>
                                 Chiral molecules
                             </h1>
-                            <button class="blue_butt butt_bott_index">Choose Now</button>
+                            <form action="{% url 'screening_libraries' %}">
+                                <button class="blue_butt butt_bott_index">Choose Now</button>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -39,7 +41,9 @@
                                 700 Acids 200 Aldehydes<br/>
                                 200 Alkyl Derivatives
                             </h1>
-                            <button class="blue_butt butt_bott_index">Create now</button>
+                            <form action="{% url 'generator' %}">
+                                <button class="blue_butt butt_bott_index">Create now</button>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -60,7 +64,9 @@
                                 4-(1H-PYRAZOL-5-YL) PIPERIDINE<br/>
                                 DIHYDROCHLORIDE
                             </h1>
-                            <button class="blue_butt butt_bott_index">read more</button>
+                            <form action="{% url 'news' %}">
+                                <button class="blue_butt butt_bott_index">read more</button>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -81,7 +87,9 @@
                                 Novel Structures High Purity and<br />
                                 Enantiomeric Control
                             </h1>
-                            <button class="blue_butt butt_bott_index">choose now</button>
+                            <form action="{% url 'catalogue_list' %}">
+                                <button class="blue_butt butt_bott_index">choose now</button>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -116,9 +124,12 @@
                 blocks, screening compounds and libraries for your drug discoveries both in the pharmaceutical industry
                 and Universities.<br/>
                 <br/>
-                We currently offer several thousands screening compounds that are available <a href="">to offer</a>. You can <a href="">select</a>
-                one of our readily prepared libraries or can <a href="">choose</a> from a broad range of screening compounds and
-                <a href="">create</a> a set for your special research needs.
+                We currently offer several thousands screening compounds that are available
+                <a href="{% url 'catalogue_list' %}">to offer</a>. You can
+                <a href="{% url 'screening_libraries' %}">select</a>
+                one of our readily prepared libraries or can
+                <a href="{% url 'screening_libraries' %}">choose</a> from a broad range of screening compounds and
+                <a href="{% url 'generator' %}">create</a> a set for your special research needs.
             </p>
         </div>
     </div>

@@ -44,7 +44,7 @@
     <div class="container basket_items basket_product">
         <div class="row mg-bot">
             <div class="col-6 content_catalog_bch">
-                <a href="{{ product.image.url }}" target="_blank" data-lightbox="image-1">
+                <a href="{{ product.image.url }}" data-lightbox="image-{{ forloop.counter }}">
                     <img src="{{ product.image|thumbnail_url:'small' }}" alt="" class="img_litl"/>
                 </a>
                 <div>
