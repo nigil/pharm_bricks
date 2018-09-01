@@ -266,7 +266,7 @@
                     data: {
                         'csrfmiddlewaretoken': csrf_token,
                         variant_id: variant_id,
-                        quantity: (new_quantity-prev_quantity)
+                        quantity: new_quantity-prev_quantity
                     },
                     success: function() {
                         quantity_input.attr('data-prev', new_quantity);
@@ -297,7 +297,7 @@
                 url: '/api/basket/' + variant_id + '/',
                 type: 'DELETE',
                 data: {
-                    quantity: quantity
+                    quantity: parseInt(quantity)
                 },
                 headers: {
                     'X-CSRFToken': csrf_token
