@@ -54,7 +54,8 @@ class Order(ClusterableModel):
     user = models.ForeignKey(User, related_name='orders')
 
     def __str__(self):
-        return "Order #{} - {}".format(self.number, self.created_date)
+        return "Order #{} - {}".format(self.number,
+                                       self.created_date.strftime('%Y-%m-%d %H:%M:%S'))
 
     @property
     def total(self):
@@ -99,7 +100,9 @@ class Order(ClusterableModel):
 
         FieldPanel('user'),
 
-        InlinePanel('items', label='Products')
+        InlinePanel('items', label='Products'),
+
+        ReadOnlyPanel('total')
     ]
 
 
@@ -114,6 +117,10 @@ class OrderItem(Orderable, models.Model):
         return '{} - {}'.format(self.product.product.chemical_name, self.product.ref)
 
     @property
+    def price(self):
+        return self.product.price
+
+    @property
     def total(self):
         return self.quantity * self.product.price
 
@@ -121,9 +128,24 @@ class OrderItem(Orderable, models.Model):
         return "{} x {}".format(self.quantity, self.product.get_product_title())
 
     panels = [
-        ReadOnlyPanel('product'),
+        FieldPanel('product'),
+        ReadOnlyPanel('price'),
         FieldPanel('quantity')
     ]
+
+
+class ProductVariantManager(models.Manager):
+    def __init__(self):
+        self._all_objects = None
+        super(ProductVariantManager, self).__init__()
+
+    def all(self):
+        if not self._all_objects:
+            self._all_objects = self.get_queryset()
+
+        return self._all_objects
+
+    pass
 
 
 class ProductVariant(models.Model):
@@ -132,6 +154,8 @@ class ProductVariant(models.Model):
     price = models.DecimalField(max_digits=12, decimal_places=2)
     active = models.BooleanField(default=True)
 
+    objects = ProductVariantManager()
+
     def __str__(self):
         return "{} - {}".format(self.product.title, self.ref)
 
@@ -139,4 +163,4 @@ class ProductVariant(models.Model):
         return self.product.title
 
     class Meta:
-        ordering = ('price',)
+        ordering = ('id',)

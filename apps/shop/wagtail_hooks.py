@@ -52,8 +52,9 @@ class OrderModelAdmin(ModelAdmin):
     menu_icon = 'list-ul'
     add_to_settings_menu = False
     exclude_from_explorer = False
-    list_display = ('number', 'status', 'email', 'delivery_info', 'total')
+    list_display = ('number', 'created_date', 'status', 'email', 'delivery_info', 'total')
     list_filter = ('status', 'created_date', 'email')
+    ordering = ('-created_date',)
     inspect_view_enabled = False
     # detail_view_class = DetailView
     button_helper_class = OrderButtonHelper
