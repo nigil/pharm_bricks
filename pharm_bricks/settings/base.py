@@ -219,6 +219,7 @@ EMAIL_HOST = os.getenv('EMAIL_HOST')
 EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
 EMAIL_PORT = os.getenv('EMAIL_PORT')
+INFO_EMAIL = os.getenv('INFO_EMAIL')
 ADMIN_EMAIL = os.getenv('ADMIN_EMAIL')
 
 # Longclaw settings

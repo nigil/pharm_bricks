@@ -64,7 +64,7 @@ class PbRegister(FormView):
                                'confirm_link': confirm_link,
                                'login_link': login_link,
                                'reset_password_link': reset_password_link,
-                               'admin_email': settings.ADMIN_EMAIL,
+                               'info_email': settings.INFO_EMAIL,
                                'user_data': form.cleaned_data,
                                'site_host': settings.HOSTNAME
 
