@@ -82,18 +82,18 @@
         <div class="col-7" id="generation_step_2_radios">
             {% for building_block in building_blocks %}
             <div class="generation_step_2_radios_{{ building_block.id }}">
-                {% for reagent in building_block.reagents.all %}
+                {% for reaction in building_block.reactions.all %}
                 <div class="p_small tabl tabl_gener_step">
                     <input
                             type="checkbox"
                             name="step2_el"
-                            id="{{ building_block.id }}_{{ reagent.file.id }}"
-                            value="{{ reagent.id }}"
+                            id="{{ building_block.id }}_{{ reaction.reaction_file.id }}"
+                            value="{{ reaction.id }}"
                             class="posit checkbox"/>
                     <label
-                            for="{{ building_block.id }}_{{ reagent.file.id }}"
+                            for="{{ building_block.id }}_{{ reaction.reaction_file.id }}"
                             class="tab"
-                    >{{ reagent.file.title }}</label>
+                    >{{ reaction.reaction_file.title }}</label>
                     <br/>
                 </div>
                 {% endfor %}
@@ -104,9 +104,12 @@
 </div>
 <div class="container generation_step_2_hide">
     <div class="row">
-        <div class="col-12 text-center">
-            <div class="butt_bott button_gener_step">
+        <div class="butt_bott col-12 text-center">
+            <div class="button_gener_step">
                 <button class="generate disabled" id="generation_step_2_btn">generate</button>
+            </div>
+            <div class="error_block" style="display: none;">
+                <span class="error_text"></span>
             </div>
         </div>
     </div>
@@ -116,11 +119,13 @@
     <div class="row text-center">
         <div class="col-12">
             <div>
-                <button class="blue_butt button_gener_step button_gener_step_save" id="generation_step_3_btn">save to my libraries</button>
+                <button class="blue_butt button_gener_step button_gener_step_save"
+                        id="generation_step_3_btn"
+                >save to my bookmarks</button>
             </div>
             <div class="butt_bott">
-                <a href="#" class="p_big a_green">
-                    Download library_01.SDF
+                <a id="result_link" href="#" class="p_big a_green">
+                    Download result.SDF
                 </a>
             </div>
         </div>
@@ -138,39 +143,64 @@ function jsmeOnLoad() {
     document.JME = jsmeApplet;
 }
 
-function get_checked_reagents() {
-    var reagents_ids = [];
+function get_checked_reactions() {
+    var reactions_ids = [];
     $('input[name=step2_el]:checked').each(function(){
-        reagents_ids.push($(this).val())
+        reactions_ids.push($(this).val())
     });
 
-    return reagents_ids;
+    return reactions_ids;
 }
 
 $(function(){
     var csrf_token = $("[name=csrfmiddlewaretoken]").val();
     $('#generation_step_2_btn').click(function(){
         var editor_smiles = document.JME.smiles();
-        var building_block_id = $('input[name=radio_el]:checked').val();
-        var reagent_ids = get_checked_reagents();
+        var reactions_ids = get_checked_reactions();
+        var step2_container = $(this).closest('.generation_step_2_hide');
 
-        $.post(
-            '/make_reaction/',
-            {
+        $.ajax({
+            method: 'POST',
+            url: '/make_reaction/',
+            data: {
                 csrfmiddlewaretoken: csrf_token,
                 editor_smiles: editor_smiles,
-                building_block_id: building_block_id,
-                reagent_ids: reagent_ids
+                reactions_ids: reactions_ids
             },
-            function(data) {
+            success: function(data) {
                 if (data.success) {
-                    console.log('Reaction was success');
+                    $('#result_link').attr('href', data.file_url);
+
+                    $('.generation_step_2_hide').hide();
+                    $('.generation_step_3').show()
                 }
-                else {
-                    console.log('Reaction was not success');
-                }
+            },
+            error: function(data) {
+                step2_container.find('.error_block').show()
+                    .find('.error_text').text(data.responseText)
             }
-        );
+        })
+    });
+
+    $('#generation_step_3_btn').on('click', function(e) {
+        e.preventDefault();
+        var result_url = $('#result_link').attr('href');
+        var save_button = $(this);
+
+        $.ajax({
+            method: 'POST',
+            url: '/bookmarks/add-generator-result-to-bookmarks/',
+            data: {
+                csrfmiddlewaretoken: csrf_token,
+                result_url: result_url
+            },
+            success: function() {
+                save_button.addClass('disabled').removeClass('blue_butt').text('saved')
+            },
+            error: function() {
+                alert("Can't save to bookmarks, please try later")
+            }
+        });
     });
 });
 </script>

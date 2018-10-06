@@ -281,6 +281,14 @@ h3 {
     color: #009846
 }
 
+#my_libraries_repeat h4 {
+    font-family: Arial, Roboto;
+    font-size: 20px;
+    padding-left: 25px;
+    padding-top: 15px;
+    font-weight: normal;
+}
+
 .tb-centr {
     padding-top: 55px;
 }

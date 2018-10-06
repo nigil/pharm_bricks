@@ -226,47 +226,32 @@ $(document).ready(function () {
     // }
 
     $('#generation_step_1_radios input[name="radio_el"]').on('change', function() {
-        $('.generation_step_1').hide()
-        $('#generation_step_2_radios > div').hide()
-        $('.generation_step_2, .generation_step_2_hide').show()
-        var val = $('#generation_step_1_radios input[name="radio_el"]:checked').val()
-        $('#generation_step_2_radios > .generation_step_2_radios_' + val).show()
-        $('#generation_step_2_radios input:checked').click()
-        $('#generation_step_2_btn').addClass('disabled').removeClass('blue_butt')
-        $('#generation_step_3_btn').removeClass('disabled').addClass('blue_butt').text('save to my libraries')
+        $('.generation_step_1').hide();
+        $('#generation_step_2_radios > div').hide();
+        $('.generation_step_2, .generation_step_2_hide').show();
+        $('.generation_step_2_hide').find('.error_block').hide();
+        var val = $('#generation_step_1_radios input[name="radio_el"]:checked').val();
+        $('#generation_step_2_radios > .generation_step_2_radios_' + val).show();
+        $('#generation_step_2_radios input:checked').click();
+        $('#generation_step_2_btn').addClass('disabled').removeClass('blue_butt');
+        $('#generation_step_3_btn').removeClass('disabled').addClass('blue_butt').text('save to my libraries');
     })
     $('#generation_step_2_radios').on('click', function(e) {
         if ($(e.target).is('input[name="step2_el"]') && $('#generation_step_2_radios input[name="step2_el"]:checked').length > 0) {
             $('#generation_step_2_btn').removeClass('disabled').addClass('blue_butt')
         } else {
-            $('.generation_step_1').hide()
-            $('.generation_step_2, .generation_step_2_hide').show()
-            $('#generation_step_2_btn').addClass('disabled').removeClass('blue_butt')
-            $('.generation_step_3').hide()
-            $('#generation_step_3_btn').removeClass('disabled').addClass('blue_butt').text('save to my libraries')
+            $('.generation_step_1').hide();
+            $('.generation_step_2, .generation_step_2_hide').show();
+            $('.generation_step_2_hide').find('.error_block').hide();
+            $('#generation_step_2_btn').addClass('disabled').removeClass('blue_butt');
+            $('.generation_step_3').hide();
+            $('#generation_step_3_btn').removeClass('disabled').addClass('blue_butt').text('save to my libraries');
         }
     })
 
     $('#basket_checkout').on('click', function() {
         $('.basket_step_1').hide()
         $('.basket_step_2').show()
-    })
-
-    $('#generation_step_2_btn').on('click', function(e) {
-        e.preventDefault()
-        if ($(this).hasClass('blue_butt')) {
-            $('.generation_step_2_hide').hide()
-            $('.generation_step_3').show()
-        }
-    })
-    $('#generation_step_3_btn').on('click', function(e) {
-        e.preventDefault()
-        // call to save to libraries
-        $(this).addClass('disabled').removeClass('blue_butt').text('saved')
-    });
-
-    $('#my_libraries_repeat .checkbox').on('change', function() {
-        // TODO: make call to server to repeat order from MyLibraries page
     })
 
     $('textarea').autogrow({vertical: true, horizontal: false});

@@ -1,51 +1,102 @@
 {% extends 'inner_shadowed.html' %}
 {% load staticfiles %}
 {% load wagtailcore_tags %}
+{% load pb_filters %}
 
 {% block base_content %}
 <div class="container">
     {% include 'users/_user_profile_header.html' %}
 </div>
 
-{% if product_bookmarks %}
 <div class="container-fluid mg-bot fix" id="my_libraries_repeat">
     <h3>My Bookmarks</h3>
-    {% for bookmark in product_bookmarks %}
-    {% with product=bookmark.product.product.specific %}
-    <div class="container bookmark_item">
-        <div class="row library-bott row_margin">
-            <div class="bookmark_title col-5">
-                <a href="{% pageurl product %}" target="_blank" class="a_green">{{ product.title }}</a>
-            </div>
-            <div class="col-2">
-                {{ bookmark.product.ref }}
-            </div>
-            <div class="col-3">
-                <div class="tabl tabl_mylibraries">
-                    <input  id="product_{{ bookmark.product.id }}"
-                            class="move_to_basket activ posit checkbox"
-                            value="{{ bookmark.product.id }}"
-                            type="checkbox"
-                    />
-                    <label for="product_{{ bookmark.product.id }}"
-                           class="text_cabinet_gray tab_lib tabl_cabinet">
-                        <p class="mt put_to_basket_label">Put to basket</p>
-                        <p class="mt look_basket_label" style="display: none;">Ready! Look basket!</p>
-                    </label>
+{% if product_bookmarks or generator_bookmarks %}
+    {% if product_bookmarks %}
+    <div class="container-fluid mg-bot" id="product_bookmarks">
+        <h4>Products</h4>
+        {% for bookmark in product_bookmarks %}
+        {% with product=bookmark.product.product.specific %}
+        <div class="container bookmark_item bookmark_product" data-id="{{ bookmark.id }}">
+            <div class="row library-bott row_margin">
+                <div class="bookmark_title col-5">
+                    <a href="{% pageurl product %}" target="_blank" class="a_green">{{ product.title }}</a>
+                </div>
+                <div class="col-1">
+                    {{ bookmark.product.ref }}
+                </div>
+                <div class="col-4">
+                    <div class="tabl tabl_mylibraries">
+                        <input  id="product_{{ bookmark.product.id }}"
+                                class="move_to_basket activ posit checkbox"
+                                value="{{ bookmark.product.id }}"
+                                type="checkbox"
+                        />
+                        <label for="product_{{ bookmark.product.id }}"
+                               class="text_cabinet_gray tab_lib tabl_cabinet">
+                            <p class="mt put_to_basket_label">Put to basket.</p>
+                            <p class="mt look_basket_label" style="display: none;">Ready! Look basket!</p>
+                        </label>
+                    </div>
+                </div>
+                <div class="col-1 del_catalog_bch">
+                    <span title="Delete bookmark" class="x delete_item">
+                        <img src="{% static 'images/if_remove.png' %}" alt="" class="if_remove"/>
+                        <img src="{% static 'images/if_rem_green.png' %}" alt="" class="if_remove_green"/>
+                    </span>
                 </div>
             </div>
-            <div class="col-1 del_catalog_bch">
-                <span title="Delete bookmark" class="x delete_item">
-                    <img src="{% static 'images/if_remove.png' %}" alt="" class="if_remove"/>
-                    <img src="{% static 'images/if_rem_green.png' %}" alt="" class="if_remove_green"/>
-                </span>
+        </div>
+        {% endwith %}
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    {% if generator_bookmarks %}
+    <div class="container-fluid mg-bot" id="generator_bookmarks">
+        <h4>Generator results</h4>
+        {% for bookmark in generator_bookmarks %}
+        <div class="container bookmark_item bookmark_generator" data-id="{{ bookmark.id }}">
+            <div class="row library-bott row_margin">
+                <div class="bookmark_title col-5">
+                    <a href="{{ bookmark.file.url }}" target="_blank" class="a_green">
+                        {{ bookmark.file | filename }}
+                    </a>
+                </div>
+                <div class="col-1"></div>
+                <div class="col-4">
+                    <div class="tabl tabl_mylibraries">
+                        <input  id="generator_{{ bookmark.id }}"
+                                class="send_notification activ posit checkbox"
+                                value="{{ bookmark.id }}"
+                                type="checkbox"
+                        />
+                        <label for="generator_{{ bookmark.id }}"
+                               class="text_cabinet_gray tab_lib tabl_cabinet">
+                            <p class="mt send_notification_label">
+                                Send us a notification if you are interested in price.
+                            </p>
+                            <p class="mt call_us_label" style="display: none;">
+                                Please cal us {{ company_phone }} for price details
+                            </p>
+                        </label>
+                    </div>
+                </div>
+                <div class="col-1 del_catalog_bch">
+                    <span title="Delete bookmark" class="x delete_item">
+                        <img src="{% static 'images/if_remove.png' %}" alt="" class="if_remove"/>
+                        <img src="{% static 'images/if_rem_green.png' %}" alt="" class="if_remove_green"/>
+                    </span>
+                </div>
             </div>
         </div>
+        {% endfor %}
     </div>
-    {% endwith %}
-    {% endfor %}
-</div>
+    {% endif %}
+{% else %}
+    <div style="text-align: center;">There is no bookmarks yet</div>
 {% endif %}
+</div>
+
 
 <div class="container-fluid band_bot disabled">
     <div class="container">
@@ -61,7 +112,9 @@
 <script type="text/javascript">
 $(function(){
     var csrf_token = $("[name=csrfmiddlewaretoken]").val();
+    var wrong_message = 'Something is wrong. Please check errors and try again.'
 
+    // Add product bookmark to basket
     $(document).on('change', '.move_to_basket', function(e){
         var container = $(this).closest('.tabl_mylibraries');
 
@@ -86,7 +139,7 @@ $(function(){
                             container.find('.look_basket_label').show();
                         }
                         else {
-                            alert('Something is wrong. Please check errors and try again.')
+                            alert(wrong_message)
                         }
                     }
                 );
@@ -98,9 +151,63 @@ $(function(){
         }
     });
 
+    // Send notification to admin about generator bookmark
+    $(document).on('change', '.send_notification', function(){
+        var container = $(this).closest('.tabl_mylibraries');
+
+        if ($(this).prop('checked')) {
+            $.ajax({
+                url: '/bookmarks/send-price-request/' + $(this).val() + '/',
+                type: 'POST',
+                headers: {
+                    'X-CSRFToken': csrf_token
+                },
+                success: function() {
+                    container.find('.send_notification_label').hide();
+                    container.find('.call_us_label').show();
+                },
+                error: function() {
+                    alert(wrong_message)
+                }
+            });
+        }
+        else {
+            container.find('.send_notification_label').show();
+            container.find('.call_us_label').hide();
+        }
+    });
+
     $(document).on('click', '.bookmark_item .delete_item', function(){
         if (confirm('Are you really want to remove bookmark?')) {
-            $(this).closest('.bookmark_item').remove();
+            var bookmark_container = $(this).closest('.bookmark_item');
+
+            var bookmark_type = '';
+            if (bookmark_container.hasClass('bookmark_product')) {
+                bookmark_type = 'product'
+            } else {
+                bookmark_type = 'generator'
+            }
+
+            $.ajax({
+                url: '/bookmarks/delete/' + bookmark_container.attr('data-id') + '/',
+                type: 'POST',
+                headers: {
+                    'X-CSRFToken': csrf_token
+                },
+                data: {
+                    type: bookmark_type
+                },
+                success: function() {
+                    bookmark_container.remove();
+                    bookmarks_list = $('#' + bookmark_type + '_bookmarks');
+                    if (!bookmarks_list.find('.bookmark_item').length) {
+                        bookmarks_list.remove();
+                    }
+                },
+                error: function() {
+                    alert("Can't delete bookmark. Please try later.")
+                }
+            });
         }
     });
 });

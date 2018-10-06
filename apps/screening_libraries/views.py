@@ -1,15 +1,17 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
+import re
 from django.shortcuts import get_object_or_404
 from django.views.generic.base import TemplateView
 from django.views.generic.detail import DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.conf import settings
 from django.http import HttpResponseForbidden, HttpResponseBadRequest, JsonResponse
+from django.core.files.temp import NamedTemporaryFile
 from rdkit import Chem
 from rdkit.Chem import AllChem, ForwardSDMolSupplier
 from static_page.models import StaticPage
-from screening_libraries.models import ScreeningLibrary, BuildingBlock, BuildingBlockReagent
+from screening_libraries.models import ScreeningLibrary, BuildingBlock, Reaction
 
 
 # Create your views here.
@@ -52,35 +54,48 @@ def make_reaction(request):
         return HttpResponseForbidden()
 
     editor_smiles = request.POST.get('editor_smiles')
-    building_block_id = request.POST.get('building_block_id')
-    reagent_ids = request.POST.getlist('reagent_ids[]')
+    reactions_ids = request.POST.getlist('reactions_ids[]')
 
-    if not all((editor_smiles, building_block_id, reagent_ids)):
-        return HttpResponseBadRequest('One of terms is\'t set')
+    if not editor_smiles:
+        return HttpResponseBadRequest('Please fill editor to make reaction')
+    elif not reactions_ids:
+        return HttpResponseBadRequest('Please choose one of allowed reagents')
 
-    building_block = BuildingBlock.objects.get(id=building_block_id)
-    reagents = BuildingBlockReagent.objects.filter(id__in=[int(r_id) for r_id in reagent_ids])
-
+    reactions = Reaction.objects.filter(id__in=[int(r_id) for r_id in reactions_ids])
     editor_mol = Chem.MolFromSmiles(editor_smiles)
 
-    for reagent in reagents:
-        rxn = AllChem.ReactionFromRxnFile(str(reagent.file.file.path))
-        # rxn = AllChem.ReactionFromSmarts(str('[C:1](=[O:2])-[OD1].[N!H0:3]>>[C:1](=[O:2])[N:3]'))
+    result_file_prefix = '_+_'.join([re.sub(r'\s+', '-', reaction.reaction_file.title.lower())
+                                     for reaction in reactions])
 
-        rxn.Initialize()
-        nWarn, nError, nReacts, nProds, reactantLabels = PreprocessReaction(rxn)
-        print(nWarn)
-        print(nError)
-        print(nReacts)
-        print(nProds)
-        print(reactantLabels)
+    # TODO find alternative
+    result_file = NamedTemporaryFile(mode='w',
+                                     dir=settings.TEMP_FILES_DIR,
+                                     prefix=result_file_prefix + '_',
+                                     suffix='.sdf',
+                                     delete=False)
 
-        print(rxn.GetNumProductTemplates())
-        path = building_block.sdf_file.file.path
-        mols = ForwardSDMolSupplier(building_block.sdf_file.file)
-        mols = [mol for mol in mols if mol is not None]
+    try:
+        success = False
+        for reaction in reactions:
+            rxn = AllChem.ReactionFromRxnFile(str(reaction.reaction_file.file.path))
+            AllChem.SanitizeRxn(rxn)
 
-        for mol in mols:
-            ps = rxn.RunReactants((mol, editor_mol))
-            print(len(ps))
+            mols = ForwardSDMolSupplier(reaction.reactant_file.file)
+            mols = [mol for mol in mols if mol is not None]
 
+            for index, mol in enumerate(mols):
+                ps = rxn.RunReactants((mol, editor_mol))
+
+                if ps:
+                    success = True
+                    nice_result = Chem.MolFromSmiles(Chem.MolToSmiles(ps[-1][0]))
+                    result_file.write(AllChem.MolToMolBlock(nice_result))
+
+        file_url = settings.MEDIA_TMP_URL + result_file.name.split('/')[-1]
+        if success:
+            return JsonResponse({'success': True,
+                                 'file_url': file_url})
+    finally:
+        result_file.close()
+
+    return HttpResponseBadRequest('Reaction has no result')

@@ -24,6 +24,7 @@ sys.path.insert(0, os.path.join(BASE_DIR, 'apps'))
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
+DEBUG = True if os.getenv('DEBUG', None) == 'true' else False
 
 # Application definition
 
@@ -93,6 +94,9 @@ MIDDLEWARE = [
     'wagtail.wagtailcore.middleware.SiteMiddleware',
     'wagtail.wagtailredirects.middleware.RedirectMiddleware'
 ]
+
+SESSION_ENGINE = 'django.contrib.sessions.backends.signed_cookies'
+SESSION_COOKIE_AGE = 60 * 60 * 24 * 365
 
 ROOT_URLCONF = 'pharm_bricks.urls'
 
@@ -164,7 +168,10 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATIC_URL = '/static/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+TMP_DIR = 'tmp'
+TEMP_FILES_DIR = os.path.join(MEDIA_ROOT, TMP_DIR)
 MEDIA_URL = '/media/'
+MEDIA_TMP_URL = MEDIA_URL + TMP_DIR + '/'
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -213,6 +220,9 @@ AUTH_USER_MODEL = 'users.User'
 LOGIN_URL = 'login'
 
 # Email settings
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend' if DEBUG \
+    else 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_SENDER_EMAIL = os.getenv('EMAIL_SENDER_EMAIL')
 EMAIL_USE_TLS = True
 EMAIL_HOST = os.getenv('EMAIL_HOST')
@@ -261,7 +271,3 @@ CITIES_LIGHT_TRANSLATION_LANGUAGES = ['en']
 
 COMPANY_PHONE = '00 567-244-5678'
 COMPANY_PHONE_2 = '0065 96432266'
-
-DEBUG = True
-
-# THUMBNAIL_DEBUG = True

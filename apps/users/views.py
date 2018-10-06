@@ -20,7 +20,7 @@ from django.contrib import messages
 from django.conf import settings
 from django.http import HttpResponseForbidden, JsonResponse
 from shop.models import Order
-from bookmarks.models import ProductBookmark
+from bookmarks.models import ProductBookmark, GeneratorResultBookmark
 
 user_model = get_user_model()
 
@@ -174,9 +174,16 @@ class Bookmarks(LoginRequiredMixin, TemplateView):
 
         product_bookmarks = ProductBookmark.objects \
             .select_related('product') \
-            .filter(user=self.request.user)
+            .filter(user=self.request.user) \
+            .order_by('-created')
+
+        generator_bookmarks = GeneratorResultBookmark.objects \
+            .filter(user=self.request.user) \
+            .order_by('-created')
 
         context['product_bookmarks'] = product_bookmarks
+        context['generator_bookmarks'] = generator_bookmarks
+        context['company_phone'] = settings.COMPANY_PHONE
 
         return context
 

@@ -1,6 +1,6 @@
 function add_product_to_bookmarks(product_id, csrf_token) {
     $.post(
-        '/bookmarks/add_product_to_bookmarks/',
+        '/bookmarks/add-product-to-bookmarks/',
         {
             'csrfmiddlewaretoken': csrf_token,
             product_id: product_id

@@ -50,6 +50,7 @@ services:
       - HOSTNAME
       - SECRET_KEY
       - ALLOWED_HOST
+      - DEBUG
 
 volumes:
   dbdata:

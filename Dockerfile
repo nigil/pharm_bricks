@@ -1,4 +1,4 @@
-FROM debian:stretch
+FROM debian:sid
 MAINTAINER Aleksandr Butenko <nigillus42@gmailcom>
 
 RUN apt-get update && \

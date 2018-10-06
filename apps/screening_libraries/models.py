@@ -79,34 +79,36 @@ class ScreeningLibrary(Page, Orderable):
 
 
 class BuildingBlock(Page):
-    sdf_file = models.ForeignKey(
-        'wagtaildocs.Document',
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL
-    )
-
     content_panels = [
         FieldPanel('title'),
-        DocumentChooserPanel('sdf_file'),
-        InlinePanel('reagents', label='Reagents')
+        InlinePanel('reactions', label='Reactions')
     ]
 
 
-class BuildingBlockReagent(models.Model):
+class Reaction(models.Model):
     building_block = ParentalKey(
         BuildingBlock,
         on_delete=models.CASCADE,
-        related_name='reagents'
+        related_name='reactions'
     )
 
-    file = models.ForeignKey(
+    reaction_file = models.ForeignKey(
         'wagtaildocs.Document',
         null=True,
         blank=True,
-        on_delete=models.SET_NULL
+        on_delete=models.CASCADE,
+        related_name='reaction_files'
+    )
+
+    reactant_file = models.ForeignKey(
+        'wagtaildocs.Document',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='reactant_files'
     )
 
     panels = [
-        DocumentChooserPanel('file'),
+        DocumentChooserPanel('reaction_file'),
+        DocumentChooserPanel('reactant_file'),
     ]
