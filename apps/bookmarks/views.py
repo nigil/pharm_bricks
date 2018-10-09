@@ -47,15 +47,17 @@ def add_generator_result_to_bookmarks(request):
         return HttpResponseBadRequest()
 
     result_name = os.path.basename(result_url)
-    result_path = os.path.join(settings.TEMP_FILES_DIR, result_name)
+    result_path = os.path.join(settings.TEMP_FILES_DIR, str(request.user.id), result_name)
     result_file = File(open(result_path, 'r'))
 
     bookmark = GeneratorResultBookmark.objects.create(user=request.user)
     bookmark.file.save(result_name, result_file)
-    if bookmark.save():
+    try:
+        bookmark.save()
+        os.remove(result_path)
         return HttpResponse('success')
-
-    return HttpResponse('error')
+    except Exception:
+        return HttpResponse('error')
 
 
 def send_price_request(request, id):

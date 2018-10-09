@@ -46,7 +46,7 @@ INSTALLED_APPS = [
     'core.apps.CoreConfig',
     'home',
     'search',
-    'users',
+    'users.apps.UsersConfig',
     'news.apps.NewsConfig',
     'static_page.apps.StaticPageConfig',
     'mols.apps.MolsConfig',

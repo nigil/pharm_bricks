@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
+import os
 import re
 from django.shortcuts import get_object_or_404
 from django.views.generic.base import TemplateView
@@ -12,6 +13,7 @@ from rdkit import Chem
 from rdkit.Chem import AllChem, ForwardSDMolSupplier
 from static_page.models import StaticPage
 from screening_libraries.models import ScreeningLibrary, BuildingBlock, Reaction
+from screening_libraries.services import delete_old_reaction_files
 
 
 # Create your views here.
@@ -63,13 +65,18 @@ def make_reaction(request):
 
     reactions = Reaction.objects.filter(id__in=[int(r_id) for r_id in reactions_ids])
     editor_mol = Chem.MolFromSmiles(editor_smiles)
-
     result_file_prefix = '_+_'.join([re.sub(r'\s+', '-', reaction.reaction_file.title.lower())
                                      for reaction in reactions])
 
-    # TODO find alternative
+    result_file_dir = os.path.join(settings.TEMP_FILES_DIR, str(request.user.id))
+
+    try:
+        os.makedirs(result_file_dir)
+    except Exception:
+        delete_old_reaction_files(result_file_dir)
+
     result_file = NamedTemporaryFile(mode='w',
-                                     dir=settings.TEMP_FILES_DIR,
+                                     dir=result_file_dir,
                                      prefix=result_file_prefix + '_',
                                      suffix='.sdf',
                                      delete=False)
@@ -91,7 +98,10 @@ def make_reaction(request):
                     nice_result = Chem.MolFromSmiles(Chem.MolToSmiles(ps[-1][0]))
                     result_file.write(AllChem.MolToMolBlock(nice_result))
 
-        file_url = settings.MEDIA_TMP_URL + result_file.name.split('/')[-1]
+        file_url = os.path.join(settings.MEDIA_TMP_URL,
+                                str(request.user.id),
+                                result_file.name.split('/')[-1])
+
         if success:
             return JsonResponse({'success': True,
                                  'file_url': file_url})

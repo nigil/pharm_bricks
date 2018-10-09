@@ -1,3 +1,4 @@
+import os
 from django.views.generic.base import TemplateView
 from django.views.generic.edit import FormView
 from static_page.models import StaticPage
@@ -7,12 +8,18 @@ from django.core.urlresolvers import reverse_lazy
 from core.mailer import HTMLTemplateMailer
 from django.conf import settings
 from django.contrib import messages
+from screening_libraries.services import delete_old_reaction_files
 
 
 class HomePage(TemplateView):
     template_name = 'pages/home_page.html'
 
     def get_context_data(self, **kwargs):
+        # this page will be visit most often, so put this code here
+        if self.request.user.is_authenticated:
+            result_files_dir = os.path.join(settings.TEMP_FILES_DIR, str(self.request.user.id))
+            delete_old_reaction_files(result_files_dir)
+
         if 'view' not in kwargs:
             kwargs['view'] = self
         kwargs['page'] = get_object_or_404(StaticPage, slug='home')
