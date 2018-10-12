@@ -42,6 +42,9 @@ class Basket(FormView):
             )
 
         utils.destroy_basket(self.request)
+        cur_user.basket_id = None
+        cur_user.save(update_fields=('basket_id',))
+        self.request.session[utils.BASKET_ID_SESSION_KEY] = ''
 
         # send email
         mail_subject = 'New order on {}'.format(settings.HOSTNAME)

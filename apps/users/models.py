@@ -54,6 +54,7 @@ class User(AbstractUser):
     postcode = models.CharField(max_length=100)
 
     subscribed_on_news = models.BooleanField(default=False)
+    basket_id = models.CharField(max_length=100, null=True, blank=True)
 
     objects = UserManager()
 
