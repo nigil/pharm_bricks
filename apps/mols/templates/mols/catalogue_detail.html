@@ -64,7 +64,7 @@
                             <img src="{% static 'images/basket_fff.png' %}" alt=""/>
                         </button>
                         <button id="add_to_library" class="button_inner_name
-                            {% if not object.in_stock %}disabled{% endif %}">
+                            {% if not object.in_stock or not user.is_authenticated %}disabled{% endif %}">
                             add to library <img src="{% static 'images/libr.png' %}" alt=""/>
                         </button>
                     </div>
