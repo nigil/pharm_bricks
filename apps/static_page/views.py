@@ -18,7 +18,8 @@ class HomePage(TemplateView):
         # this page will be visit most often, so put this code here
         if self.request.user.is_authenticated:
             result_files_dir = os.path.join(settings.TEMP_FILES_DIR, str(self.request.user.id))
-            delete_old_reaction_files(result_files_dir)
+            if os.path.exists(result_files_dir):
+                delete_old_reaction_files(result_files_dir)
 
         if 'view' not in kwargs:
             kwargs['view'] = self

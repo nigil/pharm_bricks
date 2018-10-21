@@ -3,6 +3,9 @@ import time
 
 
 def delete_old_reaction_files(result_file_dir):
+    """
+    result_file_dir should exists
+    """
     now = time.time()
 
     for past_file in os.listdir(result_file_dir):
