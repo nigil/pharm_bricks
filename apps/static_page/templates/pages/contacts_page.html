@@ -13,17 +13,17 @@
 
 {% block extra_content %}
 
-{% if messages %}
-    {% for message in messages %}
-        <p style="text-align: center;">{{ message }}</p>
-    {% endfor %}
-{% endif %}
-
 <form action="" method="post">
     {% csrf_token %}
     <div class="container">
         <div class="row mg-bot">
             <div class="col-12 text-center form_cabinet">
+                {% if messages %}
+                    {% for message in messages %}
+                        <p style="text-align: center;">{{ message }}</p>
+                    {% endfor %}
+                {% endif %}
+
                 <p class="color_p p_big contants_header">
                     Any questions? Contact us
                 </p>

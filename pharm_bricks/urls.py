@@ -13,7 +13,7 @@ from longclaw.longclawbasket import api
 
 from users.views import PbLogin, PbRegister, PbLogout, \
     PbPasswordReset, PbPasswordResetConfirm, PbPasswordResetComplete, \
-    PbPasswordChange, PbPasswordChangeDone
+    PbPasswordChange, PbPasswordChangeDone, confirm_email
 from static_page.views import HomePage, ContactsPage
 from shop.views import Basket
 from core.views import load_cities_ajax
@@ -38,6 +38,8 @@ urlpatterns = [
     url(r'^login', PbLogin.as_view(), name='login'),
     url(r'^logout/$', PbLogout.as_view(), name='logout'),
     url(r'^register/$', PbRegister.as_view(), name='register'),
+    url(r'^confirm-email/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$',
+        confirm_email, name='confirm_email'),
     url(r'password-reset/$', PbPasswordReset.as_view(), name='password_reset'),
     url(r'password-reset-confirm/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$',
         PbPasswordResetConfirm.as_view(), name='password_reset_confirm'),

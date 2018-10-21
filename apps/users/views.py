@@ -127,7 +127,7 @@ class PbPasswordResetConfirm(PasswordResetConfirmView):
 
     def form_valid(self, form):
         messages.add_message(self.request, messages.INFO,
-                             '<p>Password was successfully changed.</p>')
+                             '<p>Password have been successfully changed.</p>')
 
         return super(PbPasswordResetConfirm, self).form_valid(form)
 
