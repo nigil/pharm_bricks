@@ -29,6 +29,8 @@
 
             {{ post.body|richtext }}
         </div>
+    {% empty %}
+        <div class="col-12 text-center">There is no news yet</div>
     {% endfor %}
     </div>
 </div>
