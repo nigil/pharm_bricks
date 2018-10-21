@@ -14,7 +14,7 @@ class UserUnsubscriber(object):
         base64_email = urlsafe_base64_encode(email)
         token = self.signer.sign(email).split(':')[1]
 
-        return 'http://{hostname}{path}'.format(
+        return '{hostname}{path}'.format(
             hostname=settings.HOSTNAME,
             path=reverse('unsubscribe_news', args=(base64_email, token)),
         )
