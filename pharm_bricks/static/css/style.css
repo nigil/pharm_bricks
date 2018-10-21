@@ -109,6 +109,18 @@ a.a_log.a_log_activ:hover {
     padding-top: 0;
 }
 
+.content_block a,
+.news_block a,
+.a_green {
+    color: #009846;
+}
+
+.a_green_no_hov {
+    color: #009846;
+}
+
+.content_block a:hover,
+.news_block a,
 .a_menu:hover,
 .a_green:hover,
 .a_plus:hover,
@@ -839,14 +851,6 @@ button img {
 
 .details:first-child {
     margin-top: 0;
-}
-
-.a_green {
-    color: #009846;
-}
-
-.a_green_no_hov {
-    color: #009846;
 }
 
 .mg-top {

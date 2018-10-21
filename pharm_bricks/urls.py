@@ -11,11 +11,10 @@ from wagtail.wagtaildocs import urls as wagtaildocs_urls
 from longclaw.longclawbasket import urls as basket_urls
 from longclaw.longclawbasket import api
 
-from users.views import PbLogin, PbRegister, confirm_email, PbLogout, \
+from users.views import PbLogin, PbRegister, PbLogout, \
     PbPasswordReset, PbPasswordResetConfirm, PbPasswordResetComplete, \
     PbPasswordChange, PbPasswordChangeDone
 from static_page.views import HomePage, ContactsPage
-from news.views import NewsPageView
 from shop.views import Basket
 from core.views import load_cities_ajax
 from screening_libraries.views import Generator, make_reaction
@@ -30,7 +29,6 @@ basket_list = api.BasketViewSet.as_view({
 urlpatterns = [
     url(r'^$', HomePage.as_view(), name='home'),
     url(r'^contacts/$', ContactsPage.as_view(), name='contacts'),
-    url(r'^news/$', NewsPageView.as_view(), name='news'),
 
     url(r'^django-admin/', include(admin.site.urls)),
 
@@ -40,8 +38,6 @@ urlpatterns = [
     url(r'^login', PbLogin.as_view(), name='login'),
     url(r'^logout/$', PbLogout.as_view(), name='logout'),
     url(r'^register/$', PbRegister.as_view(), name='register'),
-    url(r'^confirm-email/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$',
-        confirm_email, name='confirm_email'),
     url(r'password-reset/$', PbPasswordReset.as_view(), name='password_reset'),
     url(r'password-reset-confirm/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$',
         PbPasswordResetConfirm.as_view(), name='password_reset_confirm'),
@@ -49,6 +45,7 @@ urlpatterns = [
     url(r'password-change/$', PbPasswordChange.as_view(), name='password_change'),
     url(r'password-change-done/$', PbPasswordChangeDone.as_view(), name='password_change_done'),
 
+    url(r'^news/', include('news.urls')),
     url(r'^profile/', include('users.urls')),
     url(r'^catalogue/', include('mols.urls')),
     url(r'^screening-libraries/', include('screening_libraries.urls')),
@@ -65,7 +62,6 @@ urlpatterns = [
     # Wagtail's page serving mechanism. This should be the last pattern in
     # the list:
     url(r'^', include(basket_urls)),
-    # url(r'', include(request_urls)),
     url(r'', include(wagtail_urls)),
 
     # Alternatively, if you want Wagtail pages to be served from a subpath

@@ -1,0 +1,13 @@
+{% extends 'inner_shadowed.html' %}
+
+{% block base_content %}
+<div class="container content_block">
+    <div class="row">
+        <div class="col-12 text-center butt_bott">
+        {% for message in messages %}
+            <p>{{ message|safe }}</p>
+        {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

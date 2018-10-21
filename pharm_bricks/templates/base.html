@@ -1,16 +1,13 @@
 {% load menu_tags %}
 {% load longclawbasket_tags %}
 {% load staticfiles %}
-
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
     <title>PharmBricks
-    {% block title %}
-        {% if self.seo_title %}{{ self.seo_title }}{% else %}{{ self.title }}{% endif %}
-    {% endblock %}
+    {% block title %}{{ self.title }}{% endblock %}
     {% block title_suffix %}
         {% with self.get_site.site_name as site_name %}
             {% if site_name %}- {{ site_name }}{% endif %}

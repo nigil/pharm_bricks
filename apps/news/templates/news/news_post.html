@@ -8,5 +8,5 @@
     <h1>{{ page.title }}</h1>
     {% image page.image width-500 %}
     {{ page.image }}
-    <div>{{ page.body|richtext }}</div>
+    <div>{% include_block page.body %}</div>
 {% endblock %}

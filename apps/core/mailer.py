@@ -8,10 +8,13 @@ class HTMLTemplateMailer:
                  sender_email=settings.EMAIL_SENDER_EMAIL, attachments=None):
         context = context or {}
 
+        if isinstance(recipeint_email, basestring):
+            recipeint_email = (recipeint_email,)
+
         self.email_message = EmailMessage(
             subject,
             body=get_template(template_name).render(context),
-            to=(recipeint_email,),
+            to=recipeint_email,
             from_email=sender_email,
             attachments=attachments
         )
