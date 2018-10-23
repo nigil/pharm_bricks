@@ -1155,6 +1155,7 @@ a.disabled img:hover {
 output.p_big.ordershistory {
     margin-left: 70px;
     margin-top: 3px;
+    white-space: nowrap;
 }
 
 .p_search_disabled:hover {
@@ -2163,7 +2164,7 @@ h2.title {
 }
 
 .tabl-order input[type="checkbox"] + label p, .tabl_mylibraries input[type="checkbox"] + label p {
-    /*opacity: 0;*/
+    opacity: 0;
     /*animation-name: labelDisappears;*/
     /*animation-duration: .5s;*/
     -webkit-backface-visibility: hidden;
@@ -2271,4 +2272,33 @@ h2.title {
 
 .row_margin {
     margin-bottom: 10px;
+}
+
+ul.orders_history_products {
+    font-size: 14px;
+    color: #545353;
+    margin-top: 10px;
+    padding-left: 20px;
+}
+    ul.orders_history_products li {
+        padding-bottom: 10px;
+    }
+
+    .orders_history_products a {
+        color: #009846;
+        text-decoration: none;
+    }
+    .orders_history_products a:hover {
+        opacity: .8;
+        text-decoration: none;
+    }
+
+    .orders_history_products .price {
+        text-align: right;
+        white-space: nowrap;
+        padding: 0;
+    }
+
+.product_size {
+    white-space: nowrap;
 }
