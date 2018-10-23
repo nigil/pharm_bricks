@@ -22,7 +22,7 @@ def screening_libraries_detail_image_path(instance, filename):
     return os.path.join('screening_libraries', instance.slug, 'detail_' + filename)
 
 
-class ScreeningLibrary(Page, Orderable):
+class ScreeningLibrary(Page):
     catalogue_number = models.CharField(max_length=20, unique=True)
 
     preview_description = StreamField(BodyStreamBlock(), null=True)
@@ -85,7 +85,7 @@ class BuildingBlock(Page):
     ]
 
 
-class Reaction(models.Model):
+class Reaction(Orderable, models.Model):
     building_block = ParentalKey(
         BuildingBlock,
         on_delete=models.CASCADE,

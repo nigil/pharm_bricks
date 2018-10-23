@@ -51,7 +51,7 @@ function load_molecules(page_num, reset) {
             }
         },
         error: function() {
-            mols_container.text('There was Error when getting data. Please try later.')
+            mols_container.text('There was error while getting data. Please try later.')
         }
     })
 }

@@ -12,7 +12,7 @@
             <div class="col-9 text-center pd-no">
                 <div class="redactor" id="editor_container" data-searched_smiles=""></div>
                 <div class="container catalog-main">
-                    <div id="mols_list_container" class="row"
+                    <div id="mols_list_container" class="row three_per_row"
                          data-mols_list_url="{% url 'mols_list' %}"
                          {% if section %}data-section="{{ section.slug }}"{% endif %}
                          {% if sub_section %}data-sub_section="{{ sub_section.slug }}"{% endif %}

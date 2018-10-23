@@ -219,36 +219,6 @@ $(document).ready(function () {
         return false
     })
 
-
-    // if ($('#redactor_generation').length > 0) {
-    //     console.log('render editor');
-    //     render_editor("redactor_generation")
-    // }
-
-    $('#generation_step_1_radios input[name="radio_el"]').on('change', function() {
-        $('.generation_step_1').hide();
-        $('#generation_step_2_radios > div').hide();
-        $('.generation_step_2, .generation_step_2_hide').show();
-        $('.generation_step_2_hide').find('.error_block').hide();
-        var val = $('#generation_step_1_radios input[name="radio_el"]:checked').val();
-        $('#generation_step_2_radios > .generation_step_2_radios_' + val).show();
-        $('#generation_step_2_radios input:checked').click();
-        $('#generation_step_2_btn').addClass('disabled').removeClass('blue_butt');
-        $('#generation_step_3_btn').removeClass('disabled').addClass('blue_butt').text('save to my libraries');
-    })
-    $('#generation_step_2_radios').on('click', function(e) {
-        if ($(e.target).is('input[name="step2_el"]') && $('#generation_step_2_radios input[name="step2_el"]:checked').length > 0) {
-            $('#generation_step_2_btn').removeClass('disabled').addClass('blue_butt')
-        } else {
-            $('.generation_step_1').hide();
-            $('.generation_step_2, .generation_step_2_hide').show();
-            $('.generation_step_2_hide').find('.error_block').hide();
-            $('#generation_step_2_btn').addClass('disabled').removeClass('blue_butt');
-            $('.generation_step_3').hide();
-            $('#generation_step_3_btn').removeClass('disabled').addClass('blue_butt').text('save to my libraries');
-        }
-    })
-
     $('#basket_checkout').on('click', function() {
         $('.basket_step_1').hide()
         $('.basket_step_2').show()
@@ -257,24 +227,8 @@ $(document).ready(function () {
     $('textarea').autogrow({vertical: true, horizontal: false});
 });
 
-
-
-
-
 function toggle_show(id) {
     document.getElementById(id).style.display = document.getElementById(id).style.display == 'none' ? 'block' : 'none';
 }
-
-// function render_editor(container_name) {
-//     if (jsmeApplet === null && typeof JSApplet != 'undefined') {
-//         jsmeApplet = new JSApplet.JSME(container_name);
-//         jsmeApplet.deferredRepaint();
-//         document.JME = jsmeApplet;
-//     } else {
-//         setTimeout(function() {
-//             render_editor(container_name)
-//         }, 300)
-//     }
-// }
 
 

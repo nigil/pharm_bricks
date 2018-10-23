@@ -59,7 +59,7 @@ def make_reaction(request):
     reactions_ids = request.POST.getlist('reactions_ids[]')
 
     if not editor_smiles:
-        return HttpResponseBadRequest('Please fill editor to make reaction')
+        return HttpResponseBadRequest('Please fill molecular editor')
     elif not reactions_ids:
         return HttpResponseBadRequest('Please choose one of allowed reagents')
 
@@ -108,4 +108,4 @@ def make_reaction(request):
     finally:
         result_file.close()
 
-    return HttpResponseBadRequest('Reaction has no result')
+    return HttpResponseBadRequest('No reaction')

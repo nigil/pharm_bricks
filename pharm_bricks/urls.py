@@ -35,7 +35,7 @@ urlpatterns = [
     url(r'^admin/', include(wagtailadmin_urls)),
     url(r'^documents/', include(wagtaildocs_urls)),
 
-    url(r'^login', PbLogin.as_view(), name='login'),
+    url(r'^login/', PbLogin.as_view(), name='login'),
     url(r'^logout/$', PbLogout.as_view(), name='logout'),
     url(r'^register/$', PbRegister.as_view(), name='register'),
     url(r'^confirm-email/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$',

@@ -67,6 +67,12 @@ class CatalogueList(TemplateView):
         context = get_catalogue_sections(request, **kwargs)
         add_breadcrumbs(context)
 
+        context['page'] = context.get('sub_section',
+                                      context.get('section',
+                                                  context.get('catalogue_page')
+                                                  )
+                                      )
+
         return self.render_to_response(context)
 
 
@@ -130,5 +136,7 @@ class CatalogueDetail(DetailView):
         context = self.get_context_data(object=self.object)
         context.update(get_catalogue_sections(self.request, **kwargs))
         add_breadcrumbs(context)
+
+        context['page'] = self.object
 
         return self.render_to_response(context)

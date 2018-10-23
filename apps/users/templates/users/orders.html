@@ -1,7 +1,8 @@
 {% extends 'inner_shadowed.html' %}
-
 {% load staticfiles %}
 {% load wagtailcore_tags %}
+
+{% block title %}Orders history | {% endblock %}
 
 {% block base_content %}
 <div class="container">
@@ -26,7 +27,7 @@
                                 <a target="_blank" href="{% pageurl product %}">{{ product.title }}</a>
                                 - <span class="product_size">{{ item.product.ref }}</span>
                             </div>
-                            <div class="col-2 no-pd-right price">$ {{ item.total|add:0 }}</div>
+                            <div class="col-2 no-pd-right price">${{ item.total|add:0 }}</div>
                         </li>
                         {% endwith %}
                         {% endfor %}
@@ -35,7 +36,7 @@
                 </div>
                 <div class="col-2 no-pd-left text-left">
                     <output class="p_big ordershistory">
-                        &dollar; {{ order.total|add:0 }}
+                        &dollar;{{ order.total|add:0 }}
                     </output>
                 </div>
                 <div class="col-3 no-pd-left text-right">
@@ -47,7 +48,7 @@
                                id="repeat_{{ order.number }}" data-order_id="{{ order.id }}"/>
                         <label id="label_repeat_{{ order.number }}" for="repeat_{{ order.number }}"
                                class="text_cabinet_gray tab_oreder">
-                            <p class="mt">Ready! Look basket!</p>
+                            <p class="mt" style="opacity: 0;">Ready! Look basket!</p>
                         </label>
                     </div>
                 </div>

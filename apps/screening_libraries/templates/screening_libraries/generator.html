@@ -49,32 +49,16 @@
     </div>
 </div>
 
-<div class="container generation_step_1">
-    <div class="row">
-        <div class="col-12 text-center">
-            <div class="butt_bott button_gener_step">
-                <button class="generate disabled" id="generation_step_1_btn">generate</button>
-            </div>
-        </div>
-    </div>
-</div>
-
 <div class="container generation_step_2">
     <div class="row">
-        <div class="col-4">
-
-        </div>
+        <div class="col-4"></div>
         <div class="col-6 tabl_no_mg">
             <p class="p_big">
                 Select reagents
             </p>
         </div>
-        <div class="col-2">
-
-        </div>
+        <div class="col-2"></div>
     </div>
-</div>
-<div class="container generation_step_2">
     <div class="row">
         <div class="col-5">
 
@@ -102,6 +86,7 @@
         </div>
     </div>
 </div>
+
 <div class="container generation_step_2_hide">
     <div class="row">
         <div class="butt_bott col-12 text-center">
@@ -137,23 +122,59 @@
 {% block extra_js %}
 {% csrf_token %}
 <script type="text/javascript">
-function jsmeOnLoad() {
-    console.log('JSME onload');
-    jsmeApplet = new JSApplet.JSME('redactor_generation');
-    document.JME = jsmeApplet;
+function _prepare_to_reaction() {
+    $('.generation_step_2_hide').show();
+    $('.generation_step_2_hide').find('.error_block').hide();
+    $('.generation_step_3').hide();
+    $('#generation_step_3_btn').removeClass('disabled').addClass('blue_butt').text('save to my libraries');
 }
 
-function get_checked_reactions() {
-    var reactions_ids = [];
-    $('input[name=step2_el]:checked').each(function(){
-        reactions_ids.push($(this).val())
-    });
+function check_reaction_ready() {
+    _prepare_to_reaction();
 
-    return reactions_ids;
+    var editor_smiles = jsmeApplet.smiles()
+    if (editor_smiles && $('#generation_step_2_radios input[name="step2_el"]:checked').length > 0) {
+            $('#generation_step_2_btn').removeClass('disabled').addClass('blue_butt')
+    } else {
+        $('#generation_step_2_btn').addClass('disabled').removeClass('blue_butt');
+    }
+}
+
+function jsmeOnLoad() {
+    jsmeApplet = new JSApplet.JSME('redactor_generation');
+    document.JME = jsmeApplet;
+    jsmeApplet.setAfterStructureModifiedCallback(check_reaction_ready);
 }
 
 $(function(){
     var csrf_token = $("[name=csrfmiddlewaretoken]").val();
+
+    function get_checked_reactions() {
+        var reactions_ids = [];
+        $('input[name=step2_el]:checked').each(function(){
+            reactions_ids.push($(this).val())
+        });
+
+        return reactions_ids;
+    }
+
+    // change generator state
+    $('#generation_step_1_radios input[name="radio_el"]').on('change', function() {
+        $('.generation_step_2').show();
+        $('#generation_step_2_radios > div').hide();
+        var val = $('#generation_step_1_radios input[name="radio_el"]:checked').val();
+        $('#generation_step_2_radios > .generation_step_2_radios_' + val).show();
+        $('#generation_step_2_radios input:checked').click();
+        $('#generation_step_2_btn').addClass('disabled').removeClass('blue_butt');
+
+        _prepare_to_reaction()
+    });
+
+    $('input[name="step2_el"]').on('change', function(e) {
+        check_reaction_ready();
+    });
+
+    // make reaction
     $('#generation_step_2_btn').click(function(){
         var editor_smiles = document.JME.smiles();
         var reactions_ids = get_checked_reactions();
@@ -182,6 +203,7 @@ $(function(){
         })
     });
 
+    // save to my libraries
     $('#generation_step_3_btn').on('click', function(e) {
         e.preventDefault();
         var result_url = $('#result_link').attr('href');

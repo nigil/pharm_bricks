@@ -48,17 +48,19 @@ class Basket(FormView):
 
         # send email
         mail_subject = 'New order on {}'.format(settings.HOSTNAME)
-        mailer = HTMLTemplateMailer(cur_user.email,
-                                    mail_subject,
-                                    'email/checkout.html',
-                                    {
-                                        'order': order,
-                                        'user': cur_user,
-                                        'phone': settings.COMPANY_PHONE,
-                                        'site_host': settings.HOSTNAME
 
-                                    })
-        mailer.send()
+        for email in (cur_user.email, settings.ADMIN_EMAIL):
+            mailer = HTMLTemplateMailer(email,
+                                        mail_subject,
+                                        'email/checkout.html',
+                                        {
+                                            'order': order,
+                                            'user': cur_user,
+                                            'phone': settings.COMPANY_PHONE,
+                                            'site_host': settings.HOSTNAME
+
+                                        })
+            mailer.send()
 
         messages.add_message(self.request, messages.INFO,
                              'The order was successfully created. Follow <a href="'

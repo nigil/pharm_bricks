@@ -3,7 +3,7 @@
 
 {% block body_class %}template-searchresults{% endblock %}
 
-{% block title %}Search{% endblock %}
+{% block title %}Search results | {% endblock %}
 
 {% block search_text %}{{ search_query }}{% endblock %}
 
@@ -42,7 +42,7 @@
         <div class="row">
             <div class="col-12 text-center pd-no">
                 <div class="container catalog-main">
-                    <div id="mols_list_container" class="row four_mols_per_row"
+                    <div id="mols_list_container" class="row four_per_row"
                          data-mols_list_url="{% url 'search_list' %}"
                          data-search_query="{{ search_query }}"
                     ></div>
