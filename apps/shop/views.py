@@ -63,9 +63,7 @@ class Basket(FormView):
             mailer.send()
 
         messages.add_message(self.request, messages.INFO,
-                             'The order was successfully created. Follow <a href="'
-                             + reverse('user_orders')
-                             + '">this page</a> to see all your orders')
+                             'Your order is ready. Please, check your email.')
 
         return super(Basket, self).form_valid(form)
 

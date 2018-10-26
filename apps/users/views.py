@@ -71,8 +71,8 @@ class PbRegister(FormView):
                            }).send()
 
         messages.add_message(self.request, messages.INFO,
-                             'You have just registered on our site. '
-                             'Please check your email for next instructions')
+                             'You have been successfully registered. '
+                             'Please check your email for account activation.')
 
         return super(PbRegister, self).form_valid(form)
 
@@ -127,7 +127,7 @@ class PbPasswordResetConfirm(PasswordResetConfirmView):
 
     def form_valid(self, form):
         messages.add_message(self.request, messages.INFO,
-                             '<p>Password have been successfully changed.</p>')
+                             '<p>Password successfully changed.</p>')
 
         return super(PbPasswordResetConfirm, self).form_valid(form)
 

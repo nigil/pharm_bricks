@@ -3,11 +3,11 @@ from django import forms
 
 class OrderForm(forms.Form):
     PAYMENT_CHOICES = (('invoice', 'Invoice'),)
-    use_user_address = forms.BooleanField(required=False,
+    use_user_address = forms.BooleanField(initial=True,
                                           widget=forms.CheckboxInput(
                                               attrs={
                                                 'id': 'delivery_bch',
-                                                'class': 'inp_cat_bch posit checkbox '
+                                                'class': 'posit_black posit checkbox '
                                                          'checkbox_disabled'
                                               }
                                           ))

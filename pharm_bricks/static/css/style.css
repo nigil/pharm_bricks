@@ -485,7 +485,7 @@ input[type="submit"] {
     width: 300px;
     margin-left: auto;
     margin-right: auto;
-    text-align: left;
+    text-align: center;
 }
 
 .img_set {
@@ -1024,7 +1024,7 @@ button img {
 
 .wh-hg_img {
     height: 170px;
-    width: auto;
+    text-align: center;
 }
 
 .button_small {
@@ -1062,7 +1062,6 @@ button img {
 }
 
 .wh-hg_p {
-    display: table-cell;
     vertical-align: bottom;
     padding-left: 5px;
     padding-right: 5px;
@@ -2310,4 +2309,26 @@ ul.orders_history_products {
 
 .product_size {
     white-space: nowrap;
+}
+
+ul.errorlist {
+    margin: 5px 0 10px 0;
+    padding: 0;
+    color: palevioletred;
+}
+    ul.errorlist li {
+        list-style-type: none;
+    }
+
+.has_errors input,
+.has_errors select,
+.has_errors textarea,
+.has_errors input:focus,
+.has_errors select:focus,
+.has_errors textarea:focus {
+    border-color: palevioletred;
+}
+
+.error_text {
+    color: palevioletred;
 }

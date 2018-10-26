@@ -39,7 +39,7 @@
                     <p class="p_in">
                         {% if not object.in_stock %}not {% endif %}in stock
                     </p>
-                    <div class="block">
+                    <div class="block prise_size">
                         <p class="twit">
                             Price & Size
                         </p>
@@ -51,6 +51,9 @@
                             {{ price.ref }} (${{ price.price|add:"0" }})
                         </label> <br/>
                         {% endfor %}
+
+                        <span id="prise_size_none_error" class="error_text" style="display: none;"
+                            >Please, select molecule size</span>
                     </div>
                     <div class="plus_min pm_top">
                         <a href="#" class="a_min" id="minus_el"></a>
@@ -119,25 +122,10 @@
 <script src="{% static 'js/bookmarks.js' %}"></script>
 <script type="text/javascript">
 $(function(){
-    var csrf_token = $("[name=csrfmiddlewaretoken]").val();
+    var prise_size_error = $('#prise_size_none_error');
 
-    $(document).on('click', '#add_to_basket', function(){
-        var variant_id = $("input[name='pricensize']:checked").val();
-        var quantity = $('#el_count').val();
-        if (variant_id && quantity) {
-            put_to_basket(variant_id, quantity, csrf_token);
-        }
-
-        return false;
-    });
-
-    $(document).on('click', '#add_to_library', function(){
-        var variant_id = $("input[name='pricensize']:checked").val();
-        if (variant_id) {
-            add_product_to_bookmarks(variant_id, csrf_token);
-        }
-
-        return false;
+    $(document).on('change', '[name="pricensize"]', function(){
+        prise_size_error.hide()
     });
 });
 </script>

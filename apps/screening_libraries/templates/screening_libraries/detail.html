@@ -64,12 +64,16 @@
                                name="pricensize"
                                id="{{ price.id }}"
                                value="{{ price.id }}"
-                               class="checkbox"/>
+                               class="checkbox"
+                               checked />
                         <label for="{{ price.id }}" class="one_long">
                             {{ price.ref|capfirst }} (&dollar;{{ price.price|add:"0" }})
                         </label>
                         {% endif %}
                         {% endfor %}
+
+                        <div id="prise_size_none_error" class="error_text" style="display: none;"
+                            ><br/>Please, select library size</div>
                     </div>
                     <div class="col-12 inline inline_mg">
                         {% for price in object.prices.all %}
@@ -112,7 +116,7 @@
                                 {% if not object.in_stock %}disabled{% endif %}>
                             add to basket <img src="{% static 'images/basket_fff.png' %}" alt=""/>
                         </button>
-                        <button class="button_inner_name"
+                        <button id="add_to_library" class="button_inner_name"
                                 {% if not object.in_stock %}disabled{% endif %}>
                             add to library <img src="{% static 'images/libr.png' %}" alt=""/>
                         </button>
@@ -145,18 +149,13 @@
 {% csrf_token %}
 <script src="{% static 'js/mols_list.js' %}"></script>
 <script src="{% static 'js/shop.js' %}"></script>
+<script src="{% static 'js/bookmarks.js' %}"></script>
 <script type="text/javascript">
 $(function(){
-    var csrf_token = $("[name=csrfmiddlewaretoken]").val();
+    var prise_size_error = $('#prise_size_none_error');
 
-    $(document).on('click', '#add_to_basket', function(){
-        var variant_id = $("input[name='pricensize']:checked").val();
-        var quantity = $('#el_count').val();
-        if (variant_id && quantity) {
-            put_to_basket(variant_id, quantity, csrf_token);
-        }
-
-        return false;
+    $(document).on('change', '[name="pricensize"]', function(){
+        prise_size_error.hide()
     });
 });
 </script>

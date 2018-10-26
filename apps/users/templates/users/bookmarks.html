@@ -180,7 +180,7 @@ $(function(){
     });
 
     $(document).on('click', '.bookmark_item .delete_item', function(){
-        if (confirm('Are you really want to remove bookmark?')) {
+        if (confirm('Bookmark cannot be restored. Remove it?')) {
             var bookmark_container = $(this).closest('.bookmark_item');
 
             var bookmark_type = '';

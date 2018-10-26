@@ -10,7 +10,13 @@
         </a>
     </div>
     <div class="wh-hg">
-        <a href="{% pageurl mol %}" class="a_green wh-hg_p">{{ mol.title }}</a>
+        <a href="{% pageurl mol %}" class="a_green wh-hg_p">
+            {% if mol.title|length <= 90 %}
+                {{ mol.title }}
+            {% else %}
+                {{ mol.title|slice:'90' }}...
+            {% endif %}
+        </a>
     </div>
     <div class="el_ctrl">
         <button class="add_to_basket button_small{% if not mol.in_stock %} disabled{% endif %}"

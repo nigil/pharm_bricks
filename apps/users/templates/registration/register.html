@@ -21,38 +21,17 @@
     <div class="container">
         <div class="row mg-bot">
             <div class="col-12 text-center form_cabinet form_cabinet_signup">
-                <div>{{ form.first_name }}</div>
-                <div>{{ form.first_name.errors }}</div>
-
-                <div>{{ form.last_name }}</div>
-                <div>{{ form.last_name.errors }}</div>
-
-                <div>{{ form.phone }}</div>
-                <div>{{ form.phone.errors }}</div>
-
-                <div>{{ form.organization }}</div>
-                <div>{{ form.organization.error }}</div>
-
-                <div>{{ form.country }}</div>
-                <div>{{ form.country.errors }}</div>
-
-                <div>{{ form.delivery_address }}</div>
-                <div>{{ form.delivery_address.errors }}</div>
-
-                <div>{{ form.city }}</div>
-                <div>{{ form.city.errors }}</div>
-
-                <div>{{ form.postcode }}</div>
-                <div>{{ form.postcode.errors }}</div>
-
-                <div>{{ form.email }}</div>
-                <div>{{ form.email.errors }}</div>
-
-                <div>{{ form.password }}</div>
-                <div>{{ form.password.errors }}</div>
-
-                <div>{{ form.password1 }}</div>
-                <div>{{ form.password1.errors }}</div>
+                {% include 'utilites/pb_input.html' with input=form.first_name %}
+                {% include 'utilites/pb_input.html' with input=form.last_name %}
+                {% include 'utilites/pb_input.html' with input=form.phone %}
+                {% include 'utilites/pb_input.html' with input=form.organization %}
+                {% include 'utilites/pb_input.html' with input=form.country %}
+                {% include 'utilites/pb_input.html' with input=form.delivery_address %}
+                {% include 'utilites/pb_input.html' with input=form.city %}
+                {% include 'utilites/pb_input.html' with input=form.postcode %}
+                {% include 'utilites/pb_input.html' with input=form.email %}
+                {% include 'utilites/pb_input.html' with input=form.password %}
+                {% include 'utilites/pb_input.html' with input=form.password1 %}
             </div>
         </div>
     </div>
@@ -63,7 +42,6 @@
             </div>
             <div class="col-6 check_singup">
                 <div>
-{#                    <input type="checkbox" name="" id="subsribe_sugn" class="checkbox"/>#}
                     {{ form.subscribed_on_news }}
                     <label for="{{ form.subscribed_on_news.id_for_label }}" class="subsribe_sugn">Subscribe me News</label>
                 </div>
@@ -74,7 +52,7 @@
         <div class="row">
             <div class="col-12 text-center butt_bott">
                 <div>
-                    <button class="blue_butt blue_butt_sing_up">sing up</button>
+                    <button class="blue_butt blue_butt_sing_up">sign up</button>
                     <p class="singup">
                         By continuing, you agree to our
                     </p>

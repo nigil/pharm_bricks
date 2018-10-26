@@ -67,11 +67,16 @@ class CatalogueList(TemplateView):
         context = get_catalogue_sections(request, **kwargs)
         add_breadcrumbs(context)
 
-        context['page'] = context.get('sub_section',
-                                      context.get('section',
-                                                  context.get('catalogue_page')
-                                                  )
-                                      )
+        context['page'] = context.get(
+            'sub_section',
+            context.get(
+                'section',
+                context.get(
+                    'catalogue_page',
+                    None
+                )
+            )
+        )
 
         return self.render_to_response(context)
 

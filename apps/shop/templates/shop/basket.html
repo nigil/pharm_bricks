@@ -40,6 +40,7 @@
             {% endif %}
         </div>
     </div>
+
     {% if basket %}
     {% for item in basket %}
     {% with product=item.variant.product.specific %}
@@ -105,6 +106,16 @@
         </div>
     </div>
 
+    {% if not user.is_authenticated %}
+    <div class="text-center mg-top-50 butt_bott">
+        Please,
+        <a href="{% url 'login' %}?next={% url 'basket' %}"
+           class="a_green a_green_bold a_hov">Log In</a>
+        or <a href="{% url 'register' %}" class="a_green a_green_bold a_hov">Sign Up</a>
+        to make order.
+    </div>
+    {% else %}
+
     <div class="container basket_step_1">
         <div class="row">
             <div class="col-12 text-left no_pd no-pd-left total_catalog_bch">
@@ -122,21 +133,9 @@
                     <form method="POST" action=".">
                         {% csrf_token %}
                         <div class="p_small tabl_mg">
-                            <input type="checkbox" name="{{ form.use_user_address.name }}"
-                                   id="delivery_bch"
-                                   class="inp_cat_bch posit checkbox
-                                        {% if not user.is_authenticated %}
-                                            checkbox_disabled
-                                        {% endif %}">
-                            <label for="{{ form.use_user_address.id_for_label }}" class="no-fix">Use
-                                my account details for delivery <br/>
-                                {% if not user.is_authenticated %}
-                                Please,
-                                    <a href="{% url 'login' %}?next={% url 'basket' %}"
-                                       class="a_green a_green_bold a_hov">Log In</a>
-                                or <a href="{% url 'register' %}" class="a_green a_green_bold a_hov">Sing Up</a>
-                                {% endif %}
-                            </label>
+                            {{ form.use_user_address }}
+                            <label for="{{ form.use_user_address.id_for_label }}"
+                                   class="lab_top">Use my account details for delivery</label>
                             <br/>
                         </div>
                         {{ form.use_user_address.errors }}
@@ -184,6 +183,7 @@
             </div>
         </div>
     </div>
+    {% endif %}
 
     {% else %}
     <div class="container basket_items">

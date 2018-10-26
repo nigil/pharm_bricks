@@ -27,18 +27,11 @@
                 <p class="color_p p_big contants_header">
                     Any questions? Contact us
                 </p>
-                <div>
-                    {{ form.name }}
-                </div>
-                {{ form.name.errors }}
-                <div>
-                    {{ form.email }}
-                </div>
-                {{ form.email.errors }}
-                <div>
-                    {{ form.question }}
-                </div>
-                {{ form.question.errors }}
+
+                {% include 'utilites/pb_input.html' with input=form.name %}
+                {% include 'utilites/pb_input.html' with input=form.email %}
+                {% include 'utilites/pb_input.html' with input=form.question %}
+
                 <div class="touch">
                     <button class="blue_butt button_compound_libr">Get in touch</button>
                 </div>
