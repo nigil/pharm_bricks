@@ -34,3 +34,21 @@ function calc_basket_total() {
 
     $('#total_price').text(sum);
 }
+
+$(function(){
+    var csrf_token = $("[name=csrfmiddlewaretoken]").val();
+    var prise_size_error = $('#prise_size_none_error');
+
+    $(document).on('click', '#add_to_basket', function(){
+        var variant_id = $("input[name='pricensize']:checked").val();
+        var quantity = $('#el_count').val();
+        if (variant_id && quantity) {
+            put_to_basket(variant_id, quantity, csrf_token);
+        }
+        else if (!variant_id) {
+            prise_size_error.show();
+        }
+
+        return false;
+    });
+});
