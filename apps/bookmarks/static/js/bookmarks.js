@@ -16,3 +16,20 @@ function add_product_to_bookmarks(product_id, csrf_token) {
         }
     );
 }
+
+$(function(){
+    var csrf_token = $("[name=csrfmiddlewaretoken]").val();
+    var prise_size_error = $('#prise_size_none_error');
+
+    $(document).on('click', '#add_to_library', function(){
+        var variant_id = $("input[name='pricensize']:checked").val();
+        if (variant_id) {
+            add_product_to_bookmarks(variant_id, csrf_token);
+        }
+        else if (!variant_id) {
+            prise_size_error.show()
+        }
+
+        return false;
+    });
+});

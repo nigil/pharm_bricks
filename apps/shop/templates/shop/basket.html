@@ -47,9 +47,11 @@
     <div class="container basket_items basket_product">
         <div class="row mg-bot">
             <div class="col-6 content_catalog_bch">
+                {% if product.image %}
                 <a href="{{ product.image.url }}" data-lightbox="image-{{ forloop.counter }}">
                     <img src="{{ product.image|thumbnail_url:'small' }}" alt="" class="img_litl"/>
                 </a>
+                {% endif %}
                 <div>
                     <p class="no-mg p_catalog_bch">
                         {{ product.catalogue_number }}
