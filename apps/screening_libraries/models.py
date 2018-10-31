@@ -25,7 +25,7 @@ def screening_libraries_detail_image_path(instance, filename):
 class ScreeningLibrary(Page):
     catalogue_number = models.CharField(max_length=20, unique=True)
 
-    preview_description = StreamField(BodyStreamBlock(), null=True)
+    preview_description = models.TextField(null=True)
     detail_description = StreamField(BodyStreamBlock(), null=True)
 
     image = models.ImageField(upload_to=screening_libraries_image_path,
@@ -66,7 +66,7 @@ class ScreeningLibrary(Page):
     content_panels = [
         FieldPanel('title'),
         FieldPanel('catalogue_number'),
-        StreamFieldPanel('preview_description'),
+        FieldPanel('preview_description'),
         StreamFieldPanel('detail_description'),
         FieldPanel('image', widget=AdminImageFieldWidget),
         FieldPanel('detail_image', widget=AdminImageFieldWidget),
