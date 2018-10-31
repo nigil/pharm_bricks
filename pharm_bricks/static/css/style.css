@@ -1041,6 +1041,9 @@ button img {
     padding-top: 3px;
     border: none;
 }
+.button_small span {
+    font-family: 'Myriad Pro';
+}
 
 .button_small:hover {
     cursor: pointer;
@@ -2332,3 +2335,17 @@ ul.errorlist {
 .error_text {
     color: palevioletred;
 }
+
+.delete_block {
+    color: #727171;
+    font-size: 14px;
+    font-style: italic;
+    margin-bottom: 14px;
+}
+    .delete_block a {
+        color: #009846;
+    }
+    .delete_block a:hover {
+        color: #009846;
+        text-decoration: none;
+    }

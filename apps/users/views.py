@@ -169,16 +169,23 @@ class Orders(LoginRequiredMixin, ListView):
 class Bookmarks(LoginRequiredMixin, TemplateView):
     template_name = 'users/bookmarks.html'
 
+    def get(self, request, *args, **kwargs):
+        # delete non-active bookmarks
+        ProductBookmark.objects.filter(user=self.request.user, active=False).delete()
+        GeneratorResultBookmark.objects.filter(user=self.request.user, active=False).delete()
+
+        return super(Bookmarks, self).get(request, *args, **kwargs)
+
     def get_context_data(self, **kwargs):
         context = super(Bookmarks, self).get_context_data(**kwargs)
 
         product_bookmarks = ProductBookmark.objects \
             .select_related('product') \
-            .filter(user=self.request.user) \
+            .filter(user=self.request.user, active=True) \
             .order_by('-created')
 
         generator_bookmarks = GeneratorResultBookmark.objects \
-            .filter(user=self.request.user) \
+            .filter(user=self.request.user, active=True) \
             .order_by('-created')
 
         context['product_bookmarks'] = product_bookmarks

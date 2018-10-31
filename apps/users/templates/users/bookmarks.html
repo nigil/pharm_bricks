@@ -35,7 +35,7 @@
                         />
                         <label for="product_{{ bookmark.product.id }}"
                                class="text_cabinet_gray tab_lib tabl_cabinet">
-                            <p class="mt put_to_basket_label">Put to basket.</p>
+                            <p class="mt add_to_basketadadput_to_basket_label">Put to basket.</p>
                             <p class="mt look_basket_label" style="display: none;">Ready! Look basket!</p>
                         </label>
                     </div>
@@ -94,6 +94,11 @@
         {% endfor %}
     </div>
     {% endif %}
+<div class="template_delete_block" style="display: none">
+    <div class="col-5 text-right delete_block text_cabinet_gray">
+        Bookmark was deleted. <a class="restore_bookmark" href="#">Restore</a>.
+    </div>
+</div>
 {% else %}
     <div style="text-align: center;">There is no bookmarks yet</div>
 {% endif %}
@@ -180,37 +185,53 @@ $(function(){
     });
 
     $(document).on('click', '.bookmark_item .delete_item', function(){
-        if (confirm('Bookmark cannot be restored. Remove it?')) {
-            var bookmark_container = $(this).closest('.bookmark_item');
+        var bookmark_container = $(this).closest('.bookmark_item');
 
-            var bookmark_type = '';
-            if (bookmark_container.hasClass('bookmark_product')) {
-                bookmark_type = 'product'
-            } else {
-                bookmark_type = 'generator'
-            }
-
-            $.ajax({
-                url: '/bookmarks/delete/' + bookmark_container.attr('data-id') + '/',
-                type: 'POST',
-                headers: {
-                    'X-CSRFToken': csrf_token
-                },
-                data: {
-                    type: bookmark_type
-                },
-                success: function() {
-                    bookmark_container.remove();
-                    bookmarks_list = $('#' + bookmark_type + '_bookmarks');
-                    if (!bookmarks_list.find('.bookmark_item').length) {
-                        bookmarks_list.remove();
-                    }
-                },
-                error: function() {
-                    alert("Can't delete bookmark. Please try later.")
-                }
-            });
+        var bookmark_type = '';
+        if (bookmark_container.hasClass('bookmark_product')) {
+            bookmark_type = 'product'
+        } else {
+            bookmark_type = 'generator'
         }
+
+        var bookmark_id = bookmark_container.attr('data-id');
+        var deleted_content = null;
+
+        $.ajax({
+            url: '/bookmarks/delete/' + bookmark_id + '/',
+            type: 'POST',
+            headers: {
+                'X-CSRFToken': csrf_token
+            },
+            data: {
+                type: bookmark_type
+            },
+            success: function() {
+                deleted_content = bookmark_container.html();
+                bookmark_container.html($('.template_delete_block .delete_block').clone());
+
+                bookmark_container.find('a.restore_bookmark').click(function() {
+                    $.ajax({
+                        url: '/bookmarks/restore/' + bookmark_id + '/',
+                        type: 'POST',
+                        headers: {
+                            'X-CSRFToken': csrf_token
+                        },
+                        data: {
+                            type: bookmark_type
+                        },
+                        success: function() {
+                            bookmark_container.html(deleted_content);
+                        }
+                    });
+
+                    return false;
+                })
+            },
+            error: function() {
+                alert("Can't delete bookmark. Please try later.")
+            }
+        });
     });
 });
 </script>

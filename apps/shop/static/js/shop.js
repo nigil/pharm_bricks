@@ -1,4 +1,7 @@
-function put_to_basket(product_id, quantity, csrf_token) {
+function put_to_basket(product_id, quantity, csrf_token, target) {
+    if (!target) {
+        target = null;
+    }
     $.post(
         '/api/basket/',
         {
@@ -12,8 +15,19 @@ function put_to_basket(product_id, quantity, csrf_token) {
                 basket_count.text(parseInt(basket_count.text()) + parseInt(quantity))
                     .css('display', 'inline');
 
-                alert('You have just add product to basket. ' +
-                    'You can check to basket or continue to shopping')
+                if (target) {
+                    target.prop('disabled', true);
+                    var button_text = target.find('span');
+                    var target_original_text = button_text.text();
+                    var new_text = 'added';
+
+                    button_text.text(new_text);
+                    setTimeout(function() {
+                        button_text.text(target_original_text);
+                        target.prop('disabled', false);
+                    }, 3000);
+                }
+
             }
             else {
                 alert('Something is wrong. Please check errors and try again.')
@@ -43,7 +57,7 @@ $(function(){
         var variant_id = $("input[name='pricensize']:checked").val();
         var quantity = $('#el_count').val();
         if (variant_id && quantity) {
-            put_to_basket(variant_id, quantity, csrf_token);
+            put_to_basket(variant_id, quantity, csrf_token, $(this));
         }
         else if (!variant_id) {
             prise_size_error.show();

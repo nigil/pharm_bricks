@@ -97,14 +97,22 @@ def delete_bookmark(request, id):
     if bookmark_type == 'generator':
         bookmark_class = GeneratorResultBookmark
 
-    try:
-        bookmark = bookmark_class.objects.get(user=user, id=id)
-    except bookmark_class.DoesNotExist as e:
-        return HttpResponseBadRequest()
+    bookmark_class.objects.filter(user=user, id=id).update(active=False)
 
-    if not bookmark:
-        return HttpResponseBadRequest()
+    return HttpResponse()
 
-    bookmark.delete()
+
+def restore_bookmark(request, id):
+    if not request.is_ajax():
+        return HttpResponseForbidden()
+
+    user = request.user
+    bookmark_type = request.POST.get('type')
+
+    bookmark_class = ProductBookmark
+    if bookmark_type == 'generator':
+        bookmark_class = GeneratorResultBookmark
+
+    bookmark_class.objects.filter(user=user, id=id).update(active=True)
 
     return HttpResponse()

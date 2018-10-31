@@ -15,6 +15,7 @@ class ProductBookmark(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     product = models.ForeignKey(ProductVariant)
     user = models.ForeignKey(User, related_name='product_bookmarks')
+    active = models.BooleanField(default=True)
 
     class Meta:
         unique_together = ('product', 'user')
@@ -24,6 +25,7 @@ class GeneratorResultBookmark(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     file = models.FileField(upload_to=generator_result_path, null=True)
     user = models.ForeignKey(User, related_name='generator_bookmarks')
+    active = models.BooleanField(default=True)
 
     class Meta:
         unique_together = ('file', 'user')

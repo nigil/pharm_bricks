@@ -21,12 +21,12 @@
     <div class="el_ctrl">
         <button class="add_to_basket button_small{% if not mol.in_stock %} disabled{% endif %}"
                 value="{{ mol.prices.first.id }}" name="pricensize">
-                    add to basket <img src="{% static 'images/basket_fff.png' %}" alt=""/>
+            <span>add to basket</span> <img src="{% static 'images/basket_fff.png' %}" alt=""/>
         </button>
         <button class="add_to_bookmarks button_small
                         {% if not mol.in_stock or not user.is_authenticated %} disabled{% endif %}"
                 value="{{ mol.prices.first.id }}">
-                    add to library <img src="{% static 'images/libr.png' %}" alt=""/>
+            <span>add to library</span> <img src="{% static 'images/libr.png' %}" alt=""/>
         </button>
     </div>
 </div>

@@ -78,7 +78,7 @@ $(function(){
     $(document).on('click', '.add_to_basket', function(){
         var variant_id = $(this).val();
         if (variant_id) {
-            put_to_basket(variant_id, 1, csrf_token);
+            put_to_basket(variant_id, 1, csrf_token, $(this));
         }
 
         return false;

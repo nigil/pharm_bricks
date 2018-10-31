@@ -114,11 +114,11 @@
                     <div class="plus_min_btn">
                         <button id="add_to_basket" class="button_inner_name no-mg-bott"
                                 {% if not object.in_stock %}disabled{% endif %}>
-                            add to basket <img src="{% static 'images/basket_fff.png' %}" alt=""/>
+                            <span>add to basket</span> <img src="{% static 'images/basket_fff.png' %}" alt=""/>
                         </button>
                         <button id="add_to_library" class="button_inner_name"
                                 {% if not object.in_stock %}disabled{% endif %}>
-                            add to library <img src="{% static 'images/libr.png' %}" alt=""/>
+                            <span>add to library</span> <img src="{% static 'images/libr.png' %}" alt=""/>
                         </button>
                     </div>
                 </form>
