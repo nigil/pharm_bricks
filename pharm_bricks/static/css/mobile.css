@@ -159,8 +159,21 @@
         margin-right: auto;
     }
 
-    .block_img {
-        width: 48%;
+    .three_per_row .block_img,
+    .three_per_row .block_img:nth-child(3n + 3) {
+        width: 45%;
+        margin-right: 10%;
+    }
+
+    .four_per_row .block_img,
+    .four_per_row .block_img:nth-child(4n + 4){
+        width: 30%;
+        margin-right: 5%;
+    }
+
+    .three_per_row .block_img:nth-child(2n + 2),
+    .four_per_row .block_img:nth-child(3n + 3) {
+        margin-right: 0;
     }
 
     .menu_two {

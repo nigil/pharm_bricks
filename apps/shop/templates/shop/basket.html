@@ -25,17 +25,19 @@
                 </h2>
             </div>
             {% if basket %}
-            <div class="col-1 padding-left-0">
-                <p class="p_gray p_catalig_bask_chek">
-                    Size
-                </p>
-            </div>
-            <div class="col-1">
-                <p class="p_gray p_catalig_bask_chek">
-                    Quantity
-                </p>
-            </div>
-            <div class="col-4">
+            <div id="basket_headers" class="col-6 p-0 row">
+                <div class="col-2">
+                    <p class="p_gray p_catalig_bask_chek">
+                        Size
+                    </p>
+                </div>
+                <div class="col-2">
+                    <p class="p_gray p_catalig_bask_chek">
+                        Quantity
+                    </p>
+                </div>
+                <div class="col-8">
+                </div>
             </div>
             {% endif %}
         </div>
@@ -93,7 +95,7 @@
     {% endwith %}
     {% endfor %}
 
-    <div class="container">
+    <div id="basket_total" class="container">
         <div class="row">
             <div class="col-12 text-left no_pd no-pd-left total_catalog_bch">
                 <div class="wid300">
@@ -109,7 +111,7 @@
     </div>
 
     {% if not user.is_authenticated %}
-    <div class="text-center mg-top-50 butt_bott">
+    <div id="login_sugnup" class="text-center mg-top-50 butt_bott">
         Please,
         <a href="{% url 'login' %}?next={% url 'basket' %}"
            class="a_green a_green_bold a_hov">Log In</a>
@@ -187,21 +189,27 @@
     </div>
     {% endif %}
 
-    {% else %}
-    <div class="container basket_items">
+    {% endif %}
+
+
+    <div id="no_items" class="container text-center"
+         {% if basket %}style="display: none;"{% endif %}>
         <div class="row mg-bot">
-            <div class="col-6 content_catalog_bch">
-                There is no items yet
+            <div class="col-12 content_catalog_bch">
+                There is no items.
             </div>
         </div>
     </div>
-    {% endif %}
 {% endif %}
 {% endblock %}
 
 {% block extra_js %}
 <script type="text/javascript" src="{% static 'js/shop.js' %}"></script>
 <script type="text/javascript">
+    lightbox.option({
+        'maxWidth': 390
+    });
+
     $(function(){
         var csrf_token = $("[name=csrfmiddlewaretoken]").val();
 
@@ -263,6 +271,7 @@
 
             wto = setTimeout(function() {
                 var prev_quantity = quantity_input.attr('data-prev');
+                var quantity_diff = new_quantity - prev_quantity;
 
                 $.ajax({
                     url: '/api/basket/',
@@ -270,10 +279,17 @@
                     data: {
                         'csrfmiddlewaretoken': csrf_token,
                         variant_id: variant_id,
-                        quantity: new_quantity-prev_quantity
+                        quantity: quantity_diff
                     },
                     success: function() {
                         quantity_input.attr('data-prev', new_quantity);
+                        if (quantity_diff > 0) {
+                            increase_basket_size(quantity_diff);
+                        }
+                        else {
+                            decrease_basket_size(quantity_diff * -1);
+                        }
+
                         var price = product_container.find('.product_type').find('option:selected')
                             .attr('data-price');
 
@@ -293,7 +309,7 @@
 
         // delete product
         $(document).on('click', '.del_catalog_bch .x', function(e) {
-            var product_container = $(this).closest('.container');
+            var product_container = $(this).closest('.basket_items');
             var quantity = product_container.find('.item_quantity').val();
             var variant_id = product_container.find('.product_type').val();
 
@@ -309,6 +325,16 @@
                 success: function() {
                     $(product_container).remove();
                     calc_basket_total();
+                    decrease_basket_size(quantity);
+
+                    if (!$('.basket_items').length) {
+                        $('#no_items').show();
+                        $('.basket_step_1').hide();
+                        $('.basket_step_2').hide();
+                        $('#basket_total').hide();
+                        $('#login_sugnup').hide();
+                        $('#basket_headers').hide();
+                    }
                 }
             });
         });

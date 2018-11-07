@@ -16,7 +16,7 @@ def mailing_after_news_publish(instance, **kwargs):
         for user in User.objects.filter(subscribed_on_news=True):
             mailer = HTMLTemplateMailer(
                 user.email,
-                'News from PharmBricks',
+                'PharmBricks news',
                 'email/news_mailing.html',
                 {
                     'site_host': settings.HOSTNAME,

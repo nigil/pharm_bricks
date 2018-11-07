@@ -47,7 +47,7 @@ class Basket(FormView):
         self.request.session[utils.BASKET_ID_SESSION_KEY] = ''
 
         # send email
-        mail_subject = 'New order on {}'.format(settings.HOSTNAME)
+        mail_subject = 'Your order confirmation - № {}'.format(order.number)
 
         for email in (cur_user.email, settings.ADMIN_EMAIL):
             mailer = HTMLTemplateMailer(email,

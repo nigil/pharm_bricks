@@ -138,9 +138,7 @@ $(function(){
                     },
                     function(data, status) {
                         if (status == 'success') {
-                            var basket_count = $('#basket_count');
-                            basket_count.text(parseInt(basket_count.text()) + 1)
-                                .css('display', 'inline');
+                            increase_basket_size(1);
 
                             container.find('.put_to_basket_label').hide();
                             container.find('.look_basket_label').show();

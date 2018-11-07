@@ -28,3 +28,30 @@ function get_basket_size() {
         }
     )
 }
+
+function increase_basket_size(quantity) {
+    if (!quantity) {
+        quantity = 1;
+    }
+
+    var basket_count = $('#basket_count');
+    basket_count.text(parseInt(basket_count.text()) + parseInt(quantity))
+        .css('display', 'inline');
+}
+
+function decrease_basket_size(quantity) {
+    if (!quantity) {
+        quantity = 1;
+    }
+
+    var basket_count = $('#basket_count');
+    var new_quantity = parseInt(basket_count.text()) - parseInt(quantity);
+    if (new_quantity < 0) {
+        new_quantity = 0;
+    }
+
+    basket_count.text(new_quantity);
+    if (new_quantity == 0) {
+        basket_count.hide()
+    }
+}

@@ -11,9 +11,7 @@ function put_to_basket(product_id, quantity, csrf_token, target) {
         },
         function(data, status) {
             if (status == 'success') {
-                var basket_count = $('#basket_count');
-                basket_count.text(parseInt(basket_count.text()) + parseInt(quantity))
-                    .css('display', 'inline');
+                increase_basket_size(quantity);
 
                 if (target) {
                     target.prop('disabled', true);

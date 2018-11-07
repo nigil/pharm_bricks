@@ -49,10 +49,7 @@ class PbRegister(FormView):
     def form_valid(self, form):
         user = form.save()
 
-        mail_subject = 'Registering on {}'.format(settings.HOSTNAME)
-        # request_meta = self.request.META
-        # site_host = request_meta.get('HTTP_ORIGIN') if request_meta.get('HTTP_ORIGIN') \
-        #     else request_meta.get('HTTP_HOST')
+        mail_subject = 'Welcome to PharmBricks Inc.!'
         confirm_link = self.request.build_absolute_uri(reverse('confirm_email', args=(
             urlsafe_base64_encode(force_bytes(user.id)),
             account_activation_token.make_token(user)))

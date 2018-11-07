@@ -43,7 +43,7 @@ class ContactsPage(FormView):
         return kwargs
 
     def form_valid(self, form):
-        mail_subject = 'Your have asked a question from Pharm Bricks'
+        mail_subject = 'Feedback form question'
         mailer = HTMLTemplateMailer(settings.ADMIN_EMAIL,
                                     mail_subject,
                                     'email/contacts_question.html',
@@ -54,9 +54,7 @@ class ContactsPage(FormView):
         mailer.send()
 
         messages.add_message(self.request, messages.INFO,
-                             'You question was successfully send. Our managers will contact you soon.')
-
-        # return(HttpResponseRedirect(reverse_lazy('home')))
+                             'Thank you for your question! We\'ll give you feedback in 24 hours.')
 
         return super(ContactsPage, self).form_valid(form)
 

@@ -76,7 +76,7 @@ def send_price_request(request, id):
 
     mailer = HTMLTemplateMailer(
         settings.ADMIN_EMAIL,
-        'Price request',
+        'Library generator. Price request.',
         'email/price-request.html',
         {'user': user},
         attachments=((bookmark_filename, bookmark_content, 'text/html'),)

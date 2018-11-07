@@ -494,7 +494,7 @@ input[type="submit"] {
 }
 
 .del_catalog_bch {
-    margin-top: 5px;
+    margin-bottom: 5px;
 }
 
 .search_top {
@@ -993,7 +993,6 @@ button img {
     height: 410px;
     border-radius: 10px;
     margin-bottom: 20px;
-    display: table;
     padding-top: 15px;
     padding-bottom: 115px;
     position: relative;
@@ -2172,6 +2171,10 @@ h2.title {
 .wid330 {
     width: 330px;
     margin: 0 auto;
+}
+
+.bookmark_item .tabl_mylibraries {
+    margin-top: -2px;
 }
 
 .tabl-order input[type="checkbox"] + label p, .tabl_mylibraries input[type="checkbox"] + label p {

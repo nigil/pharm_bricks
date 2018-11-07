@@ -45,7 +45,7 @@ class CustomPasswordResetForm(PasswordResetForm):
     def send_mail(self, subject_template_name, email_template_name,
                   context, from_email, to_email, html_email_template_name=None):
         user = context['user']
-        mail_subject = 'Password requesting on {}'.format(settings.HOSTNAME)
+        mail_subject = 'Password recovery on {}'.format(settings.HOSTNAME)
         HTMLTemplateMailer(user.email, mail_subject, email_template_name, context).send()
 
     def save(self, **kwargs):

@@ -69,6 +69,7 @@
 $(function(){
     var csrf_token = $("[name=csrfmiddlewaretoken]").val();
 
+    // add order to basket
     $(document).on('change', 'input.repeat_order', function() {
         order_checkbox = $(this);
         if ($(this).prop('checked') === true) {
