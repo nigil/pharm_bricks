@@ -26,7 +26,7 @@ def add_product_to_bookmarks(request):
     try:
         ProductBookmark.objects.get(user=user, product=product)
         return JsonResponse({
-            'error': 'This bookmark already exists'
+            'error': 'Already exists'
         })
     except ProductBookmark.DoesNotExist:
         bookmark = ProductBookmark.objects.create(user=user, product=product)

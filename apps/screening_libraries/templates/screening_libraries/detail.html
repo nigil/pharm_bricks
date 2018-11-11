@@ -52,13 +52,13 @@
                     <p class="p_in">
                         {% if not object.in_stock %}not {% endif %}in stock
                     </p>
+
                     <div class="block">
                         <p class="twit">
                             Price & Size
                         </p>
 
-                        {% for price in object.prices.all %}
-                        {% if price.active %}
+                        {% for price in active_prices.all %}
                         <br/>
                         <input type="checkbox"
                                name="pricensize"
@@ -69,14 +69,15 @@
                         <label for="{{ price.id }}" class="one_long">
                             {{ price.ref|capfirst }} (&dollar;{{ price.price|add:"0" }})
                         </label>
-                        {% endif %}
                         {% endfor %}
 
                         <div id="prise_size_none_error" class="error_text" style="display: none;"
                             ><br/>Please, select library size</div>
                     </div>
+
+                    {% if nonactive_prices.all %}
                     <div class="col-12 inline inline_mg">
-                        {% for price in object.prices.all %}
+                        {% for price in nonactive_prices.all %}
                         {% if not price.active %}
                         <div class="col-2 no_pd">
                             <p>{{ price.ref }}</p>
@@ -85,7 +86,7 @@
                         {% endfor %}
                     </div>
                     <div class="col-12 inline inlin_gray">
-                        {% for price in object.prices.all %}
+                        {% for price in nonactive_prices.all %}
                         {% if not price.active %}
                         <div class="col-2 col-2 no_pd">
                             <p class="vert_center">
@@ -95,11 +96,15 @@
                         {% endif %}
                         {% endfor %}
                     </div>
-                    <div class="text-center">
+                    {% endif %}
+
+                    <div class="text-center call_for_price">
                         <p class="call">
                             <span class="a_green">*</span> Call {{ phone }} about small price&size
                         </p>
                     </div>
+
+                    {% if active_prices.all %}
                     <div class="plus_min">
                         <a href="#" class="a_min" id="minus_el"></a>
                         <input name="variant_quantity"
@@ -109,15 +114,16 @@
                                id="el_count"/>
                         <a href="#" class="a_plus" id="plus_el"></a>
                     </div>
+                    {% endif %}
 
 
                     <div class="plus_min_btn">
                         <button id="add_to_basket" class="button_inner_name no-mg-bott"
-                                {% if not object.in_stock %}disabled{% endif %}>
+                                {% if not object.in_stock or not active_prices.all %}disabled{% endif %}>
                             <span>add to basket</span> <img src="{% static 'images/basket_fff.png' %}" alt=""/>
                         </button>
-                        <button id="add_to_library" class="button_inner_name"
-                                {% if not object.in_stock %}disabled{% endif %}>
+                        <button id="add_to_library" class="button_inner_name
+                            {% if not object.in_stock or not active_prices.all or not user.is_authenticated %}disabled{% endif %}">
                             <span>add to library</span> <img src="{% static 'images/libr.png' %}" alt=""/>
                         </button>
                     </div>

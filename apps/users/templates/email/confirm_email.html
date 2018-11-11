@@ -25,14 +25,15 @@
                         <tr style="padding:0;text-align:left;vertical-align:top">
                             <th style="color:#0a0a0a;font-family:Arial,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;padding:0;text-align:left">
                                 <h2 style="color:inherit;font-family:Arial,sans-serif;font-size:21px;font-weight:400;line-height:1.3;margin:0;margin-bottom:16px;padding:0;text-align:left;word-wrap:normal">
-                                    Dear {{ user_data.first_name }},</h2>
+                                    Dear {{ user_data.first_name }}, welcome to PharmBricks Inc!</h2>
                                 <p class="shed-gr" style="color:#464646;font-family:Arial;font-size:13px;font-weight:400;line-height:1.3;margin:0;margin-bottom:0;padding:0;text-align:left">
-                                    Thank you for creating your account at PharmBricks and
-                                    welcome aboard!
+                                    You are now among thousand American and international
+                                    researchers who choose us as their supplier
+                                    for screening libraries.
                                 </p>
                                 <br>
                                 <p class="shed-gr" style="color:#464646;font-family:Arial;font-size:13px;font-weight:400;line-height:1.3;margin:0;margin-bottom:13px;padding:0;text-align:left">
-                                    <b>Your Account details</b>
+                                    <b>Your account details are as follows:</b>
                                 </p>
                                 <p class="big" style="color:#acacac;font-family:Arial;font-size:20px;font-weight:400;line-height:1.3;margin:0;margin-bottom:0;padding:0;text-align:left">
                                     Login: <span style="color:#acacac;font-family:Arial;font-size:20px;font-weight:400;text-decoration:none;">{{ user_data.email }}</span>
@@ -44,7 +45,7 @@
                                 <p class="shed-gr" style="color:#464646;font-family:Arial;font-size:13px;font-weight:400;line-height:1.3;margin:0;margin-bottom:0;padding:0;text-align:left">
                                     To
                                     <a href="{{ login_link }}" class="p_green" style="border-bottom:1px solid #fff;color:#009846;font-family:Arial;font-weight:400;line-height:1.3;margin:0;padding:0;text-align:left;text-decoration:none">
-                                        <b>sign in</b>
+                                        <b>Log In</b>
                                     </a>
                                     to your account, please click here.
                                 </p><br>
@@ -55,13 +56,23 @@
                                     </a>
                                     here.
                                 </p><br>
+                                <p class="shed-gr" style="color:#464646;font-family:Arial;font-size:13px;font-weight:400;line-height:1.3;margin:0;margin-bottom:0;padding:0;text-align:left">
+                                    After you
+                                    <a href="{{ login_link }}" class="p_green" style="border-bottom:1px solid #fff;color:#009846;font-family:Arial;font-weight:400;line-height:1.3;margin:0;padding:0;text-align:left;text-decoration:none">
+                                        <b>Log In</b>
+                                    </a>
+                                    you will be able to access all our services
+                                    including creation of your unique compound libraries,
+                                    ordering new compounds, editing your account information,
+                                    printing invoices and reviewing your orders history.
+                                </p><br>
                                 <p class="shed-gr"
                                    style="color:#464646;font-family:Arial;font-size:13px;font-weight:400;line-height:1.3;margin:0;margin-bottom:0;padding:0;text-align:left">
                                     If you have any questions about our molecules, libraries or
                                     delivery, please
                                     <a href="mailto:{{ info_email }}" class="p_green" style="border-bottom:1px solid #fff;color:#009846;font-family:Arial;font-weight:400;line-height:1.3;margin:0;padding:0;text-align:left;text-decoration:none">
-                                        <b>send us an email.</b>
-                                    </a>
+                                        <b>send us an email</b>
+                                    </a>.
                                 </p>
                             </th>
                         </tr>

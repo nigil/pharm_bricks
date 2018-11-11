@@ -181,7 +181,7 @@
                         </div>
                         {{ form.agree_terms.errors }}
 
-                        <button {% if not form.agree_terms.value %}disabled{% endif %} id="order_button" class="blue_butt catalog_basket_chekout">Order</button>
+                        <button id="order_button" class="blue_butt catalog_basket_chekout">Order</button>
                     </form>
                 </div>
             </div>
@@ -196,7 +196,8 @@
          {% if basket %}style="display: none;"{% endif %}>
         <div class="row mg-bot">
             <div class="col-12 content_catalog_bch">
-                There is no items.
+                Basket is empty. Return to the
+                <a class="a_green" href="{% slugurl 'catalogue' %}">Catalogue</a>
             </div>
         </div>
     </div>
@@ -337,15 +338,6 @@
                     }
                 }
             });
-        });
-
-        $(document).on('change', '#teams_bch', function(){
-            if ($(this).prop('checked')) {
-                $('#order_button').prop('disabled', false);
-            }
-            else {
-                $('#order_button').prop('disabled', true);
-            }
         });
     });
 </script>

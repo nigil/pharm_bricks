@@ -10,22 +10,24 @@ function add_product_to_bookmarks(product_id, csrf_token, target) {
             product_id: product_id
         },
         function(data) {
+            var new_text = '';
             if (data.success) {
-                if (target) {
-                    target.prop('disabled', true);
-                    var button_text = target.find('span');
-                    var target_original_text = button_text.text();
-                    var new_text = 'added';
-
-                    button_text.text(new_text);
-                    setTimeout(function(){
-                        button_text.text(target_original_text);
-                        target.prop('disabled', false);
-                    }, 3000);
-                }
+                new_text = 'added';
             }
             else {
-                alert(data.error)
+                new_text = data.error
+            }
+
+            if (target) {
+                target.prop('disabled', true);
+                var button_text = target.find('span');
+                var target_original_text = button_text.text();
+
+                button_text.text(new_text);
+                setTimeout(function(){
+                    button_text.text(target_original_text);
+                    target.prop('disabled', false);
+                }, 3000);
             }
         }
     );

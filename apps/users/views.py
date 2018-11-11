@@ -49,7 +49,7 @@ class PbRegister(FormView):
     def form_valid(self, form):
         user = form.save()
 
-        mail_subject = 'Welcome to PharmBricks Inc.!'
+        mail_subject = 'Welcome to PharmBricks Inc!'
         confirm_link = self.request.build_absolute_uri(reverse('confirm_email', args=(
             urlsafe_base64_encode(force_bytes(user.id)),
             account_activation_token.make_token(user)))
@@ -99,19 +99,16 @@ class PbPasswordReset(PasswordResetView):
     template_name = 'registration/password_reset.html'
     form_class = CustomPasswordResetForm
     success_url = reverse_lazy('password_reset')
-    html_email_template_name = 'registration/password_reset_html_email.html'
-    email_template_name = 'registration/password_reset_html_email.html'
+    html_email_template_name = 'email/password_reset_html_email.html'
+    email_template_name = 'email/password_reset_html_email.html'
     extra_email_context = {'site_host': settings.HOSTNAME}
 
     def form_valid(self, form):
         messages.add_message(self.request,
                              messages.INFO,
-                             '<p>We\'ve emailed you instructions for setting your password, '
-                             'if an account exists with the email you entered. '
-                             'You should receive them shortly.</p>'
-                             '<p>If you don\'t receive an email, please make sure '
-                             'you\'ve entered the address you registered with, '
-                             'and check your spam folder.</p>')
+                             '<p>Please, check your email. Check spam folder in a case '
+                             'you din\'t receive an email.</p>'
+                             )
 
         return super(PbPasswordReset, self).form_valid(form)
 

@@ -34,7 +34,7 @@ class OrderForm(forms.Form):
                                          'placeholder': 'Your order comments'
                                      }
                                  ))
-    agree_terms = forms.BooleanField(required=False, initial=False,
+    agree_terms = forms.BooleanField(required=True, initial=False,
                                      widget=forms.CheckboxInput(
                                          attrs={
                                              'id': 'teams_bch',

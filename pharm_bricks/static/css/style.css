@@ -22,6 +22,11 @@ a, span, h3 {
     src: url(../fonts/Myriad_Pro.ttf); /* Путь к файлу со шрифтом */
 }
 
+.body_block {
+    max-width: 1440px;
+    margin: 0 auto;
+}
+
 .topmenu > li.active > a {
     color: #009846;
 }
@@ -589,9 +594,11 @@ input[type="submit"] {
     border: 1px solid #d2d1d1;
     width: 405px;
     height: 385px;
+    line-height: 385px;
     position: relative;
     border-radius: 10px;
     margin-bottom: 40px;
+    text-align: center;
 }
 
 .foto {
@@ -751,6 +758,10 @@ div.touch {
     background: #fff;
     border: 1px solid #dfdfdf;
     border-radius: 3px;
+}
+
+.posit.checkbox.error + label:before {
+    border-color: #a21152;
 }
 
 .text_plus_min {
@@ -1158,13 +1169,12 @@ a.disabled img:hover {
 }
 
 .p_big.ordershistory {
-    font-size: 16pt;
-    margin-top: 3px;
+    font-size: 22px;
 }
 
 output.p_big.ordershistory {
     margin-left: 70px;
-    margin-top: 3px;
+    bottom: 3px;
     white-space: nowrap;
 }
 
@@ -1315,7 +1325,7 @@ textrea:active, textrea:focus, input[type="text"]:focus {
 }
 
 .check_singup {
-    margin-left: 25px;
+    margin-left: 70px;
 }
 
 .checkbox + label.tab {
@@ -1617,7 +1627,7 @@ textarea.adres {
 
 .repeat {
     font-family: 'Myriad Pro';
-    font-size: 21pt;
+    font-size: 21px;
     font-weight: bold;
     text-transform: uppercase;
     color: #009846;
@@ -2045,7 +2055,7 @@ textarea, textarea:default, textarea:focus, textarea:active, textarea:hover {
 }
 
 .button_subscribe {
-    /*padding-top: 8px;*/
+    width: 350px;
 }
 
 .index-content a {
@@ -2277,7 +2287,7 @@ h2.title {
 
 #basket_count {
     color: #fff;
-    background: #f00;
+    background: #a21152;
     border-radius: 7px;
     padding: 1px 4px;
     font-size: 10px;
@@ -2320,7 +2330,7 @@ ul.orders_history_products {
 ul.errorlist {
     margin: 5px 0 10px 0;
     padding: 0;
-    color: palevioletred;
+    color: #a21152;
 }
     ul.errorlist li {
         list-style-type: none;
@@ -2332,11 +2342,11 @@ ul.errorlist {
 .has_errors input:focus,
 .has_errors select:focus,
 .has_errors textarea:focus {
-    border-color: palevioletred;
+    border-color: #a21152;
 }
 
 .error_text {
-    color: palevioletred;
+    color: #a21152;
 }
 
 .delete_block {
@@ -2352,3 +2362,14 @@ ul.errorlist {
         color: #009846;
         text-decoration: none;
     }
+
+.call_for_price {
+    margin-top: 10px;
+}
+
+#lightbox .lb-data .lb-close {
+    background: url("/static/images/if_remove.png") center no-repeat;
+}
+#lightbox .lb-data .lb-close:hover {
+    background: url("/static/images/if_rem_green.png") center no-repeat;
+}

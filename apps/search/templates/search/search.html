@@ -16,13 +16,13 @@
                     {% if search_query %}
                         Search results for '{{ search_query }}'
                     {% else %}
-                        Search query is empty
+                        Search
                     {% endif %}
                 </h2>
             </div>
 
             {% if not object %}
-            <div class="col-5 mg-no text-right bott pd-no">
+            <div class="col-5 mg-no text-right bott">
                 <a class="mg-lf none show_link">Show</a>
                 <select id="catalogue_page_size" class="select_cat_red text-left">
                     <option value="12">12</option>

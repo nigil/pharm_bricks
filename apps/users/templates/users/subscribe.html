@@ -16,10 +16,10 @@
 
             <button {% if not user.subscribed_on_news %}style="display: none;"{% endif %}
                     class="button_green button_subscribe"
-                    id="unsubscribe_me">unsubscribe me</button>
+                    id="unsubscribe_me">unsubscribe me news</button>
             <button {% if user.subscribed_on_news %}style="display: none;"{% endif %}
                     class="button_green button_subscribe"
-                    id="subscribe_me">subscribe me</button>
+                    id="subscribe_me">subscribe me news</button>
         </div>
     </div>
 </div>
@@ -30,6 +30,7 @@
 
 $(function(){
     function change_subscribe(subscribe) {
+        var subscribe_timeout;
         $.ajax({
             url: '{% url 'change_subscribe' %}',
             data: {
@@ -47,7 +48,9 @@ $(function(){
                         $('#subscribe_me').show();
                         $('#subscribe_me_text').text('You have been unsubscribed').show();
                     }
-                    setTimeout(function() {
+
+                    clearTimeout(subscribe_timeout);
+                    subscribe_timeout = setTimeout(function() {
                         $('#subscribe_me_text').fadeOut()
                     }, 3000)
                 }

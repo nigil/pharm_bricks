@@ -9,6 +9,8 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.forms import (
     AuthenticationForm, PasswordResetForm, UsernameField, SetPasswordForm
 )
+
+from core.validators import NameValidator, PhoneValidator
 from core.mailer import HTMLTemplateMailer
 from django.conf import settings
 
@@ -30,6 +32,12 @@ class LoginForm(AuthenticationForm):
         widget=forms.PasswordInput(attrs={'class': 'color_p',
                                           'placeholder': "Password*"}),
     )
+
+    error_messages = {
+        'invalid_login': _(
+            'Please enter correct email or password. Note that both fields are case-sensitive.'
+        ),
+    }
 
 
 class CustomPasswordResetForm(PasswordResetForm):
@@ -93,9 +101,17 @@ class CustomUserCreationForm(CustomUserEditForm):
 
 
 class UserForm(forms.ModelForm):
-    first_name = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'First Name*'}))
-    last_name = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Last Name*'}))
-    phone = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Telephone number*'}))
+    first_name = forms.CharField(
+        validators=[NameValidator()],
+        widget=forms.TextInput(attrs={'placeholder': 'First Name*'}))
+    last_name = forms.CharField(
+        validators=[NameValidator()],
+        widget=forms.TextInput(attrs={'placeholder': 'Last Name*'})
+    )
+    phone = forms.CharField(
+        validators=[PhoneValidator()],
+        widget=forms.TextInput(attrs={'placeholder': 'Telephone number*'})
+    )
     organization = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Company*'}))
     email = forms.EmailField(widget=forms.EmailInput(attrs={'placeholder': 'Email*'}))
     password = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'Password*'}))

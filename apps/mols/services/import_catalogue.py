@@ -83,7 +83,7 @@ class RDKitClient():
             try:
                 catalogue_number = mol_props['Catalogue_Number']
             except KeyError:
-                import_log.append('The element with id {} is skipped because there aro no catalogue number'.format(
+                import_log.append('The element with id {} is skipped because there are no catalogue number'.format(
                     mol_props.get('ID', '')
                 ))
                 continue
@@ -91,7 +91,7 @@ class RDKitClient():
             try:
                 catalogue_path = mol_props['Library_type']
             except KeyError:
-                import_log.append('The element with id {} is skipped because there aro no catalogue path'.format(
+                import_log.append('The element with id {} is skipped because there are no catalogue path'.format(
                     mol_props.get('ID', '')
                 ))
                 continue
@@ -99,7 +99,7 @@ class RDKitClient():
             try:
                 chemical_name = mol_props['Chemical_Name']
             except KeyError:
-                import_log.append('The element with id {} is skipped because there aro no chemical name'.format(
+                import_log.append('The element with id {} is skipped because there are no chemical name'.format(
                     mol_props.get('ID', '')
                 ))
                 continue
