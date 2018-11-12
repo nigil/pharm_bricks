@@ -84,20 +84,7 @@
     <div class="container">
         <div class="row">
             <div class="col-12 text-center footer">
-                <p class="copy">
-                    {% now "Y" as cur_year %}
-                    &copy; PharmBricks Inc. 2018{% if cur_year != '2018' %}-{{ cur_year }}{% endif %}
-                </p>
-                <p class="copy">
-                    tel. 00567-244-5678 | <a href="mailto:info@pharmbricks.com" class="a_green">info@pharmbricks.com</a>
-                </p>
-
-
-                <p class="twit">
-                    Follow us
-                </p>
-                <a href="#"><img src="/static/images/linked.png" class="img_set"/></a>
-                <a href="#"><img src="/static/images/twitter.png" class="img_set"/></a>
+                {% include "partials/streamfield.html" with content=request.site.root_page.specific.footer %}
             </div>
         </div>
     </div>

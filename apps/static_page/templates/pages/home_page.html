@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% load wagtailcore_tags %}
+
+{% block content %}
+<div class="container-fluid content">
+    <div id="slider_container" class="owl-carousel owl-theme">
+        {% for slider in home_sliders.all %}
+        <div style="background: url({{ slider.image.url }}) no-repeat top right">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 tb-centr">
+                        <div>
+                            <h3 class="index">
+                                {{ slider.title }}
+                            </h3>
+                            {% include "partials/streamfield.html" with content=slider.body %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+<div class="container-fluid footer_search">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="search text_no">
+                        <p class="p_search_bot">
+                            Search by
+                        </p>
+                    <form method="GET" action="{% url 'search' %}">
+                        <input type="search" class="search_top_inp" name="q" value=""
+                               placeholder=" CAS, Catalogue number, Name, Structure"/>
+                        <input type="submit" value=""/>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container-fluid pd-bottom-50 index-content">
+    <div class="container">
+        <div class="row">
+            <p class="p_small">
+                {% include "partials/streamfield.html" with content=page.body %}
+            </p>
+        </div>
+    </div>
+</div>
+{% endblock %}

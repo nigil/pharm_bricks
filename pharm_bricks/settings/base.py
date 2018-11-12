@@ -44,7 +44,7 @@ INSTALLED_APPS = [
 
     # project apps
     'core.apps.CoreConfig',
-    'home',
+    # 'home',
     'search',
     'users.apps.UsersConfig',
     'news.apps.NewsConfig',

@@ -1,7 +1,7 @@
 import os
 from django.views.generic.base import TemplateView
 from django.views.generic.edit import FormView
-from static_page.models import StaticPage
+from static_page.models import StaticPage, HomeSlider
 from django.shortcuts import get_object_or_404
 from static_page.forms import QuestionForm
 from django.core.urlresolvers import reverse_lazy
@@ -23,7 +23,11 @@ class HomePage(TemplateView):
 
         if 'view' not in kwargs:
             kwargs['view'] = self
-        kwargs['page'] = get_object_or_404(StaticPage, slug='home')
+
+        home_page = get_object_or_404(StaticPage, slug='home')
+        kwargs['page'] = home_page
+
+        kwargs['home_sliders'] = HomeSlider.objects.live()
 
         return kwargs
 
