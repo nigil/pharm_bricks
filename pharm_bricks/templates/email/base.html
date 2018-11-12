@@ -171,7 +171,8 @@
                                                     <th style="color:#0a0a0a;font-family:Arial,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;padding:0;text-align:left">
                                                         <br>
                                                         <p style="color:#fff;font-family:Arial;font-size:13px;font-weight:400;line-height:1.3;margin:0;margin-bottom:0;padding:0;text-align:center;height:28px">
-                                                            {% with start_year=2018 %}
+                                                            {% now "Y" as cur_year %}
+                                                            {% with start_year='2018' %}
                                                             &copy; PharmBricks {{ start_year }}{% if cur_year != start_year %}-{{ cur_year }}{% endif %}
                                                             {% endwith %}
                                                         </p>

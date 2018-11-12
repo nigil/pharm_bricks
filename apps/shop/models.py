@@ -15,7 +15,7 @@ from modelcluster.models import ClusterableModel
 def order_number():
     last_order = Order.objects.all().order_by('id').last()
     if last_order:
-        last_order_number_int = int(last_order.number.replace('0', ''))
+        last_order_number_int = int(last_order.number.lstrip('0'))
     else:
         last_order_number_int = 0
 

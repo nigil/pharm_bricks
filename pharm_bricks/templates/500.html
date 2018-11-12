@@ -1,20 +1,17 @@
-{% extends "inner.html" %}
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <title>Internal server error</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+    </head>
+    <body>
+        <h1>Internal server error</h1>
 
-{% block content %}
-<div class="container-fluid {% block container_external_class %}{% endblock %}">
-    <div class="container">
-        <div class="row mg-bot">
-            {% block base_content %}
-                <div class="col-12">
-                    <h1>Internal server error</h1>
-
-                    <h2>Sorry, there seems to be an error. Please try again soon.</h2>
-                </div>
-            {% endblock %}
-        </div>
-        {% block extra_hr %}{% endblock %}
-    </div>
-
-    {% block extra_content %}{% endblock %}
-</div>
-{% endblock %}
+        <h2>Sorry, there seems to be an error. Please try again soon.</h2>
+    </body>
+</html>
