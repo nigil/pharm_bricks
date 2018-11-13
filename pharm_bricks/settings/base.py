@@ -114,7 +114,8 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'wagtailmenus.context_processors.wagtailmenus',
-                'longclaw.longclawsettings.context_processors.currency'
+                'longclaw.longclawsettings.context_processors.currency',
+                'wagtail.contrib.settings.context_processors.settings'
             ],
         },
     },
@@ -268,6 +269,3 @@ ALLOWED_HOSTS = ['127.0.0.1', 'localhost', os.getenv('ALLOWED_HOST')]
 HOSTNAME = os.getenv('HOSTNAME')
 
 CITIES_LIGHT_TRANSLATION_LANGUAGES = ['en']
-
-COMPANY_PHONE = '00 567-244-5678'
-COMPANY_PHONE_2 = '0065 96432266'

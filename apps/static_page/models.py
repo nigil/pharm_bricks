@@ -29,11 +29,8 @@ class StaticPage(Page):
 class HomePage(StaticPage):
     template = 'pages/home_page.html'
 
-    footer = StreamField(BodyStreamBlock(), null=True)
-
     content_panels = Page.content_panels + [
         StreamFieldPanel('body'),
-        StreamFieldPanel('footer')
     ]
 
 

@@ -35,7 +35,6 @@ class LibraryDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         kwargs = super(DetailView, self).get_context_data(**kwargs)
-        kwargs['phone'] = settings.COMPANY_PHONE_2
         kwargs['active_prices'] = kwargs['object'].prices.filter(active=True)
         kwargs['nonactive_prices'] = kwargs['object'].prices.filter(active=False)
         return kwargs

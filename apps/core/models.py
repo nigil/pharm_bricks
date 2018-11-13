@@ -1,5 +1,6 @@
 from django.db import models
 from wagtail.wagtailadmin.edit_handlers import FieldPanel
+from wagtail.contrib.settings.models import BaseSetting, register_setting
 
 
 class EnumBase(object):
@@ -23,3 +24,10 @@ class RelatedLink(models.Model):
 
     class Meta:
         abstract = True
+
+
+@register_setting
+class PharmBricksSettings(BaseSetting):
+    phone = models.CharField(max_length=30)
+
+    footer = models.TextField(blank=True, default='')

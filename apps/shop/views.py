@@ -56,7 +56,6 @@ class Basket(FormView):
                                         {
                                             'order': order,
                                             'user': cur_user,
-                                            'phone': settings.COMPANY_PHONE,
                                             'site_host': settings.HOSTNAME
 
                                         })

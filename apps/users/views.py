@@ -184,7 +184,6 @@ class Bookmarks(LoginRequiredMixin, TemplateView):
 
         context['product_bookmarks'] = product_bookmarks
         context['generator_bookmarks'] = generator_bookmarks
-        context['company_phone'] = settings.COMPANY_PHONE
 
         return context
 

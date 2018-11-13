@@ -84,7 +84,7 @@
     <div class="container">
         <div class="row">
             <div class="col-12 text-center footer">
-                {% include "partials/streamfield.html" with content=request.site.root_page.specific.footer %}
+                {{ settings.core.PharmBricksSettings.footer|safe }}
             </div>
         </div>
     </div>
