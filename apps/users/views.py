@@ -33,7 +33,7 @@ class PbLogin(LoginView):
 
 
 class PbLogout(LogoutView):
-    next_page = reverse_lazy('home')
+    redirect_field_name = 'next'
 
 
 class PbRegister(FormView):

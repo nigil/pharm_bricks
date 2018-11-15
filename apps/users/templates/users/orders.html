@@ -10,55 +10,59 @@
 </div>
 
 <div class="container-fluid mg-bot fix" id="order_history_repeat">
-    {% if object_list %}
-    <form method="post" action="">
-        {% for order in object_list %}
-        <div class="container order_item">
-            <div class="row check_bot">
-                <div class="col-5 no-pd-left">
-                    <a href="#" class="a_green p_big ordershistory">Order #
-                        {{ order.created_date|date:"m/d/Y" }} &mdash; {{ order.number }}</a>
-                    {% if order.items %}
-                    <ul style="display: none;" class="orders_history_products">
-                        {% for item in order.items.all %}
-                        {% with product=item.product.product.specific %}
-                        <li class="row">
-                            <div class="col-10 no-pd-left">
-                                <a target="_blank" href="{% pageurl product %}">{{ product.title }}</a>
-                                - <span class="product_size">{{ item.product.ref }}</span>
+    <div class="row">
+        <div class="col-12">
+            {% if object_list %}
+            <form method="post" action="">
+                {% for order in object_list %}
+                <div class="container order_item">
+                    <div class="row check_bot">
+                        <div class="col-5 no-pd-left">
+                            <a href="#" class="a_green p_big ordershistory">Order #
+                                {{ order.created_date|date:"m/d/Y" }} &mdash; {{ order.number }}</a>
+                            {% if order.items %}
+                            <ul style="display: none;" class="orders_history_products">
+                                {% for item in order.items.all %}
+                                {% with product=item.product.product.specific %}
+                                <li class="row">
+                                    <div class="col-10 no-pd-left">
+                                        <a target="_blank" href="{% pageurl product %}">{{ product.title }}</a>
+                                        - <span class="product_size">{{ item.product.ref }}</span>
+                                    </div>
+                                    <div class="col-2 no-pd-right price">${{ item.total|add:0 }}</div>
+                                </li>
+                                {% endwith %}
+                                {% endfor %}
+                            </ul>
+                            {% endif %}
+                        </div>
+                        <div class="col-2 no-pd-left text-left">
+                            <output class="p_big ordershistory">
+                                &dollar;{{ order.total|add:0 }}
+                            </output>
+                        </div>
+                        <div class="col-3 no-pd-left text-right">
+                            <p class="repeat">REPEAT&nbsp;the&nbsp;ORDER</p>
+                        </div>
+                        <div class="col-2 no-pd-left text-left">
+                            <div>
+                                <input type="checkbox" class="posit checkbox repeat_order"
+                                       id="repeat_{{ order.number }}" data-order_id="{{ order.id }}"/>
+                                <label id="label_repeat_{{ order.number }}" for="repeat_{{ order.number }}"
+                                       class="text_cabinet_gray tab_oreder">
+                                    <p class="mt" style="display: none;">Ready! Look basket!</p>
+                                </label>
                             </div>
-                            <div class="col-2 no-pd-right price">${{ item.total|add:0 }}</div>
-                        </li>
-                        {% endwith %}
-                        {% endfor %}
-                    </ul>
-                    {% endif %}
-                </div>
-                <div class="col-2 no-pd-left text-left">
-                    <output class="p_big ordershistory">
-                        &dollar;{{ order.total|add:0 }}
-                    </output>
-                </div>
-                <div class="col-3 no-pd-left text-right">
-                    <p class="repeat">REPEAT&nbsp;the&nbsp;ORDER</p>
-                </div>
-                <div class="col-2 no-pd-left text-left">
-                    <div>
-                        <input type="checkbox" class="posit checkbox repeat_order"
-                               id="repeat_{{ order.number }}" data-order_id="{{ order.id }}"/>
-                        <label id="label_repeat_{{ order.number }}" for="repeat_{{ order.number }}"
-                               class="text_cabinet_gray tab_oreder">
-                            <p class="mt" style="display: none;">Ready! Look basket!</p>
-                        </label>
+                        </div>
                     </div>
                 </div>
-            </div>
+                {% endfor %}
+            </form>
+            {% else %}
+                <p>You don't have any order yet</p>
+            {% endif %}
         </div>
-        {% endfor %}
-    </form>
-    {% else %}
-        <p>You don't have any order yet</p>
-    {% endif %}
+    </div>
 </div>
 {% endblock %}
 

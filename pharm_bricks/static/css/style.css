@@ -22,11 +22,6 @@ a, span, h3 {
     src: url(../fonts/Myriad_Pro.ttf); /* Путь к файлу со шрифтом */
 }
 
-.body_block {
-    max-width: 1440px;
-    margin: 0 auto;
-}
-
 .topmenu > li.active > a {
     color: #009846;
 }
@@ -405,6 +400,12 @@ a.a_green:hover {
     top: 45%;
 }
 
+input:required,
+select:required,
+textarea:required {
+    box-shadow: none;
+}
+
 input[type="search"] {
     border: none; /* Убираем рамку */
     -webkit-appearance: none; /* Убираем рамку в Chrome и Safari */
@@ -594,11 +595,13 @@ input[type="submit"] {
     border: 1px solid #d2d1d1;
     width: 405px;
     height: 385px;
-    line-height: 385px;
     position: relative;
     border-radius: 10px;
     margin-bottom: 40px;
     text-align: center;
+}
+.libraries_inner .screening_library_pic {
+    line-height: 385px;
 }
 
 .foto {
@@ -611,6 +614,7 @@ input[type="submit"] {
     padding: 3px;
     max-width: 100%;
     max-height: 100%;
+    display: block;
 }
 
 .p_in {
@@ -1486,12 +1490,12 @@ textarea {
     margin-top: 15px;
 }
 
-.form_cabinet div:nth-child(5),
-.form_cabinet div:nth-child(9) {
+.form_cabinet.form_cabinet_signup div:nth-child(5),
+.form_cabinet.form_cabinet_signup div:nth-child(9) {
     margin-top: 45px;
 }
 
-.form_cabinet div:nth-child(12) {
+.form_cabinet.form_cabinet_signup div:nth-child(12) {
     margin-top: 10px;
 }
 
@@ -2372,4 +2376,8 @@ ul.errorlist {
 }
 #lightbox .lb-data .lb-close:hover {
     background: url("/static/images/if_rem_green.png") center no-repeat;
+}
+
+.order_item {
+    margin-bottom: 10px;
 }

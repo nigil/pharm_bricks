@@ -48,14 +48,14 @@
                                 {% if user.is_authenticated %}
                                     <a href="{% url 'profile' %}" class="a_log a_green">Hi, {{ user.first_name }}!</a>
                                 {% else %}
-                                    <a href="{% url 'login' %}" class="a_log
+                                    <a href="{% url 'login' %}?next={{ request.path }}" class="a_log
                                         {% if request.path == '/login/' %}a_log_activ{% endif %}"
                                     >Log in</a>
                                 {% endif %}
                                 </li>
                                 <li class="a_log-li above_shadow">
                                 {% if user.is_authenticated %}
-                                    <a href="{% url 'logout' %}" class="a_log ">Log out</a>
+                                    <a href="{% url 'logout' %}?next={{ request.path }}" class="a_log ">Log out</a>
                                 {% else %}
                                     <a href="{% url 'register' %}" class="a_log
                                         {% if request.path == '/register/' %}a_log_activ{% endif %}
