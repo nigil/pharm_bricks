@@ -31,3 +31,6 @@ class PharmBricksSettings(BaseSetting):
     phone = models.CharField(max_length=30)
 
     footer = models.TextField(blank=True, default='')
+
+    class Meta:
+        verbose_name = 'PharmBricks settings'

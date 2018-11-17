@@ -1,6 +1,11 @@
 body, .container-fluid, .container {
     min-width: 720px;
 }
+
+.container_min_height {
+    min-height: 550px;
+}
+
 .row {
     max-width: 1440px;
     margin-left: auto;
@@ -293,10 +298,15 @@ h3 {
     color: #009846
 }
 
+#my_libraries_repeat h3 {
+    color: #212529;
+    padding-left: 15px;
+}
+
 #my_libraries_repeat h4 {
     font-family: Arial, Roboto;
     font-size: 20px;
-    padding-left: 25px;
+    padding-left: 15px;
     padding-top: 15px;
     font-weight: normal;
 }
@@ -2062,6 +2072,11 @@ textarea, textarea:default, textarea:focus, textarea:active, textarea:hover {
     width: 350px;
 }
 
+.home_body_wrap {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
 .index-content a {
     font-weight: bold;
 
@@ -2380,4 +2395,8 @@ ul.errorlist {
 
 .order_item {
     margin-bottom: 10px;
+}
+
+#slider_container .slider_content {
+    padding: 0 30px;
 }

@@ -6,7 +6,7 @@
     <div id="slider_container" class="owl-carousel owl-theme">
         {% for slider in home_sliders.all %}
         <div style="background: url({{ slider.image.url }}) no-repeat top right">
-            <div class="container">
+            <div class="container slider_content">
                 <div class="row">
                     <div class="col-12 tb-centr">
                         <div>
@@ -43,7 +43,7 @@
 <div class="container-fluid pd-bottom-50 index-content">
     <div class="container">
         <div class="row">
-            <p class="p_small">
+            <p class="p_small home_body_wrap">
                 {% include "partials/streamfield.html" with content=page.body %}
             </p>
         </div>

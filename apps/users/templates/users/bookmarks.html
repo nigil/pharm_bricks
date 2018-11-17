@@ -12,11 +12,11 @@
 
 <div class="container-fluid mg-bot fix" id="my_libraries_repeat">
     <div class="row">
-        <div class="col-12">
+        <div class="col-12 pd-no">
             <h3>My Libraries</h3>
             {% if product_bookmarks or generator_bookmarks %}
                 {% if product_bookmarks %}
-                <div class="container-fluid mg-bot" id="product_bookmarks">
+                <div class="container-fluid pd-no mg-bot" id="product_bookmarks">
                     <h4>Products</h4>
                     {% for bookmark in product_bookmarks %}
                     {% with product=bookmark.product.product.specific %}
