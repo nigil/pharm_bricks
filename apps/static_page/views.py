@@ -5,6 +5,7 @@ from static_page.models import StaticPage, HomeSlider
 from django.shortcuts import get_object_or_404
 from static_page.forms import QuestionForm
 from django.core.urlresolvers import reverse_lazy
+from core.models import PharmBricksSettings
 from core.mailer import HTMLTemplateMailer
 from django.conf import settings
 from django.contrib import messages
@@ -48,7 +49,8 @@ class ContactsPage(FormView):
 
     def form_valid(self, form):
         mail_subject = 'Feedback form question'
-        mailer = HTMLTemplateMailer(settings.ADMIN_EMAIL,
+        site_settings = PharmBricksSettings.for_site(self.request.site)
+        mailer = HTMLTemplateMailer(site_settings.admin_email,
                                     mail_subject,
                                     'email/contacts_question.html',
                                     {

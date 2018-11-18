@@ -11,6 +11,7 @@ from users.forms import (
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.shortcuts import render, redirect
 from core.mailer import HTMLTemplateMailer
+from core.models import PharmBricksSettings
 from django.utils.encoding import force_bytes, force_text
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from users.tokens import account_activation_token
@@ -56,12 +57,13 @@ class PbRegister(FormView):
         )
         login_link = self.request.build_absolute_uri(reverse('login'))
         reset_password_link = self.request.build_absolute_uri(reverse('password_reset'))
+        site_settings = PharmBricksSettings.for_site(self.request.site)
         HTMLTemplateMailer(user.email, mail_subject, 'email/confirm_email.html',
                            {
                                'confirm_link': confirm_link,
                                'login_link': login_link,
                                'reset_password_link': reset_password_link,
-                               'info_email': settings.INFO_EMAIL,
+                               'info_email': site_settings.info_email,
                                'user_data': form.cleaned_data,
                                'site_host': settings.HOSTNAME
 

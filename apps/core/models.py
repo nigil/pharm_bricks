@@ -29,7 +29,9 @@ class RelatedLink(models.Model):
 @register_setting
 class PharmBricksSettings(BaseSetting):
     phone = models.CharField(max_length=30)
-
+    sender_email = models.EmailField(default='info@pharmbricks.com')
+    info_email = models.EmailField(default='info@pharmbricks.com')
+    admin_email = models.EmailField(default='info@pharmbricks.com')
     footer = models.TextField(blank=True, default='')
 
     class Meta:

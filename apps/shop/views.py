@@ -11,6 +11,7 @@ from longclaw.longclawbasket import utils
 from shop.forms import OrderForm
 from shop.models import Order, OrderItem
 from core.mailer import HTMLTemplateMailer
+from core.models import PharmBricksSettings
 
 
 class Basket(FormView):
@@ -20,6 +21,7 @@ class Basket(FormView):
 
     def form_valid(self, form):
         cur_user = self.request.user
+        site_settings = PharmBricksSettings.for_site(self.request.site)
 
         order = Order.objects.create(
             email=cur_user.email,
@@ -49,7 +51,7 @@ class Basket(FormView):
         # send email
         mail_subject = 'Your order confirmation - № {}'.format(order.number)
 
-        for email in (cur_user.email, settings.ADMIN_EMAIL):
+        for email in (cur_user.email, site_settings.admin_email):
             mailer = HTMLTemplateMailer(email,
                                         mail_subject,
                                         'email/checkout.html',

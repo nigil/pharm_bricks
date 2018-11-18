@@ -6,6 +6,7 @@ from django.core.files import File
 from django.http import HttpResponseForbidden, HttpResponseBadRequest, JsonResponse, HttpResponse
 from django.conf import settings
 from core.mailer import HTMLTemplateMailer
+from core.models import PharmBricksSettings
 from bookmarks.models import ProductBookmark, GeneratorResultBookmark
 from shop.models import ProductVariant
 
@@ -61,6 +62,7 @@ def add_generator_result_to_bookmarks(request):
 
 
 def send_price_request(request, id):
+    site_settings = PharmBricksSettings.for_site(request.site)
     if not request.is_ajax():
         return HttpResponseForbidden()
 
@@ -75,7 +77,7 @@ def send_price_request(request, id):
     bookmark_content = open(bookmark.file.path).read()
 
     mailer = HTMLTemplateMailer(
-        settings.ADMIN_EMAIL,
+        site_settings.admin_email,
         'Library generator. Price request.',
         'email/price-request.html',
         {'user': user},
