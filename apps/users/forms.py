@@ -142,7 +142,7 @@ class UserForm(forms.ModelForm):
         email = self.cleaned_data.get('email')
         try:
             get_user_model().objects.get(email=email)
-            raise forms.ValidationError(_('This email is already exists'))
+            raise forms.ValidationError(_('This email address already exists.'))
         except ObjectDoesNotExist as e:
             return email
 
@@ -155,7 +155,7 @@ class UserForm(forms.ModelForm):
         password = self.cleaned_data.get('password')
         password1 = self.cleaned_data.get('password1')
         if (password or password1) and password != password1:
-            raise forms.ValidationError(_('Retype Password must be repeated exactly.'))
+            raise forms.ValidationError(_('The password does not match.'))
         return password1
 
     class Meta:
