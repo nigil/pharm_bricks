@@ -1,17 +1,21 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
+import os.path
+from tempfile import NamedTemporaryFile
 from django.views.generic import FormView
 from django.core.urlresolvers import reverse_lazy, reverse
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseForbidden, HttpResponse
 from django.conf import settings
+from django.template.loader import get_template
 from longclaw.longclawbasket.models import BasketItem
 from longclaw.longclawbasket import utils
 from shop.forms import OrderForm
 from shop.models import Order, OrderItem
 from core.mailer import HTMLTemplateMailer
 from core.models import PharmBricksSettings
+from xhtml2pdf import pisa
 
 
 class Basket(FormView):
@@ -20,6 +24,7 @@ class Basket(FormView):
     success_url = reverse_lazy('basket')
 
     def form_valid(self, form):
+        # checkout
         cur_user = self.request.user
         site_settings = PharmBricksSettings.for_site(self.request.site)
 
@@ -51,6 +56,18 @@ class Basket(FormView):
         # send email
         mail_subject = 'Your order confirmation - № {}'.format(order.number)
 
+        # prepare invoice
+        invoice_file = NamedTemporaryFile(delete=False, bufsize=0)
+        print(invoice_file.name)
+        invoice_html = get_template('email/invoice.html').render()
+        pisa.CreatePDF(invoice_html, invoice_file)
+
+        print(invoice_html)
+        print(invoice_file)
+        print(invoice_file.read())
+
+        # print(pdf_out)
+
         for email in (cur_user.email, site_settings.admin_email):
             mailer = HTMLTemplateMailer(email,
                                         mail_subject,
@@ -60,8 +77,13 @@ class Basket(FormView):
                                             'user': cur_user,
                                             'site_host': settings.HOSTNAME
 
-                                        })
+                                        },
+                                        attachments=(
+                                            ('invoice.pdf', invoice_file.read(), 'application/pdf'),
+                                        ))
             mailer.send()
+
+        os.remove(invoice_file.name)
 
         messages.add_message(self.request, messages.INFO,
                              'Your order is ready. Please, check your email.')
