@@ -5,9 +5,9 @@
     var menuCheckEvent;
     var menuCheckelement;
 
-    $(document).on("click", ".topmenu > li", function (e) {
-        topMenuItemHideShow($(this), e);
-    });
+    // $(document).on("click", ".topmenu > li", function (e) {
+        // topMenuItemHideShow($(this), e);
+    // });
     $(document).on("mouseenter", ".topmenu > li", function (e) {
 
         clearTimeout(menuMainTimer);

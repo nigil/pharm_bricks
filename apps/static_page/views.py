@@ -60,7 +60,8 @@ class ContactsPage(FormView):
         mailer.send()
 
         messages.add_message(self.request, messages.INFO,
-                             'Thank you for your question! We\'ll give you feedback in 24 hours.')
+                             'Thank you for your question! '
+                             'We will respond within 24 hours.')
 
         return super(ContactsPage, self).form_valid(form)
 

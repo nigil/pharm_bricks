@@ -32,6 +32,9 @@ class PharmBricksSettings(BaseSetting):
     sender_email = models.EmailField(default='info@pharmbricks.com')
     info_email = models.EmailField(default='info@pharmbricks.com')
     admin_email = models.EmailField(default='info@pharmbricks.com')
+    address = models.TextField(blank=True, default='')
+    linkedin_link = models.CharField(blank=True, max_length=200, default='')
+    twitter_link = models.CharField(blank=True, max_length=200, default='')
     footer = models.TextField(blank=True, default='')
 
     class Meta:

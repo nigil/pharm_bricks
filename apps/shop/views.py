@@ -86,7 +86,7 @@ class Basket(FormView):
         os.remove(invoice_file.name)
 
         messages.add_message(self.request, messages.INFO,
-                             'Your order is ready. Please, check your email.')
+                             'Please check your email for an order confirmation.')
 
         return super(Basket, self).form_valid(form)
 

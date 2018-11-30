@@ -27,18 +27,22 @@
                                         Dear {{ user.first_name }},
                                     </h2>
                                     <p class="shed-gr" style="margin:0;margin-bottom:20px;color:#464646;font-family:Arial;font-size:13px;font-weight:400;line-height:1.3;padding:0;text-align:left">
-                                        If You have any questions about your order or delivery,
-                                        please call
-                                        <a href="tel:{{ settings.core.PharmBricksSettings.phone }}">
+                                        Your order for {{ order.number }} has been received.
+                                        Please ensure your contact information is up to date
+                                        and your delivery details are correct.
+                                        <br/>
+                                        If you have any questions about your order or the delivery,
+                                        please call us on
+                                        <a href="{{ settings.core.PharmBricksSettings.phone }}">
                                             {{ settings.core.PharmBricksSettings.phone }}</a>.
                                     </p>
                                     <p class="shed-gr" style="color:#464646;font-family:Arial;font-size:13px;font-weight:400;line-height:1.3;margin:0;margin-bottom:0;padding:0;text-align:left">
-                                        <span class="p_gray" style="color:#a6a6a6;font-family:Arial;text-shadow:none">Delivery Adress:</span>
+                                        <span class="p_gray" style="color:#a6a6a6;font-family:Arial;text-shadow:none">Delivery Address:</span>
                                         {{ order.delivery_address }}
                                     </p>
                                     <br>
                                     <p class="shed-gr" style="color:#464646;font-family:Arial;font-size:13px;font-weight:400;line-height:1.3;margin:0;margin-bottom:0;padding:0;text-align:left">
-                                        <span class="p_gray" style="color:#a6a6a6;font-family:Arial;text-shadow:none">Telephone: </span>
+                                        <span class="p_gray" style="color:#a6a6a6;font-family:Arial;text-shadow:none">Phone: </span>
                                         {{ order.phone }}
                                     </p>
                                     <br>

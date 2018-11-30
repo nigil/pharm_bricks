@@ -1,5 +1,6 @@
 from django.core.mail.message import EmailMessage
 from django.template.loader import get_template
+from django.conf import settings
 from wagtail.wagtailcore.models import Site
 
 
@@ -12,11 +13,15 @@ class HTMLTemplateMailer:
         try:
             cur_site = cur_sites[0]
             pharmbrickssettings = cur_site.pharmbrickssettings
-            context['settings'] = {
-                'core': {
-                    'PharmBricksSettings': pharmbrickssettings
+            context.update(
+                {
+                    'settings': {
+                        'core': {'PharmBricksSettings': pharmbrickssettings}
+                    },
+                    'host_name': settings.HOSTNAME
                 }
-            }
+            )
+            context['host_name'] = settings.HOSTNAME
 
             if not sender_email:
                 sender_email = pharmbrickssettings.sender_email
