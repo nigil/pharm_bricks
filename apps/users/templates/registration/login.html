@@ -3,7 +3,7 @@
 {% block title %}Log in | {% endblock %}
 
 {% block base_content %}
-{% if next %}
+{% if next != '/' %}
 <div class="text-center">Please login or <a href="{% url 'register' %}" class="a_green a_green_bold a_hov">sign up</a>
     to get page success.</div>
 {% endif %}

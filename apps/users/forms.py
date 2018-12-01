@@ -35,7 +35,8 @@ class LoginForm(AuthenticationForm):
 
     error_messages = {
         'invalid_login': _(
-            'Please enter correct email or password. Note that both fields are case-sensitive.'
+            'Your password or login has not been recognised. '
+            'Note that both fields are case-sensitive.'
         ),
     }
 

@@ -179,7 +179,7 @@
                                                         <p style="color:#fff;font-family:Arial;font-size:13px;font-weight:400;line-height:1.3;margin:0;margin-bottom:8px;padding:0;text-align:center">{{ settings.core.PharmBricksSettings.address }}</p>
                                                         <p style="color:#fff;font-family:Arial;font-size:13px;font-weight:400;line-height:1.3;margin:0;margin-bottom:0;padding:0;text-align:center;height:38px">tel.
                                                             <a href="tel:{{ settings.core.PharmBricksSettings.phone }}"
-                                                               style="border-bottom:1px solid #fff;color:#fff;font-family:Arial;font-weight:400;line-height:1.3;margin:0;padding:0;text-align:left;text-decoration:none"
+                                                               style="border-bottom:none;color:#fff;font-family:Arial;font-weight:400;line-height:1.3;margin:0;padding:0;text-align:left;text-decoration:none"
                                                             >{{ settings.core.PharmBricksSettings.phone }}</a>
                                                             |
                                                             <a href="mailto:{{ settings.core.PharmBricksSettings.info_email }}"
@@ -216,10 +216,12 @@
                                             <table style="border-collapse:collapse;border-spacing:0;padding:0;text-align:left;vertical-align:top;width:100%">
                                                 <tr style="padding:0;text-align:left;vertical-align:top">
                                                     <th style="color:#0a0a0a;font-family:Arial,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;padding:0;text-align:right">
+                                                        {% if settings.core.PharmBricksSettings.linkedin_link %}
                                                         <a href="{{ settings.core.PharmBricksSettings.linkedin_link }}" style="color:#fff;font-family:Arial;font-weight:400;line-height:1.3;margin:0;padding:0;text-align:left;text-decoration:none">
                                                             <img src="{{ site_host }}{% static 'email/linked.png' %}"
                                                                  alt="" style="-ms-interpolation-mode:bicubic;border:none;clear:both;display:inline-block;max-width:100%;outline:0;text-decoration:none;width:auto"/>
                                                         </a>
+                                                        {% endif %}
                                                     </th>
                                                 </tr>
                                             </table>
@@ -229,11 +231,12 @@
                                             <table style="border-collapse:collapse;border-spacing:0;padding:0;text-align:left;vertical-align:top;width:100%">
                                                 <tr style="padding:0;text-align:left;vertical-align:top">
                                                     <th style="color:#0a0a0a;font-family:Arial,sans-serif;font-size:16px;font-weight:400;line-height:1.3;margin:0;padding:0;text-align:left">
+                                                        {% if settings.core.PharmBricksSettings.twitter_link %}
                                                         <a href="{{ settings.core.PharmBricksSettings.twitter_link }}"
-                                                           style="color:#fff;font-family:Arial;font-weight:400;line-height:1.3;margin:0;padding:0;text-align:left;text-decoration:none"><img
-                                                                src="{{ site_host }}{% static 'email/twitter.png' %}"
-                                                                alt=""
-                                                                style="-ms-interpolation-mode:bicubic;border:none;clear:both;display:inline-block;max-width:100%;outline:0;text-decoration:none;width:auto;margin-top:-2px"></a>
+                                                           style="color:#fff;font-family:Arial;font-weight:400;line-height:1.3;margin:0;padding:0;text-align:left;text-decoration:none"><img src="{{ site_host }}{% static 'email/twitter.png' %}"
+                                                                alt="" style="-ms-interpolation-mode:bicubic;border:none;clear:both;display:inline-block;max-width:100%;outline:0;text-decoration:none;width:auto;margin-top:-2px">
+                                                        </a>
+                                                        {% endif %}
                                                     </th>
                                                 </tr>
                                             </table>
