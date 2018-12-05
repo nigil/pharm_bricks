@@ -14,3 +14,4 @@ pb.crt
 pb.csr
 pb.key
 initial_fixture.json
+*.DS_Store
