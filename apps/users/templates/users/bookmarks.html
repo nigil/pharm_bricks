@@ -56,7 +56,7 @@
                 {% endif %}
 
                 {% if generator_bookmarks %}
-                <div class="container-fluid mg-bot" id="generator_bookmarks">
+                <div class="container-fluid pd-no mg-bot" id="generator_bookmarks">
                     <h4>Generator results</h4>
                     {% for bookmark in generator_bookmarks %}
                     <div class="container bookmark_item bookmark_generator" data-id="{{ bookmark.id }}">
@@ -80,7 +80,7 @@
                                             Send us a notification if you are interested in price.
                                         </p>
                                         <p class="mt call_us_label" style="display: none;">
-                                            Please cal us {{ settings.core.PharmBricksSettings.phone }}
+                                            Please mail us {{ settings.core.PharmBricksSettings.info_email }}
                                             for price details
                                         </p>
                                     </label>

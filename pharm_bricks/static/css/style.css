@@ -2400,3 +2400,31 @@ ul.errorlist {
 #slider_container .slider_content {
     padding: 0 30px;
 }
+
+/* customizing carousel */
+.owl-theme .owl-dots button.owl-dot {
+    width: auto;
+    height: auto;
+    border-radius: 0;
+    margin: 0;
+    border: 0;
+    box-shadow: none;
+}
+    .owl-theme .owl-dots button.owl-dot span {
+        width: 11px;
+        height: 11px;
+        margin: 4px 3px;
+        background-color: #eeeded;
+        opacity: 1;
+        border: 2px solid #fff;
+    }
+    .owl-theme .owl-dots button.owl-dot.active span {
+        background-color: #009846;
+        width: 11px;
+        height: 11px;
+        border-color: #009846;
+    }
+.owl-theme .owl-nav.disabled+.owl-dots {
+    margin-top: -60px;
+    position: relative;
+}

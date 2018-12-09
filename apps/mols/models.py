@@ -1,17 +1,19 @@
+import os
+
 from django.db import models
-from wagtail.wagtailcore.models import Page, Orderable
 from longclaw.longclawproducts.models import ProductVariantBase
-from wagtail.wagtailsearch import index
+from modelcluster.fields import ParentalKey
 from wagtail.wagtailadmin.edit_handlers import (
     FieldPanel, InlinePanel, MultiFieldPanel
 )
+from wagtail.wagtailcore.models import Page, Orderable
 from wagtail.wagtaildocs.edit_handlers import DocumentChooserPanel
 from wagtail.wagtaildocs.models import Document
-from modelcluster.fields import ParentalKey
-from core.widgets import AdminImageFieldWidget
+from wagtail.wagtailsearch import index
+
 from core.models import RelatedLink
 from core.storage import OverwriteStorage
-import os
+from core.widgets import AdminImageFieldWidget
 
 
 def mol_image_path(instance, filename):
@@ -28,6 +30,8 @@ class MoleculesGroup(Page, Orderable):
 
 
 class Molecule(Page):
+    template = 'mols/catalogue_detail.html'
+
     parent_page_types = ['mols.MoleculesGroup']
 
     catalogue_number = models.CharField(verbose_name='Catalogue number', max_length=20, unique=True)
@@ -92,8 +96,6 @@ class Molecule(Page):
     ]
 
     show_in_menus_default = True
-
-    #promote_panels = []
 
 
 class MoleculeReference(Orderable, RelatedLink):
