@@ -58,8 +58,9 @@ class Molecule(Page):
 
     search_fields = [
         index.SearchField('title', partial_match=True, boost=2),
-        index.FilterField('cas'),
+        index.SearchField('cas'),
         index.SearchField('catalogue_number'),
+        index.SearchField('formula')
     ]
 
     content_panels = [
