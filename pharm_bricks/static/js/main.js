@@ -183,15 +183,22 @@ function toggle_show(id) {
 
 $(document).ready(function () {
     if ($('div').is('#slider_container')) {
-        $("#slider_container").owlCarousel({
-            singleItem: true,
-            autoPlay: true,
+        var owl = $("#slider_container").owlCarousel({
+            items: 1,
+            autoplay: true,
+            loop: true,
+            smartSpeed: 800,
             afterMove: function() {
                 var owl = $(".owl-carousel").data('owlCarousel');
                 if (owl.maximumItem == owl.currentItem) {
                     owl.stop()
                 }
             }
+        });
+
+        owl.on('changed.owl.carousel', function(e) {
+            owl.trigger('stop.owl.autoplay');
+            owl.trigger('play.owl.autoplay');
         });
     }
 
