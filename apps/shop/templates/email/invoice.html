@@ -1,15 +1,43 @@
+{% load pb_filters %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>This is Invoice</title>
-    <style>
+    <title>Invoice {{ order.number }}</title>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <style type="text/css">
+        @page {
+            size: A4 portrait;
+
+            @frame content_frame {
+                left: 50pt;
+                top: 20pt;
+                width: 502pt;
+                height: 732pt;
+            }
+
+            @frame footer_frame {
+                -pdf-frame-content: footer_content;
+                left: 50pt;
+                top: 772pt;
+                width: 502pt;
+                height: 50pt;
+            }
+        }
+        @font-face {
+            font-family: Arial;
+            src: url("{{ static_root }}/fonts/arial.ttf");
+        }
         * {
-            font: 300 12pt Arial;
+            font: 200 12pt/15pt Arial, 'sans-serif';
+            font-family: Arial;
+            padding: 0;
+            margin: 0;
         }
         h2 {
             font: 24pt Arial bold;
             margin-bottom: 0;
+            font-weight: bold;
         }
         a,
         a:hover {
@@ -19,57 +47,107 @@
         a.underline:hover {
             text-decoration: underline;
         }
-        .wrapper {
-            padding: 0 10pt 0 20pt;
-        }
         .registration_number {
             font-size: 18pt;
             color: #009846;
+            padding: 0;
+            margin-top: 10pt;
         }
         .block_header {
             font-size: 18pt;
             color: #a6a6a6;
+            padding: 0;
+            margin: 0;
         }
         table.header_table {
             width: 100%;
+            padding: 0;
+            margin: 0;
         }
+            table.header_table td {
+                padding: 0;
+                vertical-align: top;
+            }
             .header_left {
                 width: 40%;
+                padding: 0;
             }
+                .logo {
+                    margin-left: -10pt;
+                }
             .header_right {
-                padding-top: 20pt;
+                padding: 0;
+                padding-top: 30pt;
                 width: 60%;
                 text-align: right;
             }
         .titles_wrap {
+            margin-top: 40pt;
+            padding: 0;
             text-align: center;
         }
         .address_wrap {
-            margin-top: 20pt;
+            padding: 0;
+            margin-top: 40pt;
         }
         table.products_table {
-
+            text-align: center;
+            border: 0.5pt #a6a6a6 solid;
+            border-collapse: collapse;
+            margin-top: 25pt;
+            table-layout: fixed;
         }
+            td.products_body {
+                padding-top: 3pt;
+                padding-bottom: 1pt;
+                word-wrap: break-word;
+            }
+            th.products_header {
+                padding-top: 3pt;
+                padding-bottom: 1pt;
+            }
             td.product_title {
-                width: 50%;
+                width: 280pt;
             }
             td.product_size {
-                width: 20%;
+                width: 70pt;
             }
             td.product_quantity {
-                width: 10%;
+                width: 70pt;
             }
             td.product_price {
-                width: 20%;
+                width: 80pt;
+            }
+
+        .catalogue_number_hint {
+            color: #a6a6a6;
+        }
+
+        #footer_content {
+            text-align: center;
+        }
+
+        .taxes {
+            font-size: 7.5pt;
+            margin-top: 30pt;
+        }
+
+        .total {
+            font-size: 16.5pt;
+            color: #a6a6a6;
+            margin-top: 20pt;
+        }
+            .total .value {
+                font-size: 16.5pt;
+                color: #009846;
             }
     </style>
 </head>
 <body>
-<div class="wrapper">
     <table class="header_table">
         <tr>
             <td class="header_left">
-                <img src="data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAAKoAAABMCAIAAAByCbtKAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJ
+                <img class="logo" src="data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAAKoAAABMCAIAAAByCbtKAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJ
 bWFnZVJlYWR5ccllPAAAAyFpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdp
 bj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6
 eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNi1jMTQyIDc5LjE2
@@ -198,7 +276,7 @@ WmhoaEZ6es6tW2CWpRIJGBVwKy8FBk6aODFo6NDuD28MxuI33sATyALGer2GoOSzzz67du0ahhaa
 Pi5/e+nSqdOmXb58+V5BAe5uChYF2B/8USi3t7eHc/5fgAEAldw6sVvASPEAAAAASUVORK5CYII="/>
             </td>
             <td class="header_right">
-                Tel. {{ site_settings.phone }},<br/>
+                Phone {{ site_settings.phone }},<br/>
                 {{ site_settings.address }},<br/>
                 <a href="mailto:{{ site_settings.info_email }}" class="underline">
                     {{ site_settings.info_email }}
@@ -224,31 +302,31 @@ Pi5/e+nSqdOmXb58+V5BAe5uChYF2B/8USi3t7eHc/5fgAEAldw6sVvASPEAAAAASUVORK5CYII="/>
         <span class="block_header">Details</span><br/>
     </div>
 
-    <table class="products_table">
+    <table repeat="1" class="products_table">
         <thead>
             <tr>
-                <th></th>
-                <th>Size</th>
-                <th>Quantity</th>
-                <th>Price</th>
+                <th class="products_header"></th>
+                <th class="products_header">size</th>
+                <th class="products_header">quantity</th>
+                <th class="products_header">price</th>
             </tr>
         </thead>
         <tbody>
         {% for item in order.items.all %}
         {% with product=item.product.product.specific %}
-            <tr>
-                <td class="product_title">
+            <tr style="page-break-after: auto;">
+                <td class="product_title products_body">
                     {{ product.catalogue_number }}<br/>
-                    ( Catalogue number )<br/>
-                    {{ product.title }}
+                    <span class="catalogue_number_hint">(Catalogue number)</span><br/>
+                    {{ product.title|force_text_split:40 }}
                 </td>
-                <td class="product_size">
+                <td class="product_size products_body">
                     {{ item.product.ref }}
                 </td>
-                <td class="product_quantity">
+                <td class="product_quantity products_body">
                     {{ item.quantity }}
                 </td>
-                <td class="product_price">
+                <td class="product_price products_body">
                     ${{ item.total|add:0 }}
                 </td>
             </tr>
@@ -256,6 +334,16 @@ Pi5/e+nSqdOmXb58+V5BAe5uChYF2B/8USi3t7eHc/5fgAEAldw6sVvASPEAAAAASUVORK5CYII="/>
         {% endfor %}
         </tbody>
     </table>
-</div>
+
+    <div class="taxes">*taxes 7% are included</div>
+
+    <div class="total">Total <span class="value">&dollar;{{ order.total|add:0 }}</span></div>
+
+    <div id="footer_content">
+        {{ site_settings.address }} Phone {{ site_settings.phone }},<br/>
+        <a href="mailto:{{ site_settings.info_email }}" class="underline">
+            {{ site_settings.info_email }}
+        </a>
+    </div>
 </body>
 </html>

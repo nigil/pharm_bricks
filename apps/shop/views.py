@@ -48,57 +48,49 @@ class Basket(FormView):
                 order=order
             )
 
-        # # utils.destroy_basket(self.request)
-        # cur_user.basket_id = None
-        # cur_user.save(update_fields=('basket_id',))
-        # self.request.session[utils.BASKET_ID_SESSION_KEY] = ''
-        #
-        # # send email
-        # mail_subject = 'Your order confirmation - № {}'.format(order.number)
+        utils.destroy_basket(self.request)
+        cur_user.basket_id = None
+        cur_user.save(update_fields=('basket_id',))
+        self.request.session[utils.BASKET_ID_SESSION_KEY] = ''
+
+        # send email
+        mail_subject = 'Your order confirmation - № {}'.format(order.number)
 
         # prepare invoice
-        # invoice_file = NamedTemporaryFile(bufsize=0)
-        invoice_file = open('/app/test.pdf', 'w+b')
-        print(invoice_file.name)
+        invoice_file = NamedTemporaryFile(bufsize=0)
         invoice_html = get_template('email/invoice.html').render({
             'site_settings': site_settings,
             'order': order,
-            'site_host': settings.HOSTNAME
-        })
+            'site_host': settings.HOSTNAME,
+            'static_root': settings.STATIC_ROOT
+        }).encode('utf-8')
         pisa.CreatePDF(invoice_html, invoice_file)
 
-        print(invoice_html)
-        print(invoice_file)
-        print(invoice_file.read())
+        invoice_file.seek(0)
+        pdf_content = invoice_file.read()
 
-        # print(pdf_out)
+        for email in (cur_user.email, site_settings.admin_email):
+            mailer = HTMLTemplateMailer(
+                email,
+                mail_subject,
+                'email/checkout.html',
+                {
+                    'order': order,
+                    'user': cur_user,
+                    'site_host': settings.HOSTNAME
 
-        # invoice_file.seek(0)
-        # pdf_content = invoice_file.read()
-        #
-        # for email in (cur_user.email, site_settings.admin_email):
-        #     mailer = HTMLTemplateMailer(
-        #         email,
-        #         mail_subject,
-        #         'email/checkout.html',
-        #         {
-        #             'order': order,
-        #             'user': cur_user,
-        #             'site_host': settings.HOSTNAME
-        #
-        #         },
-        #         attachments=(
-        #             ('invoice.pdf', pdf_content, 'application/pdf'),
-        #         )
-        #     )
-        #     mailer.send()
-        #
-        # os.remove(invoice_file.name)
-        #
-        # messages.add_message(self.request, messages.INFO,
-        #                      'Please check your email for an order confirmation.')
-        #
-        # return super(Basket, self).form_valid(form)
+                },
+                attachments=(
+                    ('invoice.pdf', pdf_content, 'application/pdf'),
+                )
+            )
+            mailer.send()
+
+        os.remove(invoice_file.name)
+
+        messages.add_message(self.request, messages.INFO,
+                             'Please check your email for an order confirmation.')
+
         return super(Basket, self).form_valid(form)
 
     def get_context_data(self, **kwargs):

@@ -223,7 +223,7 @@ LOGIN_URL = 'login'
 # Email settings
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend' if DEBUG \
     else 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_USE_TLS = True
 EMAIL_HOST = os.getenv('EMAIL_HOST')
 EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')

@@ -39,3 +39,9 @@ def prepare_html_to_mail(html_text):
                               'text-align:left')
 
     return str(soup)
+
+
+@register.filter
+def force_text_split(text, chunk_size):
+    return re.sub(r'(\S{' + str(chunk_size) + '})', r'\1 ', text)
+
