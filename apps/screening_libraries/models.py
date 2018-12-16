@@ -23,6 +23,8 @@ def screening_libraries_detail_image_path(instance, filename):
 
 
 class ScreeningLibrary(Page):
+    template = 'screening_libraries/detail.html'
+
     catalogue_number = models.CharField(max_length=20, unique=True)
 
     preview_description = models.TextField(null=True)
@@ -76,6 +78,17 @@ class ScreeningLibrary(Page):
         DocumentChooserPanel('xls_file'),
         InlinePanel('prices', label='Prices'),
     ]
+
+    def get_context(self, request, *args, **kwargs):
+        context = {
+            'page': self,
+            'self': self,
+            'request': request,
+            'active_prices': self.prices.filter(active=True),
+            'nonactive_prices': self.prices.filter(active=False)
+        }
+
+        return context
 
 
 class BuildingBlock(Page):

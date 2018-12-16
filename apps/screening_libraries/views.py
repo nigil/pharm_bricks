@@ -37,6 +37,9 @@ class LibraryDetailView(DetailView):
         kwargs = super(DetailView, self).get_context_data(**kwargs)
         kwargs['active_prices'] = kwargs['object'].prices.filter(active=True)
         kwargs['nonactive_prices'] = kwargs['object'].prices.filter(active=False)
+
+        kwargs['page'] = kwargs['object']
+
         return kwargs
 
 

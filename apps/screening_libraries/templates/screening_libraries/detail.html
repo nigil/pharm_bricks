@@ -12,7 +12,7 @@
                     Screening Libraries
                 </h2>
                 <p class="p_gray breadcrambs">
-                    {{ object.title }}
+                    {{ page.title }}
                 </p>
             </div>
         </div>
@@ -23,20 +23,20 @@
         <div class="row">
             <div class="col-5 pic_inner_name">
                 <div class="pic screening_library_pic">
-                    <img src="{{ object.detail_image|thumbnail_url:'big' }}"
+                    <img src="{{ page.detail_image|thumbnail_url:'big' }}"
                          alt="foto" class="mol_photo img-fluid"/>
                 </div>
                 <div class="pic pic2">
-                    {% if object.sdf_file %}
-                    <a href="{{ object.sdf_file.file.url }}" class="a_green">
-                        {{ object.sdf_file.title }}
+                    {% if page.sdf_file %}
+                    <a href="{{ page.sdf_file.file.url }}" class="a_green">
+                        {{ page.sdf_file.title }}
                     </a>
                         <br/>
                     {% endif %}
 
-                    {% if object.xls_file %}
-                    <a href="{{ object.xls_file.file.url }}" class="a_green">
-                        {{ object.xls_file.title }}
+                    {% if page.xls_file %}
+                    <a href="{{ page.xls_file.file.url }}" class="a_green">
+                        {{ page.xls_file.title }}
                     </a>
                     {% endif %}
                 </div>
@@ -45,12 +45,12 @@
                 <form>
                     <p class="prod_libr">
                         Antibacterial Library: <span class="a_green_no_hov">
-                            {{ object.molecules_number }} molecules</span>
+                            {{ page.molecules_number }} molecules</span>
                     <p class="text_g text-comp-libr">
-                        Catalogue number: {{ object.catalogue_number }}
+                        Catalogue number: {{ page.catalogue_number }}
                     </p>
                     <p class="p_in">
-                        {% if not object.in_stock %}not {% endif %}in stock
+                        {% if not page.in_stock %}not {% endif %}in stock
                     </p>
 
                     <div class="block">
@@ -121,17 +121,17 @@
 
                     <div class="plus_min_btn">
                         <button id="add_to_basket" class="button_inner_name no-mg-bott"
-                                {% if not object.in_stock or not active_prices.all %}disabled{% endif %}>
+                                {% if not page.in_stock or not active_prices.all %}disabled{% endif %}>
                             <span>add to basket</span> <img src="{% static 'images/basket_fff.png' %}" alt=""/>
                         </button>
                         <button id="add_to_library" class="button_inner_name
-                            {% if not object.in_stock or not active_prices.all or not user.is_authenticated %}disabled{% endif %}">
+                            {% if not page.in_stock or not active_prices.all or not user.is_authenticated %}disabled{% endif %}">
                             <span>add to library</span> <img src="{% static 'images/libr.png' %}" alt=""/>
                         </button>
                     </div>
                 </form>
                 <div>
-                    {{ object.detail_description }}
+                    {{ page.detail_description }}
                 </div>
             </div>
         </div>

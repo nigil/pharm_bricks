@@ -13,14 +13,14 @@
         <div class="row">
             <div class="col-5 pic_inner_name">
                 <div class="pic">
-                    <img src="{{ object.image.url }}" alt="{{ object.title }}"
+                    <img src="{{ page.image.url }}" alt="{{ page.title }}"
                          class="mol_photo img-fluid"/>
                 </div>
                 <div class="pic pic2">
-                    {% if object.screening_compounds.all %}
+                    {% if page.screening_compounds.all %}
                     <p class="mg">Screening compounds:</p>
 
-                    {% for screening_compound in object.screening_compounds.all %}
+                    {% for screening_compound in page.screening_compounds.all %}
                     <a href="{{ screening_compound.document.file.url }}" class="a_green mg"
                        target=_blank>{{ screening_compound.document.title }}</a><br/>
                     {% endfor %}
@@ -30,21 +30,21 @@
             <div class="col-7">
                 <form>
                     <p class="prod">
-                        ﻿{{ object.title|upper }}
+                        ﻿{{ page.title|upper }}
                     </p>
                     <br>
                     <p class="text_g">
-                        Catalogue number: {{ object.catalogue_number|upper }}
+                        Catalogue number: {{ page.catalogue_number|upper }}
                     </p>
                     <p class="p_in">
-                        {% if not object.in_stock %}not {% endif %}in stock
+                        {% if not page.in_stock %}not {% endif %}in stock
                     </p>
                     <div class="block prise_size">
                         <p class="twit">
                             Price & Size
                         </p>
                         <br/>
-                        {% for price in object.prices.all %}
+                        {% for price in page.prices.all %}
                         <input type="radio" name="pricensize" value="{{ price.id }}"
                                id="{{ price.id }}" class="checkbox"/>
                         <label for="{{ price.id }}" class="one_long">
@@ -62,12 +62,12 @@
                     </div>
                     <div class="plus_min">
                         <button id="add_to_basket" class="button_inner_name
-                            {% if not object.in_stock %}disabled{% endif %} no-mg-bott">
+                            {% if not page.in_stock %}disabled{% endif %} no-mg-bott">
                             <span>add to basket</span>
                             <img src="{% static 'images/basket_fff.png' %}" alt=""/>
                         </button>
                         <button id="add_to_library" class="button_inner_name
-                            {% if not object.in_stock or not user.is_authenticated %}disabled{% endif %}">
+                            {% if not page.in_stock or not user.is_authenticated %}disabled{% endif %}">
                             <span>add to library</span> <img src="{% static 'images/libr.png' %}" alt=""/>
                         </button>
                     </div>
@@ -75,36 +75,36 @@
                 <p class="text-center bold">Product details</p>
                 <div class="block">
                     <p class="details">
-                        {% if object.cas %}
-                            CAS: {{ object.cas }} <br/>
+                        {% if page.cas %}
+                            CAS: {{ page.cas }} <br/>
                         {% endif %}
-                        {% if object.formula %}
-                            Formula: {{ object.formula|chem_formula }}<br/>
+                        {% if page.formula %}
+                            Formula: {{ page.formula|chem_formula }}<br/>
                         {% endif %}
-                        {% if object.mw %}
-                            Mass: {{ object.mw }}<br/>
+                        {% if page.mw %}
+                            Mass: {{ page.mw }}<br/>
                         {% endif %}
-                        {% if object.purity %}
-                            Chemical Purity: > {{ object.purity }}%<br/>
+                        {% if page.purity %}
+                            Chemical Purity: > {{ page.purity }}%<br/>
                         {% endif %}
-                        {% if object.log_p %}
-                            Log P, calc: {{ object.log_p }}<br/>
+                        {% if page.log_p %}
+                            Log P, calc: {{ page.log_p }}<br/>
                         {% endif %}
-                        {% if object.log_s %}
-                            Log S, calc: {{ object.log_s }}<br/>
+                        {% if page.log_s %}
+                            Log S, calc: {{ page.log_s }}<br/>
                         {% endif %}
-                        {% if object.references.all %}
+                        {% if page.references.all %}
                         References, DOL:<br/>
 
-                            {% for reference in object.references.all %}
+                            {% for reference in page.references.all %}
                             <a href="{{ reference.link }}" target=_blank class="p_blue"
                             >{{ reference.title|default:reference.link }}</a><br/>
                             {% endfor %}
                         {% endif %}
 
-                        {% if object.msds %}
-                        MSDS: <a href="{{ object.msds.file.url }}" target=_blank
-                                 class="a_green a_hov">{{ object.msds.title }}</a>
+                        {% if page.msds %}
+                        MSDS: <a href="{{ page.msds.file.url }}" target=_blank
+                                 class="a_green a_hov">{{ page.msds.title }}</a>
                         {% endif %}
                     </p>
                 </div>

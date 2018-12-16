@@ -26,6 +26,8 @@ def mol_image_path(instance, filename):
 
 
 class MoleculesGroup(Page, Orderable):
+    template = 'mols/catalogue_list.html'
+
     subpage_types = ('mols.Molecule', 'mols.MoleculesGroup')
 
 
