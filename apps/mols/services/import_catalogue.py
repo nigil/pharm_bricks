@@ -13,8 +13,8 @@ class CustomDrawningOptions(Draw.DrawingOptions):
     useFraction = 0.8
 
     atomLabelFontFace = "sans"
-    atomLabelFontSize = 35
-    atomLabelMinFontSize = 26
+    atomLabelFontSize = 36
+    atomLabelMinFontSize = 24
 
     bondLineWidth = 2
     dblBondOffset = .2
@@ -51,6 +51,28 @@ class CustomDrawningOptions(Draw.DrawingOptions):
 
 
 class RDKitClient():
+    atoms_count_to_label_size = (
+        (24, 38),
+        (36, 34),
+        (48, 26),
+        (1000, 22)
+    )
+
+    @staticmethod
+    def mol_font_size(formula):
+        mol_atoms_count = RDKitClient._atoms_count(formula)
+
+        for a_count, font_size in RDKitClient.atoms_count_to_label_size:
+            if mol_atoms_count < a_count:
+                return font_size
+
+    @staticmethod
+    def _atoms_count(formula):
+        not_alone_atoms = sum([int(i) for i in re.split(r'\D+', formula) if i])
+        alone_atoms = len(re.findall(r'(\D)\D', formula))
+
+        return not_alone_atoms + alone_atoms
+
     @staticmethod
     def attach_prices_to_mol(mol_page, prices):
         for quantity, price in prices:
@@ -147,7 +169,12 @@ class RDKitClient():
                 parent_item.add_child(instance=mol_page)
             mol_page.save()
 
-            mol_image = Draw.MolToImage(mol, (399, 379), options=CustomDrawningOptions())
+            mol_font_size = RDKitClient.mol_font_size(mol_page.formula)
+            custom_drawning_options = CustomDrawningOptions()
+            custom_drawning_options.atomLabelFontSize = mol_font_size
+            custom_drawning_options.atomLrabelMinFontSize = mol_font_size
+
+            mol_image = Draw.MolToImage(mol, (399, 379), options=custom_drawning_options)
             image_io = StringIO()
             mol_image.save(image_io, format='PNG')
             mol_page.image.save('{catalogue_number}.png'.format(catalogue_number=mol_page.slug),
