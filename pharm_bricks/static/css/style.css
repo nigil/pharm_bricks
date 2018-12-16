@@ -2397,6 +2397,10 @@ ul.errorlist {
     margin-bottom: 10px;
 }
 
+#slider_container {
+    padding-bottom: 36px;
+}
+
 #slider_container .slider_content {
     padding: 0 30px;
 }
