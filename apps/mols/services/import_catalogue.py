@@ -172,7 +172,7 @@ class RDKitClient():
             mol_font_size = RDKitClient.mol_font_size(mol_page.formula)
             custom_drawning_options = CustomDrawningOptions()
             custom_drawning_options.atomLabelFontSize = mol_font_size
-            custom_drawning_options.atomLrabelMinFontSize = mol_font_size
+            custom_drawning_options.atomLabelMinFontSize = mol_font_size
 
             mol_image = Draw.MolToImage(mol, (399, 379), options=custom_drawning_options)
             image_io = StringIO()
