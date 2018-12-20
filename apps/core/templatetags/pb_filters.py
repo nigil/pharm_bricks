@@ -3,6 +3,7 @@ import re
 from bs4 import BeautifulSoup
 from django import template
 from django.utils.html import mark_safe
+from core.models import PharmBricksSettings
 
 register = template.Library()
 
@@ -44,4 +45,11 @@ def prepare_html_to_mail(html_text):
 @register.filter
 def force_text_split(text, chunk_size):
     return re.sub(r'(\S{' + str(chunk_size) + '})', r'\1 ', text)
+
+
+@register.filter
+def content_vars(content):
+    cur_sites = Site.objects.filter(is_default_site=True).all()
+    site_settings = PharmBricksSettings.for_site(self.request.site)
+    pass
 
