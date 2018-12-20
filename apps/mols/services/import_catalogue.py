@@ -16,10 +16,10 @@ except ImportError:
 
 class RDKitClient():
     atoms_count_to_label_size = (
-        (24, 34),
-        (36, 28),
-        (48, 24),
-        (1000, 22)
+        (20, 28),
+        (30, 24),
+        (48, 22),
+        (1000, 18)
     )
 
     @staticmethod
