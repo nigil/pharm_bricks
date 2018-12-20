@@ -6,55 +6,19 @@ from shop.models import ProductVariant
 from static_page.models import StaticPage
 from rdkit.Chem import ForwardSDMolSupplier, rdMolDescriptors, Descriptors, Draw, MolToSmiles
 from django.core.files.base import ContentFile
+from mols.services import mols_draw
 
-
-class CustomDrawningOptions(Draw.DrawingOptions):
-    dotsPerAngstrom = 100
-    useFraction = 0.8
-
-    atomLabelFontFace = "sans"
-    atomLabelFontSize = 36
-    atomLabelMinFontSize = 24
-
-    bondLineWidth = 2
-    dblBondOffset = .2
-    dblBondLengthFrac = .8
-
-    defaultColor = (0, 0, 0)
-    selectColor = (0, 0, 0)
-    bgColor = (1, 1, 1)
-
-    colorBonds = True
-    radicalSymbol = u'\u2219'
-
-    dash = (4, 4)
-
-    wedgeDashedBonds = True
-    showUnknownDoubleBonds = True
-
-    # used to adjust overall scaling for molecules that have been laid out with non-standard
-    # bond lengths
-    coordScale = 2.0
-
-    elemDict = {
-        1: (0, 0, 0),
-        7: (0, 0, 0),
-        8: (0, 0, 0),
-        9: (0, 0, 0),
-        15: (0, 0, 0),
-        16: (0, 0, 0),
-        17: (0, 0, 0),
-        35: (0, 0, 0),
-        53: (0, 0, 0),
-        0: (0, 0, 0),
-    }
+try:
+    import Image
+except ImportError:
+    from PIL import Image
 
 
 class RDKitClient():
     atoms_count_to_label_size = (
-        (24, 38),
-        (36, 34),
-        (48, 26),
+        (24, 34),
+        (36, 28),
+        (48, 24),
         (1000, 22)
     )
 
@@ -170,11 +134,20 @@ class RDKitClient():
             mol_page.save()
 
             mol_font_size = RDKitClient.mol_font_size(mol_page.formula)
-            custom_drawning_options = CustomDrawningOptions()
+            custom_drawning_options = mols_draw.CustomDrawningOptions()
             custom_drawning_options.atomLabelFontSize = mol_font_size
             custom_drawning_options.atomLabelMinFontSize = mol_font_size
 
-            mol_image = Draw.MolToImage(mol, (399, 379), options=custom_drawning_options)
+            img_size = (399, 379)
+            img = Image.new("RGBA", img_size, (0, 0, 0, 0))
+
+            mol_image = mols_draw.custom_mol_to_image(
+                mol,
+                img_size,
+                options=custom_drawning_options,
+                canvas=mols_draw.CustomCanvas(img)
+            )
+
             image_io = StringIO()
             mol_image.save(image_io, format='PNG')
             mol_page.image.save('{catalogue_number}.png'.format(catalogue_number=mol_page.slug),
