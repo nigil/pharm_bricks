@@ -3,6 +3,8 @@ import re
 from bs4 import BeautifulSoup
 from django import template
 from django.utils.html import mark_safe
+from core.models import PharmBricksSettings
+from wagtail.wagtailcore.models import Site
 
 register = template.Library()
 
@@ -44,4 +46,24 @@ def prepare_html_to_mail(html_text):
 @register.filter
 def force_text_split(text, chunk_size):
     return re.sub(r'(\S{' + str(chunk_size) + '})', r'\1 ', text)
+
+
+@register.filter
+def content_vars(content):
+    content = str(content).encode('utf-8')
+    cur_site = Site.objects.filter(is_default_site=True).all()[0]
+    site_settings = cur_site.pharmbrickssettings
+
+    site_props = site_settings.__dict__
+    del(site_props['id'], site_props['_site_cache'], site_props['_state'])
+    site_prop_keys = site_props.keys()
+
+    potential_vars = re.findall(r'\{\{\s?[\w]+\s?\}\}', content)
+
+    for potential_var in potential_vars:
+        cleared_var = potential_var.strip('{} ')
+        if cleared_var in site_prop_keys:
+            content = re.sub('{{ ' + cleared_var + ' }}', site_props[cleared_var], content)
+
+    return content
 
