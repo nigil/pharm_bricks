@@ -15,14 +15,15 @@ class CustomCanvas(Canvas):
         bw, bh = w + h * 0.4, h * 1.4
         offset = w * pos[2]
         x_position_fixer = 0
-        if text != 'O':
+        if len(text) == 1 and text != 'O':
             x_position_fixer = int(bw / 10)
         dPos = pos[0] - w / 2. - x_position_fixer + offset, pos[1] + h / 2.
         self.ctx.set_source_rgb(*color)
         self.ctx.move_to(*dPos)
         self.ctx.show_text(text)
 
-        return (bw, bh, offset)
+        return bw, bh, offset
+
 
 class CustomDrawningOptions(Draw.DrawingOptions):
     dotsPerAngstrom = 100
