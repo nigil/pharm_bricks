@@ -4,6 +4,7 @@ from bs4 import BeautifulSoup
 from django import template
 from django.utils.html import mark_safe
 from core.models import PharmBricksSettings
+from wagtail.wagtailcore.models import Site
 
 register = template.Library()
 
@@ -49,7 +50,20 @@ def force_text_split(text, chunk_size):
 
 @register.filter
 def content_vars(content):
-    cur_sites = Site.objects.filter(is_default_site=True).all()
-    site_settings = PharmBricksSettings.for_site(self.request.site)
-    pass
+    content = content.encode('utf-8')
+    cur_site = Site.objects.filter(is_default_site=True).all()[0]
+    site_settings = cur_site.pharmbrickssettings
+
+    site_props = site_settings.__dict__
+    del(site_props['id'], site_props['_site_cache'], site_props['_state'])
+    site_prop_keys = site_props.keys()
+
+    potential_vars = re.findall(r'{{[\w]+}}', content)
+
+    for potential_var in potential_vars:
+        cleared_var = potential_var.strip('{} ')
+        if cleared_var in site_prop_keys:
+            re.sub('{{ ' + cleared_var + ' }}', site_props[cleared_var], content)
+
+    return content
 
