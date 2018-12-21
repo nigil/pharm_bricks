@@ -1,5 +1,6 @@
 {% load menu_tags %}
 {% load longclawbasket_tags %}
+{% load pb_filters %}
 {% load staticfiles %}
 <!DOCTYPE html>
 <html>
@@ -84,7 +85,7 @@
     <div class="container">
         <div class="row">
             <div class="col-12 text-center footer">
-                {{ settings.core.PharmBricksSettings.footer|safe }}
+                {{ settings.core.PharmBricksSettings.footer|content_vars|safe }}
             </div>
         </div>
     </div>
