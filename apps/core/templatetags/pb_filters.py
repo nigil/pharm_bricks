@@ -63,7 +63,7 @@ def content_vars(content):
     for potential_var in potential_vars:
         cleared_var = potential_var.strip('{} ')
         if cleared_var in site_prop_keys:
-            content = re.sub('{{ ' + cleared_var + ' }}', site_props[cleared_var], content)
+            content = re.sub(r'\{\{\s?' + cleared_var + r'\s\}\}', site_props[cleared_var], content)
 
     return content
 
