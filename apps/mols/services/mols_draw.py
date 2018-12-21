@@ -34,7 +34,7 @@ class CustomDrawningOptions(Draw.DrawingOptions):
     atomLabelMinFontSize = 24
 
     bondLineWidth = 2
-    dblBondOffset = .2
+    dblBondOffset = .3
     dblBondLengthFrac = .8
 
     defaultColor = (0, 0, 0)
