@@ -29,6 +29,6 @@
             {{ child }}
         </div>
     {% else %}
-        {{ child }}
+        {{ child|content_vars|safe }}
     {% endif %}
 {% endfor %}

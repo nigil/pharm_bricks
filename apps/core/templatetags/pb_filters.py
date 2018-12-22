@@ -3,7 +3,7 @@ import re
 from bs4 import BeautifulSoup
 from django import template
 from django.utils.html import mark_safe
-from core.models import PharmBricksSettings
+from django.utils.safestring import SafeBytes
 from wagtail.wagtailcore.models import Site
 
 register = template.Library()
@@ -50,7 +50,11 @@ def force_text_split(text, chunk_size):
 
 @register.filter
 def content_vars(content):
-    content = str(content).encode('utf-8')
+    if not isinstance(content, unicode):
+        content = str(content)
+        if isinstance(content, SafeBytes):
+            content = content.decode('utf-8')
+
     cur_site = Site.objects.filter(is_default_site=True).all()[0]
     site_settings = cur_site.pharmbrickssettings
 
