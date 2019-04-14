@@ -15,6 +15,3 @@ ADD . /app
 RUN pip install -r requirements.txt
 
 ENV RDK_NOPANGO=false
-
-RUN pip install https://github.com/JamesRamm/longclaw/zipball/master && \
-    pip freeze --local
