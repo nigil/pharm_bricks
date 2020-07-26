@@ -13,7 +13,7 @@ services:
       - web
 
   postgres:
-    image: postgres
+    image: postgres:11
     container_name: pb_postgres
     restart: always
     ports:
